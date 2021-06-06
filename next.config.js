@@ -1,7 +1,7 @@
 const getBackendHost = () =>
-  process.env.NODE_ENV !== 'production'
-    ? 'https://api.payload.tf/'
-    : 'http://localhost:8080/'
+  process.env.NODE_ENV === 'production'
+    ? 'https://api.payload.tf'
+    : 'http://localhost'
 
 module.exports = {
   async rewrites() {
