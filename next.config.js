@@ -1,5 +1,5 @@
 const getBackendHost = () =>
-  process.env.NODE_ENV !== 'production'
+  process.env.NODE_ENV === 'production'
     ? 'https://api.payload.tf'
     : 'http://localhost'
 
