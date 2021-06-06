@@ -1,0 +1,21 @@
+{
+	"short_name": "Payload",
+	"name": "Payload TF2 Discord Bot",
+	"description": "Payload is a discord bot to help integrate vital services of TF2 into discord. Features include embeds of logs, a payload leaderboard, and more!",
+	"icons": [
+		{
+			"src": "/favicon.ico",
+			"sizes": "128x128",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "/img/logo.png",
+			"sizes": "1024x1024",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#0074D9",
+	"background_color": "#ffffff"
+}
