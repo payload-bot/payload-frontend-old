@@ -135,9 +135,9 @@ const Index = () => {
           >
             24
           </a>
-          . Get in contact:{' '}
-          <a className="link no-underline" href="mailto:24@elo.associates">
-            24@elo.associates
+          . Proudly{' '}
+          <a className="link" href="https://github.com/payload-bot">
+          Open-Sourced
           </a>
         </span>
       </div>
