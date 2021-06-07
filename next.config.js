@@ -1,5 +1,5 @@
 const getBackendHost = () =>
-  process.env.NEXT_PUBLIC_ENV === 'production'
+  ['production', 'staging'].includes(process.env.NEXT_PUBLIC_ENV)
     ? 'https://api.payload.tf'
     : 'http://localhost'
 
@@ -19,7 +19,8 @@ module.exports = {
     return [
       {
         source: '/invite',
-        destination: 'https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot',
+        destination:
+          'https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot',
         permanent: true,
       },
       {
