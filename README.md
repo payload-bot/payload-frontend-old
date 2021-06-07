@@ -9,10 +9,10 @@
 <p align="center">Payload's React dashboard</p>
 
 <p align="center">
-	<img src="https://img.shields.io/badge/License-MIT-yellow.svg" width="100" height="35" alt="MIT license">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
 
   <a href="https://vercel.com/?utm_source=PAYLOADTF&utm_compaign=oss">
-    <img src="public/img/vercel-logo.svg" alt="Powered by Vercel" width="100" height="35">
+    <img src="public/img/vercel-logo.svg" alt="Powered by Vercel" width="100" height="20">
   </a>
 </p>
 
