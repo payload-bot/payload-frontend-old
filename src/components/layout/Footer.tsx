@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <div className="footer container-fluid px-5 py-3 mt-5 bg-darkergray text-center">
+    <div className="footer container-fluid px-5 py-3 mt-5 pb-1 bg-darkergray text-center">
       <span className="small">
         Based on{' '}
         <a className="link no-underline" href="https://sharky.cool">
