@@ -131,28 +131,14 @@ h1, h2, h3, h4, h5, p, span, li {
 }
 
 button.btn.btn-discord.btn-lg.mr-3 {
-  margin-right: 0!important;
+  margin-right: 0 !important;
 }
 
 .league-list {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.league-logo, .league-logo-shrink {
-  display: inline-block;
-  margin: 0 1.8vw;
-}
-
-.league-logo-shrink>img {
-  height: 70px;
-  width: auto;
-}
-
-.league-logo>img {
-  width: 150px;
-  height: auto;
+  gap: 2vw;
 }
 
 .pl-bg-light {

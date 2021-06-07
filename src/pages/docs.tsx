@@ -1,5 +1,5 @@
-import Layout from '../components/Layout'
-import { Container, Row, Col, Button } from 'reactstrap'
+import Layout from '../components/layout/Layout'
+import { Container, Button } from 'reactstrap'
 import Link from 'next/link'
 import { CommandResponse } from '../interfaces/command'
 import Command from '../components/Command'
