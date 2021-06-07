@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Particles from 'react-particles-js'
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
 
 const Index = () => {
@@ -122,25 +122,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="footer container-fluid px-5 py-3 bg-darkergray text-center">
-        <span className="small">
-          Based on{' '}
-          <a className="link no-underline" href="https://sharky.cool">
-            sharky's
-          </a>{' '}
-          bot, now developed by{' '}
-          <a
-            className="link no-underline"
-            href="https://steamcommunity.com/id/chab133"
-          >
-            24
-          </a>
-          . Proudly{' '}
-          <a className="link" href="https://github.com/payload-bot">
-          Open-Sourced
-          </a>
-        </span>
-      </div>
+     
     </Layout>
   )
 }
