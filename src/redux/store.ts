@@ -3,7 +3,7 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 
 const store = configureStore({
   reducer: {},
-  devTools: process.env.PRODUCTION === 'production' ? false : true,
+  devTools: process.env.NEXT_PUBLIC_ENV === 'production' ? false : true,
 })
 
 export type AppState = ReturnType<typeof store.getState>
