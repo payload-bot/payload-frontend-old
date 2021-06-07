@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://payload.tf">
-    <img src="public/img/logo.svg" alt="payload.tf logo" width="150" height="150">
+    <img src="public/img/logo.svg" alt="payload.tf logo" width="175" height="175">
   </a>
 </p>
 
@@ -9,12 +9,10 @@
 <p align="center">Payload's React dashboard</p>
 
 <p align="center">
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
-  </a>
+	<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
 
   <a href="https://vercel.com/?utm_source=PAYLOADTF&utm_compaign=oss">
-    <img src="public/img/vercel-logo.svg" alt="Powered by Vercel">
+    <img src="public/img/vercel-logo.svg" alt="Powered by Vercel" width="100" height="20">
   </a>
 </p>
 
