@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Particles from 'react-particles-js'
 import Layout from '../components/layout/Layout'
@@ -47,17 +48,37 @@ const Index = () => {
           <h3>Supported Services</h3>
         </div>
         <div className="league-list">
-          <a className="league-logo" href="https://etf2l.org">
-            <img src="/img/etf2l.png" alt="ETF2L league logo" />
+          <a href="https://etf2l.org">
+            <Image
+              src="/img/etf2l.png"
+              alt="ETF2L league logo"
+              width={150}
+              height={70}
+            />
           </a>
-          <a className="league-logo" href="https://rgl.gg">
-            <img src="/img/rgl.png" alt="RGL league logo" />
+          <a href="https://rgl.gg">
+            <Image
+              src="/img/rgl.png"
+              alt="RGL league logo"
+              width={150}
+              height={50}
+            />
           </a>
-          <a className="league-logo" href="https://www.ugcleague.com">
-            <img src="/img/ugc.png" alt="UGC league logo" />
+          <a href="https://www.ugcleague.com">
+            <Image
+              src="/img/ugc.png"
+              alt="UGC league logo"
+              width={150}
+              height={70}
+            />
           </a>
-          <a className="league-logo" href="https://logs.tf">
-            <img src="/img/logstf.png" alt="logs.tf service logo" />
+          <a href="https://logs.tf">
+            <Image
+              src="/img/logstf.png"
+              alt="logs.tf service logo"
+              width={150}
+              height={50}
+            />
           </a>
         </div>
       </div>
@@ -121,8 +142,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-
-     
     </Layout>
   )
 }
