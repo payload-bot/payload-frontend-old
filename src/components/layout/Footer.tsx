@@ -20,12 +20,14 @@ export default function Footer() {
           Open-Sourced
         </a>
         <br />
-        <Image
-          src="/img/vercel-logo.svg"
-          alt="Powered by Vercel Logo"
-          width={175}
-          height={75}
-        />
+        <a href="https://vercel.com/?utm_source=payload&utm_compaign=oss">
+          <Image
+            src="/img/vercel-logo.svg"
+            alt="Powered by Vercel Logo"
+            width={175}
+            height={75}
+          />
+        </a>
       </span>
     </div>
   )
