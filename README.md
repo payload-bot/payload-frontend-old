@@ -28,7 +28,7 @@ You may back me on my [Patreon](https://www.patreon.com/c43721). Direct sponsors
 
 Before contributing, please make sure no one else has stated against your proposal. Otherwise, make a Pull Request detailing your proposal and any relevant code changes. If you are committing code, try to create test cases, as going foward we'd like to have stable tests. Also, you should take a look at our [Contributing guide](CONTRIBUTING)
 
-## Acknowledgements
+# Acknowledgements
 
 <p align="left">Thank you to the Vercel team for helping with covering costs for payload-neo's website.</p>
 
