@@ -10,10 +10,6 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
-
-  <a href="https://vercel.com/?utm_source=PAYLOADTF&utm_compaign=oss">
-    <img src="public/img/vercel-logo.svg" alt="Powered by Vercel" width="100" height="20">
-  </a>
 </p>
 
 # Description
@@ -30,7 +26,15 @@ You may back me on my [Patreon](https://www.patreon.com/c43721). Direct sponsors
 
 # Contributing
 
-Before contributing, please make sure no one else has stated against your proposal. Otherwise, make a Pull Request detailing your proposal and any relevant code changes. If you are committing code, try to create test cases, as going foward we'd like to have stable tests.
+Before contributing, please make sure no one else has stated against your proposal. Otherwise, make a Pull Request detailing your proposal and any relevant code changes. If you are committing code, try to create test cases, as going foward we'd like to have stable tests. Also, you should take a look at our [Contributing guide](CONTRIBUTING)
+
+## Acknowledgements
+
+<p align="left">Thank you to the Vercel team for helping with covering costs for payload-neo's website.</p>
+
+<a href="https://vercel.com/?utm_source=payload&utm_compaign=oss">
+  <img src="public/img/vercel-logo.svg" alt="Powered by Vercel">
+</a>
 
 # License
 
