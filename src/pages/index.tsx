@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Index = () => {
+function Index() {
   const styles = useStyles()
 
   return (

@@ -13,5 +13,5 @@ export default function success() {
     router.push('/')
   }, [])
 
-  return <div>Successfully logged in</div>
+  return <div>Successfully logged in!</div>
 }

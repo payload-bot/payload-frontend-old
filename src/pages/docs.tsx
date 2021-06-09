@@ -9,7 +9,7 @@ type DocsProps = {
   commands: CommandResponse
 }
 
-const Docs = ({ commands }: DocsProps) => {
+function Docs({ commands }: DocsProps) {
   return (
     <Layout>
       <Container>
