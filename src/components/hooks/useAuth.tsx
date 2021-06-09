@@ -8,12 +8,10 @@ export default function useAuth(admin?: boolean) {
 
   useEffect(() => {
     if (loading) return
-    if (!loggedIn) return
+    if (admin && !isAdmin) router.push('/')
 
-    if (admin && !isAdmin) router.replace('/');
-
-    if (!loading && !user) router.replace('/login')
+    if (!loading && user === null) router.push('/')
   }, [loading, loggedIn, user, isAdmin])
 
-  return [user]
+  return [loggedIn]
 }

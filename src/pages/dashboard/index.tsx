@@ -1,5 +1,7 @@
+import withAuth from '../../components/withAuth'
+
 function DashboardPage() {
   return <div>Dashboard page</div>
 }
 
-export default DashboardPage
+export default withAuth(DashboardPage)

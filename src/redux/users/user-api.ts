@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../axios'
 import { User, UserGuilds } from './types'
 
 export async function getUserInfo() {

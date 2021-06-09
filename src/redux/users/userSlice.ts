@@ -1,5 +1,4 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { AppState } from '../store'
 import { User, UserGuilds, UserState } from './types'
 import { getUserGuilds, getUserInfo } from './user-api'
 
@@ -18,6 +17,7 @@ export const userSlice = createSlice({
     setUserSuccess: (state, { payload }: PayloadAction<User>) => {
       state.isAdmin = payload.isAdmin
       state.loading = false
+      state.loggedIn = true
       state.user = payload
     },
 

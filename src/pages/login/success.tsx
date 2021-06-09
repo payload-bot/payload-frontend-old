@@ -10,7 +10,7 @@ export default function success() {
     const urlParams = new URLSearchParams(window.location.search)
     setTokenStorage(urlParams.get('token'))
 
-    router.push('/')
+    router.push('/dashboard')
   }, [])
 
   return <div>Successfully logged in!</div>
