@@ -150,10 +150,7 @@ function Index() {
             </Typography>
             <Typography variant="body1" align="center">
               You may{' '}
-              <a
-                className="link"
-                href="https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot"
-              >
+              <a className="link" href="/invite" target="_blank">
                 invite the bot here
               </a>
               , and while logged into the browser, select a server and it will
@@ -185,7 +182,7 @@ function Index() {
             </Typography>
             <Typography variant="body1" align="center">
               Of course! Join us at{' '}
-              <a className="link" href="https://discord.com/invite/gYnnMYz">
+              <a className="link" href="/discord" target="_blank">
                 our discord
               </a>
               !
