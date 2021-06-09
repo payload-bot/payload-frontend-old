@@ -1,7 +1,7 @@
 const getBackendHost = () =>
   ['production', 'staging'].includes(process.env.NEXT_PUBLIC_ENV)
     ? 'https://api.payload.tf'
-    : 'http://localhost'
+    : 'http://localhost:8080'
 
 module.exports = {
   async rewrites() {
@@ -16,7 +16,14 @@ module.exports = {
   },
 
   async redirects() {
+    const host = getBackendHost()
+
     return [
+      {
+        source: '/login',
+        destination: `${host}/api/auth/discord`,
+        permanent: true,
+      },
       {
         source: '/invite',
         destination:
