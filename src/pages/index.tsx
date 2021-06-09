@@ -1,95 +1,154 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Particles from 'react-particles-js'
+import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
 
+const useStyles = makeStyles(theme => ({
+  headerSpacing: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5),
+  },
+  payloadName: {
+    fontWeight: 'bold',
+  },
+  faqContainer: {
+    '& > *': {
+      maxWidth: '65vw',
+    },
+  },
+  faq: {
+    marginBottom: theme.spacing(1),
+  },
+  break: {
+    height: 3,
+    backgroundColor: '#23272A',
+  },
+  button: {
+    marginTop: theme.spacing(2),
+  },
+}))
+
 const Index = () => {
+  const styles = useStyles()
+
   return (
     <Layout>
       <div className="main-panel">
         <Particles className="stars" params={particleJson as any} />
+
         <div className="main-panel-floor">
           <div className="sand"></div>
         </div>
+
         <img id="pl-logo" src="/img/logo.svg" alt="Payload Logo" />
+
         <div className="header">
-          <h1>Payload</h1>
+          <Typography variant="h1" className={styles.payloadName}>
+            Payload
+          </Typography>
           <div className="header-subrow">
-            <a
-              className="link no-underline"
-              href="https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot"
-              target="_blank"
-            >
-              <button type="button" className="btn btn-discord btn-lg mr-3">
+            <a className="link no-underline" href="/invite" target="_blank">
+              <Button
+                variant="contained"
+                color="primary"
+                className={styles.button}
+              >
                 Invite to Discord
-              </button>
+              </Button>
             </a>
             <Link href="/docs">
-              <button type="button" className="btn btn-outline-light btn-lg">
+              <Button
+                variant="outlined"
+                color="primary"
+                className={styles.button}
+              >
                 Bot Documentation
-              </button>
+              </Button>
             </Link>
-            <a
-              className="link no-underline"
-              href="https://discord.com/invite/gYnnMYz"
-              target="_blank"
-            >
-              <button type="button" className="btn btn-discord btn-lg mr-3">
+            <a className="link no-underline" href="/discord" target="_blank">
+              <Button
+                variant="contained"
+                color="primary"
+                className={styles.button}
+              >
                 Official Payload Discord
-              </button>
+              </Button>
             </a>
           </div>
         </div>
       </div>
 
-      <div className="container-fluid p-5">
-        <div className="text-center mb-5">
-          <h3>Supported Services</h3>
-        </div>
-        <div className="league-list">
-          <a href="https://etf2l.org">
-            <Image
-              src="/img/etf2l.png"
-              alt="ETF2L league logo"
-              width={150}
-              height={70}
-            />
-          </a>
-          <a href="https://rgl.gg">
-            <Image
-              src="/img/rgl.png"
-              alt="RGL league logo"
-              width={150}
-              height={50}
-            />
-          </a>
-          <a href="https://www.ugcleague.com">
-            <Image
-              src="/img/ugc.png"
-              alt="UGC league logo"
-              width={150}
-              height={70}
-            />
-          </a>
-          <a href="https://logs.tf">
-            <Image
-              src="/img/logstf.png"
-              alt="logs.tf service logo"
-              width={150}
-              height={50}
-            />
-          </a>
-        </div>
-      </div>
+      <Typography variant="h3" align="center" className={styles.headerSpacing}>
+        Supported Services
+      </Typography>
 
-      <div className="break"></div>
-      <div className="container-fluid p-5">
-        <div className="text-center">
-          <h2 className="mb-5">FAQ</h2>
-          <div className="faq">
-            <div>How do I invite this bot to my discord?</div>
-            <div>
+      <Box
+        display="flex"
+        gridGap={15}
+        justifyContent="center"
+        alignItems="center"
+        className={styles.headerSpacing}
+      >
+        <a href="https://etf2l.org">
+          <Image
+            src="/img/etf2l.png"
+            alt="ETF2L league logo"
+            width={150}
+            height={70}
+          />
+        </a>
+        <a href="https://rgl.gg">
+          <Image
+            src="/img/rgl.png"
+            alt="RGL league logo"
+            width={150}
+            height={50}
+          />
+        </a>
+        <a href="https://www.ugcleague.com">
+          <Image
+            src="/img/ugc.png"
+            alt="UGC league logo"
+            width={150}
+            height={70}
+          />
+        </a>
+        <a href="https://logs.tf">
+          <Image
+            src="/img/logstf.png"
+            alt="logs.tf service logo"
+            width={150}
+            height={50}
+          />
+        </a>
+      </Box>
+
+      {/* FAQ */}
+      <div className={styles.break}></div>
+
+      <div>
+        <Typography
+          variant="h3"
+          align="center"
+          className={styles.headerSpacing}
+        >
+          FAQ
+        </Typography>
+        <Box
+          display="flex"
+          gridGap={30}
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          className={styles.faqContainer}
+        >
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              How do I invite this bot to my discord?
+            </Typography>
+            <Typography variant="body1" align="center">
               You may{' '}
               <a
                 className="link"
@@ -99,48 +158,63 @@ const Index = () => {
               </a>
               , and while logged into the browser, select a server and it will
               be all set up!
-            </div>
-
-            <div>Why is the bot not responding to any commands?</div>
-            <div>
+            </Typography>
+          </span>
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              Why is the bot not responding to any commands?
+            </Typography>
+            <Typography variant="body1" align="center">
               Make sure you didn't accidently set a different prefix. Otherwise,
               our default prefix is "pls ". When setting prefixes, make sure you
               include spaces in quotation marks.
-            </div>
-
-            <div>How do auto commands work?</div>
-            <div>
+            </Typography>
+          </span>
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              How do auto commands work?
+            </Typography>
+            <Typography variant="body1" align="center">
               As said in its name, they work- automatically! Post a link and
               Payload will magically run the command!
-            </div>
-
-            <div>Do you have an offical discord?</div>
-            <div>
+            </Typography>
+          </span>
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              Do you have an offical discord?
+            </Typography>
+            <Typography variant="body1" align="center">
               Of course! Join us at{' '}
               <a className="link" href="https://discord.com/invite/gYnnMYz">
                 our discord
               </a>
               !
-            </div>
-
-            <div>Payload is offline! What do I do?</div>
-            <div>
+            </Typography>
+          </span>
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              Payload is offline! What do I do?
+            </Typography>
+            <Typography variant="body1" align="center">
               That's not good! We strive to make sure it's on 100% of the time.
               Being offline could mean that work is being done on the server,
               the server died, or an update is being pushed. If it's not online
               within ~10 minutes of being down, contact us on discord!
-            </div>
-
-            <div>How do I view all of Payloads' commands?</div>
-            <div>
+            </Typography>
+          </span>
+          <span>
+            <Typography variant="h4" align="center" className={styles.faq}>
+              How do I view all of Payloads' commands?
+            </Typography>
+            <Typography variant="body1" align="center">
               You may{' '}
               <Link href="/docs">
                 <span className="link">view all commands</span>
               </Link>{' '}
               or use "pls commands" in any channel.
-            </div>
-          </div>
-        </div>
+            </Typography>
+          </span>
+        </Box>
       </div>
     </Layout>
   )

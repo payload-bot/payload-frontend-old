@@ -1,9 +1,26 @@
 import Image from 'next/image'
+import { Container, makeStyles, Typography } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  spacingTop: {
+    marginTop: theme.spacing(5),
+    paddingTop: theme.spacing(2),
+  },
+  footer: {
+    backgroundColor: '#23272a',
+  },
+}))
 
 export default function Footer() {
+  const styles = useStyles()
+
   return (
-    <div className="footer container-fluid px-5 py-3 mt-5 pb-1 bg-darkergray text-center">
-      <span className="small">
+    <Container maxWidth="xl" className={styles.footer}>
+      <Typography
+        variant="subtitle1"
+        align="center"
+        className={styles.spacingTop}
+      >
         Based on{' '}
         <a className="link no-underline" href="https://sharky.cool">
           sharky's
@@ -28,7 +45,7 @@ export default function Footer() {
             height={75}
           />
         </a>
-      </span>
-    </div>
+      </Typography>
+    </Container>
   )
 }
