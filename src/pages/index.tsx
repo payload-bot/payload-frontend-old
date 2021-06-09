@@ -51,6 +51,7 @@ function Index() {
           <div className="header-subrow">
             <a className="link no-underline" href="/invite" target="_blank">
               <Button
+                size="large"
                 variant="contained"
                 color="primary"
                 className={styles.button}
@@ -60,6 +61,7 @@ function Index() {
             </a>
             <Link href="/docs">
               <Button
+                size="large"
                 variant="outlined"
                 color="primary"
                 className={styles.button}
@@ -69,6 +71,7 @@ function Index() {
             </Link>
             <a className="link no-underline" href="/discord" target="_blank">
               <Button
+                size="large"
                 variant="contained"
                 color="primary"
                 className={styles.button}
