@@ -27,12 +27,6 @@ export const userSlice = createSlice({
       state.user = null
     },
 
-    logOutUser: state => {
-      state.loading = false
-      state.loggedIn = false
-      state.user = null
-    },
-
     setUserGuildsSuccess: (state, { payload }: PayloadAction<UserGuilds[]>) => {
       state.guilds = payload
     },
@@ -42,6 +36,10 @@ export const userSlice = createSlice({
     },
   },
 })
+
+export const logoutUser = () => async (dispatch: Dispatch) => {
+  dispatch(setUserFailure())
+}
 
 export const fetchUser = () => async (dispatch: Dispatch) => {
   try {

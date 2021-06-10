@@ -2,6 +2,7 @@ export interface User {
   isAdmin: boolean
   username: string
   name: string
+  avatar: string | null
   id: string
   discriminator: string
   notificationsLevel: string

@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React, { ReactNode } from 'react'
 import Footer from './Footer'
+import Header from './Header'
 
 type LayoutProps = {
   children?: ReactNode
@@ -12,12 +13,13 @@ export default function Layout({
   title = 'Payload | The TF2 Discord Bot',
 }: LayoutProps) {
   return (
-    <div className="night">
+    <>
+      <Header />
       <Head>
         <title>{title}</title>
       </Head>
       {children}
       <Footer />
-    </div>
+    </>
   )
 }
