@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Header({ sideBar }: HeaderProps) {
   const { user, loggedIn, logout } = useUser()
   const styles = useStyles()
-  
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null)
@@ -138,7 +138,7 @@ export default function Header({ sideBar }: HeaderProps) {
           )}
 
           <Typography className={styles.title} variant="h6" noWrap>
-            Payload
+            <Link href="/">Payload</Link>
           </Typography>
 
           <div className={styles.grow} />

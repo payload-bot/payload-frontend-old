@@ -6,15 +6,17 @@ import Header from './Header'
 type LayoutProps = {
   children?: ReactNode
   title?: string
+  sideBar?: boolean
 }
 
 export default function Layout({
   children,
   title = 'Payload | The TF2 Discord Bot',
+  sideBar,
 }: LayoutProps) {
   return (
     <>
-      <Header />
+      <Header sideBar={sideBar} />
       <Head>
         <title>{title}</title>
       </Head>

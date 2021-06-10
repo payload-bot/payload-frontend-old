@@ -12,7 +12,7 @@ type DocsProps = {
 function Docs({ commands }: DocsProps) {
   return (
     <Layout>
-      <Container>
+      <Container style={{ marginTop: '15px' }}>
         <Link href="/">
           <Button variant="contained" color="primary">
             Back to Home
