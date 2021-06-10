@@ -124,7 +124,7 @@ export default function Header({ sideBar }: HeaderProps) {
 
   return (
     <div className={styles.grow}>
-      <AppBar>
+      <AppBar position='fixed'>
         <Toolbar>
           {sideBar && (
             <IconButton
@@ -183,6 +183,7 @@ export default function Header({ sideBar }: HeaderProps) {
           </div>
         </Toolbar>
       </AppBar>
+      <Toolbar />
       {renderMobileMenu}
       {renderMenu}
     </div>

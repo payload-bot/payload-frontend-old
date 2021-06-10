@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { Container, Button, Typography } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import { CommandResponse } from '../interfaces/command'
 import Command from '../components/Command'
@@ -12,14 +11,8 @@ type DocsProps = {
 function Docs({ commands }: DocsProps) {
   return (
     <Layout>
-      <Container style={{ marginTop: '15px' }}>
-        <Link href="/">
-          <Button variant="contained" color="primary">
-            Back to Home
-          </Button>
-        </Link>
-
-        <Typography variant="h2">Commands</Typography>
+      <Container>
+        <Typography variant="h2"  style={{ marginTop: '12px' }}>Commands</Typography>
         <div className="flex flex-container">
           {commands.commands.data.map(cmd => (
             <Command command={cmd} key={cmd.name} />
