@@ -1,12 +1,11 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { User, UserGuilds, UserState } from './types'
-import { getUserGuilds, getUserInfo } from './user-api'
+import { User, UserState } from './types'
+import { getUserInfo } from './user-api'
 
 const initialState: UserState = {
   loading: true,
   isAdmin: false,
   loggedIn: false,
-  guilds: [],
   user: null,
 }
 
@@ -26,14 +25,6 @@ export const userSlice = createSlice({
       state.loggedIn = false
       state.user = null
     },
-
-    setUserGuildsSuccess: (state, { payload }: PayloadAction<UserGuilds[]>) => {
-      state.guilds = payload
-    },
-
-    setUserGuildsFailure: state => {
-      state.guilds = []
-    },
   },
 })
 
@@ -50,20 +41,9 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
   }
 }
 
-export const fetchUserServers = () => async (dispatch: Dispatch) => {
-  try {
-    const guilds = await getUserGuilds()
-    dispatch(setUserGuildsSuccess(guilds))
-  } catch (err) {
-    dispatch(setUserGuildsFailure())
-  }
-}
-
 export const {
   setUserSuccess,
   setUserFailure,
-  setUserGuildsSuccess,
-  setUserGuildsFailure,
 } = userSlice.actions
 
 export default userSlice.reducer
