@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Footer from './Footer'
 import Header from './Header'
 
@@ -20,7 +20,9 @@ export default function Layout({
       <Head>
         <title>{title}</title>
       </Head>
-      {children}
+      <main style={{ minHeight: '100vh' }}>
+        {children}
+      </main>
       <Footer />
     </>
   )

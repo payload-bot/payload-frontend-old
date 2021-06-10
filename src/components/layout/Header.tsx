@@ -97,7 +97,11 @@ export default function Header({ sideBar }: HeaderProps) {
       onClose={handleMenuClose}
       disableScrollLock={true}
     >
-      <MenuItem onClick={handleMenuClose}>Servers</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link href="/dashboard">
+          <Typography className="link no-underline">Dashboard</Typography>
+        </Link>
+      </MenuItem>
       <Divider />
       <MenuItem onClick={logout} className={styles.logOut}>
         Logout
