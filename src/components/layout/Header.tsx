@@ -2,7 +2,7 @@ import { useState, MouseEvent } from 'react'
 import Link from 'next/link'
 import useUser from '../hooks/useUser'
 
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -88,13 +88,14 @@ export default function Header({ sideBar }: HeaderProps) {
   const menuId = 'primary-search-account-menu'
   const renderMenu = user && (
     <Menu
+      keepMounted
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
-      keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      disableScrollLock={true}
     >
       <MenuItem onClick={handleMenuClose}>Servers</MenuItem>
       <Divider />
@@ -107,10 +108,10 @@ export default function Header({ sideBar }: HeaderProps) {
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = user && (
     <Menu
+      keepMounted
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
-      keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -124,7 +125,7 @@ export default function Header({ sideBar }: HeaderProps) {
 
   return (
     <div className={styles.grow}>
-      <AppBar position='fixed'>
+      <AppBar position="fixed">
         <Toolbar>
           {sideBar && (
             <IconButton
@@ -138,7 +139,9 @@ export default function Header({ sideBar }: HeaderProps) {
           )}
 
           <Typography className={styles.title} variant="h6" noWrap>
-            <Link href="/">Payload</Link>
+            <Link href="/">
+              <Typography className="link no-underline">Payload</Typography>
+            </Link>
           </Typography>
 
           <div className={styles.grow} />
