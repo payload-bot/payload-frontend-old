@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
   button: {
     marginTop: theme.spacing(2),
   },
+  offset: {
+    marginTop: `-${theme.mixins.toolbar.minHeight}px`,
+  },
 }))
 
 function Index() {
@@ -35,7 +38,7 @@ function Index() {
 
   return (
     <Layout>
-      <div className="night">
+      <div className={`night ${styles.offset}`}>
         <div className="main-panel">
           <Particles className="stars" params={particleJson as any} />
 
