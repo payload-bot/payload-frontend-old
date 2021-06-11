@@ -1,11 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Box, CircularProgress, Container, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from '@material-ui/core'
 import Layout from '../../components/layout/Layout'
 import Server from '../../components/Server'
 import withAuth from '../../components/withAuth'
 import { fetchAllServers } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
+import Link from 'next/link'
 
 function DashboardPage() {
   const dispatch = useDispatch()
@@ -44,7 +51,14 @@ function DashboardPage() {
             height="50vh"
           >
             <Typography align="center" variant="h5">
-              <Box py={2}>No servers :(</Box>
+              <Box py={2}>Uh oh! You have no servers to manage.</Box>
+              <Box>
+                <Link href="/">
+                  <Button variant="outlined" color="primary">
+                    Take me back
+                  </Button>
+                </Link>
+              </Box>
             </Typography>
           </Box>
         )}
