@@ -11,7 +11,7 @@ export default function useUser() {
     dispatch(logoutUser())
   }
 
-  const { user, loggedIn, loading, guilds, isAdmin } = useAppSelector(
+  const { user, loggedIn, loading, isAdmin } = useAppSelector(
     state => state.users,
   )
 
@@ -19,5 +19,5 @@ export default function useUser() {
     dispatch(fetchUser())
   }, [])
 
-  return { user, loggedIn, loading, guilds, isAdmin, logout }
+  return { user, loggedIn, loading, isAdmin, logout }
 }
