@@ -16,7 +16,9 @@ import Link from 'next/link'
 
 function DashboardPage() {
   const dispatch = useDispatch()
-  const { servers, loadingAllServers } = useAppSelector(state => state.servers)
+  const { servers, loadingAllServers, passedBetaCheck } = useAppSelector(
+    state => state.servers,
+  )
 
   useEffect(() => {
     dispatch(fetchAllServers())
@@ -51,7 +53,11 @@ function DashboardPage() {
             height="50vh"
           >
             <Typography align="center" variant="h5">
-              <Box py={2}>Uh oh! You have no servers to manage.</Box>
+              <Box py={2}>
+                {passedBetaCheck
+                  ? 'Uh oh! You have no servers to manage.'
+                  : 'This feature is open to beta users only.'}
+              </Box>
               <Box>
                 <Link href="/">
                   <Button variant="outlined" color="primary">

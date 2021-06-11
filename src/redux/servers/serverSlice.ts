@@ -2,9 +2,16 @@ import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { ActiveServer, Server, ServerState } from './types'
 import { getAllServers, getServer } from './server-api'
 
+type ApiErrorData = {
+  status: number
+  error?: string
+  message: string
+}
+
 const initialState: ServerState = {
   loadingActiveServer: true,
   loadingAllServers: true,
+  passedBetaCheck: true,
 
   servers: null,
   activeServer: null,
@@ -19,9 +26,12 @@ export const serverSlice = createSlice({
       state.servers = payload
     },
 
-    setServersFailure: state => {
+    setServersFailure: (state, { payload }: PayloadAction<ApiErrorData>) => {
       state.loadingAllServers = false
       state.servers = null
+      if (payload.message === 'Not a beta user') {
+        state.passedBetaCheck = false
+      }
     },
 
     setActiveServerSuccess: (
@@ -44,7 +54,7 @@ export const fetchAllServers = () => async (dispatch: Dispatch) => {
     const guilds = await getAllServers()
     dispatch(setServersSuccess(guilds))
   } catch (err) {
-    dispatch(setServersFailure())
+    dispatch(setServersFailure(err.response.data))
   }
 }
 

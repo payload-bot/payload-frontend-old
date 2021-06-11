@@ -28,7 +28,9 @@ export interface ActiveServer {
 export interface ServerState {
   loadingAllServers: boolean
   loadingActiveServer: boolean
-  servers: Server[]
 
+  passedBetaCheck: boolean
+
+  servers: Server[]
   activeServer: ActiveServer | null
 }
