@@ -6,7 +6,7 @@ const initialState: ServerState = {
   loadingActiveServer: true,
   loadingAllServers: true,
 
-  servers: [],
+  servers: null,
   activeServer: null,
 }
 
@@ -21,7 +21,7 @@ export const serverSlice = createSlice({
 
     setServersFailure: state => {
       state.loadingAllServers = false
-      state.servers = []
+      state.servers = null
     },
 
     setActiveServerSuccess: (
