@@ -3,6 +3,9 @@ import { ActiveServer, Server, ServerState } from './types'
 import { getAllServers, getServer } from './server-api'
 
 const initialState: ServerState = {
+  loadingActiveServer: true,
+  loadingAllServers: true,
+
   servers: [],
   activeServer: null,
 }
@@ -12,16 +15,27 @@ export const serverSlice = createSlice({
   initialState,
   reducers: {
     setServersSuccess: (state, { payload }: PayloadAction<Server[]>) => {
+      state.loadingAllServers = false
       state.servers = payload
     },
 
     setServersFailure: state => {
+      state.loadingAllServers = false
       state.servers = []
     },
 
-    setActiveServerSuccess: (state, { payload }: PayloadAction<ActiveServer>) => {},
+    setActiveServerSuccess: (
+      state,
+      { payload }: PayloadAction<ActiveServer>,
+    ) => {
+      state.loadingActiveServer = false
+      state.activeServer = payload
+    },
 
-    setActiveServerFailure: state => {},
+    setActiveServerFailure: state => {
+      state.loadingActiveServer = false
+      state.activeServer = null
+    },
   },
 })
 
