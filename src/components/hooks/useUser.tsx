@@ -8,6 +8,7 @@ export default function useUser() {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('refresh_token')
     dispatch(logoutUser())
   }
 

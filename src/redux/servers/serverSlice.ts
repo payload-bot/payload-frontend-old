@@ -54,7 +54,7 @@ export const fetchAllServers = () => async (dispatch: Dispatch) => {
     const guilds = await getAllServers()
     dispatch(setServersSuccess(guilds))
   } catch (err) {
-    dispatch(setServersFailure(err.response.data))
+    dispatch(setServersFailure(err.response?.data))
   }
 }
 

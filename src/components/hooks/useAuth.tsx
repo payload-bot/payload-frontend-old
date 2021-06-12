@@ -11,7 +11,7 @@ export default function useAuth(admin?: boolean) {
     if (admin && !isAdmin) router.push('/')
 
     if (!loading && user === null) router.push('/')
-  }, [loading, loggedIn, user, isAdmin])
+  }, [loading, user, admin, isAdmin])
 
   return [loggedIn]
 }
