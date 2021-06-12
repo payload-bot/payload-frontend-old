@@ -138,7 +138,7 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
   )
 
   return (
-    <div className={styles.grow}>
+    <>
       <AppBar position="fixed" className={sideBar && styles.displaceAppbar}>
         <Toolbar>
           {sideBar && (
@@ -200,9 +200,9 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
           </div>
         </Toolbar>
       </AppBar>
-      <Toolbar />
+      {!sideBar && <Toolbar />}
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </>
   )
 }

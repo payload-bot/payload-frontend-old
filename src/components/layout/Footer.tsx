@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(2),
   },
   footer: {
-    flexGrow: 1,
+    flexShrink: 1,
     backgroundColor: '#23272a',
   },
 }))

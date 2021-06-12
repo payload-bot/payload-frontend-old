@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     minHeight: '100vh',
   },
+  mainContent: {
+    minHeight: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
+  },
   root: {
     display: 'flex',
   },
@@ -47,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: DRAWER_WIDTH,
@@ -133,14 +135,11 @@ export default function Layout({
       </Head>
       <Header handleMenuClick={handleDrawerToggle} sideBar={sideBar} />
       {sideBar && renderNav}
-      <main className={sideBar && styles.content}>
+      <div className={sideBar && styles.content}>
         {sideBar && <Toolbar />}
-
-        {children}
-        <footer>
-          <Footer />
-        </footer>
-      </main>
+        <main className={styles.mainContent}>{children}</main>
+        <Footer />
+      </div>
     </div>
   )
 }
