@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent } from 'react'
 import Link from 'next/link'
 import useUser from '../hooks/useUser'
 
@@ -17,6 +17,7 @@ import { Divider } from '@material-ui/core'
 
 type HeaderProps = {
   sideBar?: boolean
+  handleMenuClick: () => void
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   title: {
     display: 'none',
@@ -55,9 +59,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   logOut: {
     color: theme.palette.error.dark,
   },
+  displaceAppbar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - 240px)`,
+      marginLeft: 240,
+    },
+  },
 }))
 
-export default function Header({ sideBar }: HeaderProps) {
+export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
   const { user, loggedIn, logout } = useUser()
   const styles = useStyles()
 
@@ -118,7 +128,7 @@ export default function Header({ sideBar }: HeaderProps) {
       id={mobileMenuId}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      onClose={handleMenuClick}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
         <Avatar className={styles.avatarSmall} src={user.avatar} />
@@ -129,7 +139,7 @@ export default function Header({ sideBar }: HeaderProps) {
 
   return (
     <div className={styles.grow}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={sideBar && styles.displaceAppbar}>
         <Toolbar>
           {sideBar && (
             <IconButton
@@ -138,7 +148,7 @@ export default function Header({ sideBar }: HeaderProps) {
               color="inherit"
               aria-label="open drawer"
             >
-              <MenuIcon />
+              <MenuIcon onClick={handleMenuClick} />
             </IconButton>
           )}
 

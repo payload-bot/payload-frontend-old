@@ -3,10 +3,10 @@ import { Container, makeStyles, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   spacingTop: {
-    marginTop: theme.spacing(5),
     paddingTop: theme.spacing(2),
   },
   footer: {
+    flexGrow: 1,
     backgroundColor: '#23272a',
   },
 }))
