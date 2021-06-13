@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 // Need to parse for JWT to work, otherwise it breaks
@@ -7,19 +7,15 @@ const getRefreshToken = () => localStorage.getItem('refresh_token')
 
 const client = axios.create({})
 
-client.interceptors.request.use(config => {
+client.interceptors.request.use((req: AxiosRequestConfig) => {
   const token = getAccessToken()
+  if (!token) return req
 
-  if (!token) return config
-
-  config.headers['Authorization'] = `Bearer ${token.replace(/"/g, '')}`
-  return config
+  req.headers['Authorization'] = `Bearer ${token.replace(/"/g, '')}`
+  return req
 })
 
-let refreshingPromiseObject = null
-
 const refreshAuthLogic = async failedRequest => {
-  if (refreshingPromiseObject) return refreshingPromiseObject
   return axios
     .post(
       '/api/auth/refresh',
@@ -37,7 +33,6 @@ const refreshAuthLogic = async failedRequest => {
       return Promise.resolve()
     })
     .catch(() => Promise.reject())
-    .finally(() => (refreshingPromiseObject = null))
 }
 
 createAuthRefreshInterceptor(client, refreshAuthLogic, {
