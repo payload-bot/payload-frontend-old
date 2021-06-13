@@ -5,7 +5,12 @@ import { useDispatch } from 'react-redux'
 import React, { useEffect } from 'react'
 import { fetchServer } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
-import { Avatar, CircularProgress, Container, Typography } from '@material-ui/core'
+import {
+  Avatar,
+  CircularProgress,
+  Container,
+  Typography,
+} from '@material-ui/core'
 
 function ServerDashboardPage() {
   const router = useRouter()
@@ -16,7 +21,7 @@ function ServerDashboardPage() {
   const { id } = router.query
 
   useEffect(() => {
-    dispatch(fetchServer(id as string))
+    if (loadingActiveServer) dispatch(fetchServer(id as string))
   }, [id])
 
   return (
@@ -35,7 +40,7 @@ function ServerDashboardPage() {
         {!loadingActiveServer && passedBetaCheck && activeServer && (
           <Container>
             <Avatar src={activeServer.icon} />
-            <Typography variant='h6'>{activeServer.name}</Typography>
+            <Typography variant="h6">{activeServer.name}</Typography>
           </Container>
         )}
       </Container>

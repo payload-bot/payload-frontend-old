@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       display: 'none',
     },
   },
-  title: {
+  payloadTitle: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
@@ -152,7 +152,7 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
             </IconButton>
           )}
 
-          <Typography className={styles.title} variant="h6" noWrap>
+          <Typography className={styles.payloadTitle} variant="h6" noWrap>
             <Link href="/">
               <Typography className="link no-underline">Payload</Typography>
             </Link>

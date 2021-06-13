@@ -17,7 +17,7 @@ export default function useUser() {
   )
 
   useEffect(() => {
-    dispatch(fetchUser())
+    if (loading) dispatch(fetchUser())
   }, [])
 
   return { user, loggedIn, loading, isAdmin, logout }

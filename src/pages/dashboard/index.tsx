@@ -21,7 +21,7 @@ function DashboardPage() {
   )
 
   useEffect(() => {
-    dispatch(fetchAllServers())
+    if (loadingAllServers) dispatch(fetchAllServers())
   }, [])
 
   return (
