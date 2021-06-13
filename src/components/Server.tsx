@@ -29,7 +29,7 @@ export default function ServerSelection({ server }: ServerProps) {
       className={styles.container}
     >
       <Box display="flex" alignItems="center" gridGap={5}>
-        <ServerAvatar icon={server.icon} name={server.name} />
+        <ServerAvatar icon={server.iconUrl} name={server.name} />
 
         <Typography variant="body1">{server.name}</Typography>
       </Box>

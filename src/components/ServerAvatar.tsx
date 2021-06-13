@@ -6,11 +6,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
     backgroundColor: 'transparent',
     border: '1px solid #FAFAFA',
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     [theme.breakpoints.down('sm')]: {
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
     },
   },
 }))
