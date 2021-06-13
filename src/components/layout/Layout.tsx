@@ -16,8 +16,7 @@ import Head from 'next/head'
 import React, { ReactNode, useState } from 'react'
 import Footer from './Footer'
 import Header from './Header'
-import MailIcon from '@material-ui/icons/Mail'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 type LayoutProps = {
   children?: ReactNode
@@ -72,25 +71,12 @@ export default function Layout({
       <div className={styles.toolbar} />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText>Settings</ListItemText>
+        </ListItem>
       </List>
     </>
   )

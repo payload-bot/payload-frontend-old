@@ -6,15 +6,21 @@ import React, { useEffect } from 'react'
 import { fetchServer } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
 import {
-  Avatar,
   CircularProgress,
   Container,
+  makeStyles,
   Typography,
+  Box,
 } from '@material-ui/core'
+import ServerAvatar from '../../components/ServerAvatar'
+
+const useStyles = makeStyles(theme => ({}))
 
 function ServerDashboardPage() {
   const router = useRouter()
   const dispatch = useDispatch()
+  const styles = useStyles()
+
   const { activeServer, passedBetaCheck, loadingActiveServer } = useAppSelector(
     state => state.servers,
   )
@@ -32,15 +38,25 @@ function ServerDashboardPage() {
             <CircularProgress size={40} />
           </Container>
         )}
+
         {!loadingActiveServer && !passedBetaCheck && (
           <Container>
-            <Typography>You are not a beta tester :()</Typography>
+            <Typography>You are not a beta tester :(</Typography>
           </Container>
         )}
+
         {!loadingActiveServer && passedBetaCheck && activeServer && (
           <Container>
-            <Avatar src={activeServer.icon} />
-            <Typography variant="h6">{activeServer.name}</Typography>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              py={2}
+            >
+              <ServerAvatar icon={activeServer.icon} name={activeServer.name} />
+              <Typography variant="h6">{activeServer.name}</Typography>
+            </Box>
           </Container>
         )}
       </Container>
