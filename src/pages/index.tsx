@@ -6,16 +6,15 @@ import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
 
 const useStyles = makeStyles(theme => ({
-  headerSpacing: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(5),
-  },
   payloadName: {
     fontWeight: 'bold',
   },
   faqContainer: {
     '& > *': {
       maxWidth: '65vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '85vw',
     },
   },
   faq: {
@@ -87,12 +86,8 @@ function Index() {
           </div>
         </div>
 
-        <Typography
-          variant="h3"
-          align="center"
-          className={styles.headerSpacing}
-        >
-          Supported Services
+        <Typography variant="h3" align="center">
+          <Box py={2}>Supported Services</Box>
         </Typography>
 
         <Box
@@ -100,7 +95,7 @@ function Index() {
           gridGap={15}
           justifyContent="center"
           alignItems="center"
-          className={styles.headerSpacing}
+          py={5}
         >
           <a href="https://etf2l.org">
             <Image
@@ -140,20 +135,17 @@ function Index() {
         <div className={styles.break}></div>
 
         <div>
-          <Typography
-            variant="h3"
-            align="center"
-            className={styles.headerSpacing}
-          >
-            FAQ
+          <Typography variant="h3" align="center">
+            <Box py={2}>FAQ</Box>
           </Typography>
           <Box
             display="flex"
-            gridGap={30}
+            gridGap={25}
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
             className={styles.faqContainer}
+            mb={5}
           >
             <span>
               <Typography variant="h4" align="center" className={styles.faq}>

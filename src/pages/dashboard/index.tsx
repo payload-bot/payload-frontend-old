@@ -76,7 +76,7 @@ function DashboardPage() {
             </Typography>
             <Box display="flex" flexDirection="column" gridGap={5}>
               {servers.map(server => (
-                <Server server={server} />
+                <Server key={server.id} server={server} />
               ))}
             </Box>
           </Container>
