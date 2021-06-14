@@ -12,3 +12,10 @@ export async function getServer(id: string) {
 
   return data ?? null
 }
+
+export async function patchServer(
+  id: string,
+  updatedData: Partial<ActiveServer>,
+) {
+  return await axios.patch(`/api/guilds/${id}`, updatedData)
+}

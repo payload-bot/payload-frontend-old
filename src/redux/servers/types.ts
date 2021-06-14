@@ -22,6 +22,7 @@ export interface ActiveServer {
   restrictions: Restriction[]
   fun: Fun
   icon: string
+  botName: string
   language: string
   name: string
   prefix: string

@@ -1,6 +1,6 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { ActiveServer, Server, ServerState } from './types'
-import { getAllServers, getServer } from './server-api'
+import { getAllServers, getServer, patchServer } from './server-api'
 
 type ApiErrorData = {
   status: number
@@ -66,6 +66,15 @@ export const fetchServer = (id: string) => async (dispatch: Dispatch) => {
     dispatch(setActiveServerFailure())
   }
 }
+
+export const updateServer =
+  (id: string, data: Partial<ActiveServer>) => async (dispatch: Dispatch) => {
+    try {
+      await patchServer(id, data)
+    } catch (err) {
+      console.warn('Could not dispatch event?')
+    }
+  }
 
 export const {
   setServersSuccess,
