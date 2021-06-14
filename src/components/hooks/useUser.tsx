@@ -3,10 +3,12 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/store'
 import { fetchUser, logoutUser } from '../../redux/users/userSlice'
+import useLocalStorage from './useLocalStorage'
 
 export default function useUser() {
   const router = useRouter()
   const dispatch = useDispatch()
+  const [token] = useLocalStorage('token', null)
 
   const logout = () => {
     localStorage.removeItem('token')
@@ -20,7 +22,7 @@ export default function useUser() {
   )
 
   useEffect(() => {
-    if (loading) dispatch(fetchUser())
+    if (loading && token) dispatch(fetchUser())
   }, [])
 
   return { user, loggedIn, loading, isAdmin, logout }

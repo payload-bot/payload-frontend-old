@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
-// Need to parse for JWT to work, otherwise it breaks
+// Outside of function because this should
+// be recomputed on each call
 const getAccessToken = () => localStorage.getItem('token')
 const getRefreshToken = () => localStorage.getItem('refresh_token')
 
