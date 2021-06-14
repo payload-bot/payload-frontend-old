@@ -114,14 +114,14 @@ export default function Layout({
   )
 
   return (
-    <div className={sideBar && styles.root}>
+    <div className={sideBar ? styles.root : ''}>
       <CssBaseline />
       <Head>
         <title>{title}</title>
       </Head>
       <Header handleMenuClick={handleDrawerToggle} sideBar={sideBar} />
       {sideBar && renderNav}
-      <div className={sideBar && styles.content}>
+      <div className={sideBar ? styles.content : ''}>
         {sideBar && <Toolbar />}
         <main className={styles.mainContent}>{children}</main>
         <Footer />

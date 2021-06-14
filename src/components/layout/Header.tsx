@@ -139,7 +139,7 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
 
   return (
     <>
-      <AppBar position="fixed" className={sideBar && styles.displaceAppbar}>
+      <AppBar position="fixed" className={sideBar ? styles.displaceAppbar : ''}>
         <Toolbar>
           {sideBar && (
             <IconButton
@@ -147,8 +147,9 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
               className={styles.menuButton}
               color="inherit"
               aria-label="open drawer"
+              onClick={handleMenuClick}
             >
-              <MenuIcon onClick={handleMenuClick} />
+              <MenuIcon />
             </IconButton>
           )}
 
