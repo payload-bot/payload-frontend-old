@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { Box, Button, makeStyles, Typography } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
 import { Server } from '../redux/servers/types'
 import ServerAvatar from '../components/ServerAvatar'
-import { useDispatch } from 'react-redux'
 import { setActiveServerId } from '../redux/servers/serverSlice'
+import { useAppSelector } from '../redux/store'
 
 type ServerProps = {
   server: Server
@@ -23,6 +24,13 @@ const useStyles = makeStyles(theme => ({
 export default function ServerSelection({ server }: ServerProps) {
   const styles = useStyles()
   const dispatch = useDispatch()
+  const { activeServerId } = useAppSelector(state => state.servers)
+
+  const setActiveServer = () => {
+    if (activeServerId !== server.id) {
+      dispatch(setActiveServerId(server.id))
+    }
+  }
 
   const openInviteLinkInWindow = () => {
     window.open('https://payload.tf/invite', '_blank', 'height=750,width=500')
@@ -42,11 +50,7 @@ export default function ServerSelection({ server }: ServerProps) {
       </Box>
       {server.isPayloadIn ? (
         <Link href={`/dashboard/${server.id}`}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => dispatch(setActiveServerId(server.id))}
-          >
+          <Button variant="contained" color="primary" onClick={setActiveServer}>
             Go to Dashboard
           </Button>
         </Link>
