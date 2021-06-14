@@ -1,9 +1,26 @@
 import Image from 'next/image'
+import { Container, makeStyles, Typography } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  spacingTop: {
+    paddingTop: theme.spacing(2),
+  },
+  footer: {
+    flexShrink: 1,
+    backgroundColor: '#23272a',
+  },
+}))
 
 export default function Footer() {
+  const styles = useStyles()
+
   return (
-    <div className="footer container-fluid px-5 py-3 mt-5 pb-1 bg-darkergray text-center">
-      <span className="small">
+    <Container maxWidth="xl" className={styles.footer}>
+      <Typography
+        variant="subtitle1"
+        align="center"
+        className={styles.spacingTop}
+      >
         Based on{' '}
         <a className="link no-underline" href="https://sharky.cool">
           sharky's
@@ -20,13 +37,15 @@ export default function Footer() {
           Open-Sourced
         </a>
         <br />
-        <Image
-          src="/img/vercel-logo.svg"
-          alt="Powered by Vercel Logo"
-          width={175}
-          height={75}
-        />
-      </span>
-    </div>
+        <a href="https://vercel.com/?utm_source=payload&utm_compaign=oss">
+          <Image
+            src="/img/vercel-logo.svg"
+            alt="Powered by Vercel Logo"
+            width={175}
+            height={75}
+          />
+        </a>
+      </Typography>
+    </Container>
   )
 }

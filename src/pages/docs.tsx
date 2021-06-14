@@ -1,6 +1,5 @@
+import { Container, Typography } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
-import { Container, Button } from 'reactstrap'
-import Link from 'next/link'
 import { CommandResponse } from '../interfaces/command'
 import Command from '../components/Command'
 import AutoCommand from '../components/AutoCommand'
@@ -9,22 +8,18 @@ type DocsProps = {
   commands: CommandResponse
 }
 
-const Docs = ({ commands }: DocsProps) => {
+function Docs({ commands }: DocsProps) {
   return (
     <Layout>
-      <Container className="mt-4">
-        <Link href="/">
-          <Button type="button">Back to Home</Button>
-        </Link>
-
-        <h1 className="m-4">Commands</h1>
+      <Container>
+        <Typography variant="h2"  style={{ marginTop: '12px' }}>Commands</Typography>
         <div className="flex flex-container">
           {commands.commands.data.map(cmd => (
             <Command command={cmd} key={cmd.name} />
           ))}
         </div>
 
-        <h1 className="m-4">Auto Responses</h1>
+        <Typography variant="h2">Auto Responses</Typography>
         <div className="flex flex-container">
           {commands.autoResponses.data.map(cmd => (
             <AutoCommand command={cmd} key={cmd.name} />

@@ -1,53 +1,102 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Particles from 'react-particles-js'
+import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
 
-const Index = () => {
+const useStyles = makeStyles(theme => ({
+  payloadName: {
+    fontWeight: 'bold',
+  },
+  faqContainer: {
+    '& > *': {
+      maxWidth: '65vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '85vw',
+    },
+  },
+  faq: {
+    marginBottom: theme.spacing(1),
+  },
+  break: {
+    height: 3,
+    backgroundColor: '#23272A',
+  },
+  button: {
+    marginTop: theme.spacing(2),
+  },
+  offset: {
+    marginTop: `-${theme.mixins.toolbar.minHeight}px`,
+  },
+}))
+
+function Index() {
+  const styles = useStyles()
+
   return (
     <Layout>
-      <div className="main-panel">
-        <Particles className="stars" params={particleJson as any} />
-        <div className="main-panel-floor">
-          <div className="sand"></div>
-        </div>
-        <img id="pl-logo" src="/img/logo.svg" alt="Payload Logo" />
-        <div className="header">
-          <h1>Payload</h1>
-          <div className="header-subrow">
-            <a
-              className="link no-underline"
-              href="https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot"
-              target="_blank"
-            >
-              <button type="button" className="btn btn-discord btn-lg mr-3">
-                Invite to Discord
-              </button>
-            </a>
-            <Link href="/docs">
-              <button type="button" className="btn btn-outline-light btn-lg">
-                Bot Documentation
-              </button>
-            </Link>
-            <a
-              className="link no-underline"
-              href="https://discord.com/invite/gYnnMYz"
-              target="_blank"
-            >
-              <button type="button" className="btn btn-discord btn-lg mr-3">
-                Official Payload Discord
-              </button>
-            </a>
+      <div className={`night ${styles.offset}`}>
+        <div className="main-panel">
+          <Particles className="stars" params={particleJson as any} />
+
+          <div className="main-panel-floor">
+            <div className="sand"></div>
+          </div>
+
+          <img id="pl-logo" src="/img/logo.svg" alt="Payload Logo" />
+
+          <div className="header">
+            <Typography variant="h1" className={styles.payloadName}>
+              Payload
+            </Typography>
+            <div className="header-subrow">
+              <a className="link no-underline" href="/invite" target="_blank">
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  className={styles.button}
+                >
+                  Invite to Discord
+                </Button>
+              </a>
+              <Link href="/docs">
+                <Button
+                  size="large"
+                  variant="outlined"
+                  color="primary"
+                  className={styles.button}
+                >
+                  Bot Documentation
+                </Button>
+              </Link>
+              <a className="link no-underline" href="/discord" target="_blank">
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  className={styles.button}
+                >
+                  Official Payload Discord
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="container-fluid p-5">
-        <div className="text-center mb-5">
-          <h3>Supported Services</h3>
-        </div>
-        <div className="league-list">
+        <Typography variant="h3" align="center">
+          <Box py={2}>Supported Services</Box>
+        </Typography>
+
+        <Box
+          display="flex"
+          gridGap={15}
+          justifyContent="center"
+          alignItems="center"
+          py={5}
+        >
           <a href="https://etf2l.org">
             <Image
               src="/img/etf2l.png"
@@ -80,66 +129,93 @@ const Index = () => {
               height={50}
             />
           </a>
-        </div>
-      </div>
+        </Box>
 
-      <div className="break"></div>
-      <div className="container-fluid p-5">
-        <div className="text-center">
-          <h2 className="mb-5">FAQ</h2>
-          <div className="faq">
-            <div>How do I invite this bot to my discord?</div>
-            <div>
-              You may{' '}
-              <a
-                className="link"
-                href="https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=388161&scope=bot"
-              >
-                invite the bot here
-              </a>
-              , and while logged into the browser, select a server and it will
-              be all set up!
-            </div>
+        {/* FAQ */}
+        <div className={styles.break}></div>
 
-            <div>Why is the bot not responding to any commands?</div>
-            <div>
-              Make sure you didn't accidently set a different prefix. Otherwise,
-              our default prefix is "pls ". When setting prefixes, make sure you
-              include spaces in quotation marks.
-            </div>
-
-            <div>How do auto commands work?</div>
-            <div>
-              As said in its name, they work- automatically! Post a link and
-              Payload will magically run the command!
-            </div>
-
-            <div>Do you have an offical discord?</div>
-            <div>
-              Of course! Join us at{' '}
-              <a className="link" href="https://discord.com/invite/gYnnMYz">
-                our discord
-              </a>
-              !
-            </div>
-
-            <div>Payload is offline! What do I do?</div>
-            <div>
-              That's not good! We strive to make sure it's on 100% of the time.
-              Being offline could mean that work is being done on the server,
-              the server died, or an update is being pushed. If it's not online
-              within ~10 minutes of being down, contact us on discord!
-            </div>
-
-            <div>How do I view all of Payloads' commands?</div>
-            <div>
-              You may{' '}
-              <Link href="/docs">
-                <span className="link">view all commands</span>
-              </Link>{' '}
-              or use "pls commands" in any channel.
-            </div>
-          </div>
+        <div>
+          <Typography variant="h3" align="center">
+            <Box py={2}>FAQ</Box>
+          </Typography>
+          <Box
+            display="flex"
+            gridGap={25}
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            className={styles.faqContainer}
+            mb={5}
+          >
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                How do I invite this bot to my discord?
+              </Typography>
+              <Typography variant="body1" align="center">
+                You may{' '}
+                <a className="link" href="/invite" target="_blank">
+                  invite the bot here
+                </a>
+                , and while logged into the browser, select a server and it will
+                be all set up!
+              </Typography>
+            </span>
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                Why is the bot not responding to any commands?
+              </Typography>
+              <Typography variant="body1" align="center">
+                Make sure you didn't accidently set a different prefix.
+                Otherwise, our default prefix is "pls ". When setting prefixes,
+                make sure you include spaces in quotation marks.
+              </Typography>
+            </span>
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                How do auto commands work?
+              </Typography>
+              <Typography variant="body1" align="center">
+                As said in its name, they work- automatically! Post a link and
+                Payload will magically run the command!
+              </Typography>
+            </span>
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                Do you have an offical discord?
+              </Typography>
+              <Typography variant="body1" align="center">
+                Of course! Join us at{' '}
+                <a className="link" href="/discord" target="_blank">
+                  our discord
+                </a>
+                !
+              </Typography>
+            </span>
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                Payload is offline! What do I do?
+              </Typography>
+              <Typography variant="body1" align="center">
+                That's not good! We strive to make sure it's on 100% of the
+                time. Being offline could mean that work is being done on the
+                server, the server died, or an update is being pushed. If it's
+                not online within ~10 minutes of being down, contact us on
+                discord!
+              </Typography>
+            </span>
+            <span>
+              <Typography variant="h4" align="center" className={styles.faq}>
+                How do I view all of Payloads' commands?
+              </Typography>
+              <Typography variant="body1" align="center">
+                You may{' '}
+                <Link href="/docs">
+                  <span className="link">view all commands</span>
+                </Link>{' '}
+                or use "pls commands" in any channel.
+              </Typography>
+            </span>
+          </Box>
         </div>
       </div>
     </Layout>

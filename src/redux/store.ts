@@ -1,8 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 
+// Slices
+import userSlice from './users/userSlice'
+import serverSlice from './servers/serverSlice'
+
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    users: userSlice,
+    servers: serverSlice,
+  },
   devTools: process.env.NEXT_PUBLIC_ENV === 'production' ? false : true,
 })
 
