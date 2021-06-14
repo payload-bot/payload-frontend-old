@@ -51,13 +51,29 @@ function ServerDashboardPage() {
       <Container>
         {loadingActiveServer && (
           <Container>
-            <CircularProgress size={40} />
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              height="35vh"
+            >
+              <CircularProgress size={40} />
+              <Typography variant="h5">Loading your dashboard</Typography>
+            </Box>
           </Container>
         )}
 
         {!loadingActiveServer && !passedBetaCheck && (
           <Container>
-            <Typography>You are not a beta tester :(</Typography>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="35vh"
+            >
+              <Typography>You are not a beta tester :(</Typography>
+            </Box>
           </Container>
         )}
 
