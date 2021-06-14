@@ -43,8 +43,14 @@ function ServerDashboardPage() {
     passedBetaCheck,
     loadingActiveServer,
     activeServerId,
-    loadingActiveServerErrorMsg: loadingActiveServerErrorMsg,
+    loadingActiveServerErrorMsg,
   } = useAppSelector(state => state.servers)
+
+  useEffect(() => {
+    if (loadingActiveServerErrorMsg) {
+      router.push('/dashboard')
+    }
+  }, [loadingActiveServerErrorMsg])
 
   useEffect(() => {
     dispatch(fetchServer(id as string))
