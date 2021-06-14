@@ -40,10 +40,11 @@ function ServerDashboardPage() {
 
   const {
     activeServer,
+    activeServerId,
     passedBetaCheck,
     loadingActiveServer,
-    activeServerId,
     loadingActiveServerErrorMsg,
+    loadedServerCache
   } = useAppSelector(state => state.servers)
 
   useEffect(() => {
@@ -53,8 +54,10 @@ function ServerDashboardPage() {
   }, [loadingActiveServerErrorMsg])
 
   useEffect(() => {
-    dispatch(fetchServer(id as string))
-  }, [id, activeServerId])
+    if (!loadedServerCache[id as string]) {
+      dispatch(fetchServer(id as string))
+    }
+  }, [activeServerId])
 
   return (
     <Layout sideBar={!loadingActiveServer}>
