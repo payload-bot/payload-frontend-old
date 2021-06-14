@@ -19,6 +19,7 @@ interface Restriction {
 }
 
 export interface ActiveServer {
+  id: string
   restrictions: Restriction[]
   fun: Fun
   icon: string
@@ -34,6 +35,15 @@ export interface ServerState {
 
   passedBetaCheck: boolean
 
+  activeServerId: string
+
   servers: Server[]
   activeServer: ActiveServer | null
+
+  // Loading Errors
+  loadingActiveServerErrorMsg?: string
+
+  // Updating Errors
+  updateActiveServerErrorMsg?: string
+
 }

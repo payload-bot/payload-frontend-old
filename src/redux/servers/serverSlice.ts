@@ -13,6 +13,8 @@ const initialState: ServerState = {
   loadingAllServers: true,
   passedBetaCheck: true,
 
+  activeServerId: null,
+
   servers: null,
   activeServer: null,
 }
@@ -34,17 +36,25 @@ export const serverSlice = createSlice({
       }
     },
 
+    loadingActiveServer: state => {
+      state.loadingActiveServer = true
+    },
+
     setActiveServerSuccess: (
       state,
       { payload }: PayloadAction<ActiveServer>,
     ) => {
+      state.activeServerId = payload.id
       state.loadingActiveServer = false
       state.activeServer = payload
     },
 
-    setActiveServerFailure: state => {
+    setActiveServerFailure: (state, { payload }: PayloadAction<string>) => {
+      state.activeServerId = null
       state.loadingActiveServer = false
       state.activeServer = null
+      state.loadingActiveServerErrorMsg =
+        payload ?? 'Could not get server details'
     },
 
     updateActiveServerSuccess: (
@@ -52,6 +62,10 @@ export const serverSlice = createSlice({
       { payload }: PayloadAction<Partial<ActiveServer>>,
     ) => {
       state.activeServer = { ...state.activeServer, ...payload }
+    },
+
+    updateActiveServerFailure: (state, { payload }: PayloadAction<string>) => {
+      state.updateActiveServerErrorMsg = payload ?? 'Failed to update server.'
     },
   },
 })
@@ -67,10 +81,11 @@ export const fetchAllServers = () => async (dispatch: Dispatch) => {
 
 export const fetchServer = (id: string) => async (dispatch: Dispatch) => {
   try {
+    dispatch(loadingActiveServer())
     const guild = await getServer(id)
     dispatch(setActiveServerSuccess(guild))
   } catch (err) {
-    dispatch(setActiveServerFailure())
+    dispatch(setActiveServerFailure(err.response.data?.message))
   }
 }
 
@@ -80,16 +95,18 @@ export const updateServer =
       await patchServer(id, data)
       dispatch(updateActiveServerSuccess(data))
     } catch (err) {
-      console.warn('Could not dispatch event: ' + err)
+      dispatch(updateActiveServerFailure(err.response.data?.message))
     }
   }
 
 export const {
   setServersSuccess,
   setServersFailure,
+  loadingActiveServer,
   setActiveServerSuccess,
   setActiveServerFailure,
   updateActiveServerSuccess,
+  updateActiveServerFailure,
 } = serverSlice.actions
 
 export default serverSlice.reducer

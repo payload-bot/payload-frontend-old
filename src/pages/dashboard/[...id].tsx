@@ -38,13 +38,17 @@ function ServerDashboardPage() {
   const onSubmit = (data: Partial<ActiveServer>) =>
     dispatch(updateServer(id as string, data))
 
-  const { activeServer, passedBetaCheck, loadingActiveServer } = useAppSelector(
-    state => state.servers,
-  )
+  const {
+    activeServer,
+    passedBetaCheck,
+    loadingActiveServer,
+    activeServerId,
+    loadingActiveServerErrorMsg: loadingActiveServerErrorMsg,
+  } = useAppSelector(state => state.servers)
 
   useEffect(() => {
-    if (loadingActiveServer) dispatch(fetchServer(id as string))
-  }, [id])
+    dispatch(fetchServer(id as string))
+  }, [id, activeServerId])
 
   return (
     <Layout sideBar>
@@ -76,6 +80,21 @@ function ServerDashboardPage() {
             </Box>
           </Container>
         )}
+
+        {!loadingActiveServer &&
+          passedBetaCheck &&
+          loadingActiveServerErrorMsg && (
+            <Container>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="35vh"
+              >
+                <Typography>{loadingActiveServerErrorMsg}</Typography>
+              </Box>
+            </Container>
+          )}
 
         {!loadingActiveServer && passedBetaCheck && activeServer && (
           <Container>
@@ -139,9 +158,11 @@ function ServerDashboardPage() {
                     )}
                   />
                   <br />
-                  <Button type="submit" color="primary">
-                    Save
-                  </Button>
+                  <Box mt={3}>
+                    <Button type="submit" color="primary">
+                      Save
+                    </Button>
+                  </Box>
                 </form>
               </CardContent>
             </Card>
