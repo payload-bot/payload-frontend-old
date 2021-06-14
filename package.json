@@ -1,5 +1,5 @@
 {
-  "name": "with-redux-toolkit-typescript",
+  "name": "payload-tf",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -37,5 +37,10 @@
     "ts-jest": "^26.0.0",
     "ts-node": "^9.0.0",
     "typescript": "4.2.3"
-  }
+  },
+  "author": "c43721",
+  "bugs": {
+    "url": "https://github.com/payload-bot/payload.tf/issues"
+  },
+  "homepage": "https://payload.tf"
 }
