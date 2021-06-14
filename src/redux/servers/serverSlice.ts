@@ -46,6 +46,13 @@ export const serverSlice = createSlice({
       state.loadingActiveServer = false
       state.activeServer = null
     },
+
+    updateActiveServerSuccess: (
+      state,
+      { payload }: PayloadAction<Partial<ActiveServer>>,
+    ) => {
+      state.activeServer = { ...state.activeServer, ...payload }
+    },
   },
 })
 
@@ -71,8 +78,9 @@ export const updateServer =
   (id: string, data: Partial<ActiveServer>) => async (dispatch: Dispatch) => {
     try {
       await patchServer(id, data)
+      dispatch(updateActiveServerSuccess(data))
     } catch (err) {
-      console.warn('Could not dispatch event?')
+      console.warn('Could not dispatch event: ' + err)
     }
   }
 
@@ -81,6 +89,7 @@ export const {
   setServersFailure,
   setActiveServerSuccess,
   setActiveServerFailure,
+  updateActiveServerSuccess,
 } = serverSlice.actions
 
 export default serverSlice.reducer
