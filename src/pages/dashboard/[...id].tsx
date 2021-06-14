@@ -33,19 +33,26 @@ function ServerDashboardPage() {
   const { id } = router.query
   const dispatch = useDispatch()
   const styles = useStyles()
-  const { control, reset, handleSubmit } = useForm()
-
-  const onSubmit = (data: Partial<ActiveServer>) =>
-    dispatch(updateServer(id as string, data))
-
   const {
     activeServer,
     activeServerId,
     passedBetaCheck,
     loadingActiveServer,
     loadingActiveServerErrorMsg,
-    loadedServerCache
+    loadedServerCache,
   } = useAppSelector(state => state.servers)
+
+  const {
+    control,
+    formState: { errors },
+    watch,
+    handleSubmit,
+  } = useForm()
+
+  const watchPrefix = watch('prefix')
+
+  const onSubmit = (data: Partial<ActiveServer>) =>
+    dispatch(updateServer(id as string, data))
 
   useEffect(() => {
     if (loadingActiveServerErrorMsg) {
@@ -127,9 +134,16 @@ function ServerDashboardPage() {
                     name="botName"
                     control={control}
                     defaultValue={activeServer.botName}
+                    rules={{
+                      min: 1,
+                      max: 100,
+                      required: 'Invalid nickname',
+                    }}
                     render={({ field }) => (
                       <TextField
                         autoComplete="false"
+                        error={errors.botName ? true : false}
+                        helperText={errors.botName && errors.botName.message}
                         {...field}
                         style={{ margin: 8 }}
                       />
@@ -142,9 +156,22 @@ function ServerDashboardPage() {
                     name="prefix"
                     control={control}
                     defaultValue={activeServer.prefix}
+                    rules={{
+                      minLength: 1,
+                      maxLength: 75,
+                      required: 'You need a prefix!',
+                    }}
                     render={({ field }) => (
                       <TextField
                         autoComplete="false"
+                        error={errors.prefix ? true : false}
+                        helperText={
+                          !!watchPrefix && !errors.botName
+                            ? `Usage: ${watchPrefix}commands`
+                            : errors.prefix
+                            ? errors.prefix.message
+                            : ''
+                        }
                         {...field}
                         style={{ margin: 8 }}
                       />
