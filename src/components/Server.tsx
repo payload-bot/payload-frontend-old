@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
 export default function ServerSelection({ server }: ServerProps) {
   const styles = useStyles()
 
+  const openInviteLinkInWindow = () => {
+    window.open('https://payload.tf/invite', '_blank', "height=750,width=500")
+  }
+
   return (
     <Box
       display="flex"
@@ -40,11 +44,13 @@ export default function ServerSelection({ server }: ServerProps) {
           </Button>
         </Link>
       ) : (
-        <Link href={`/invite`}>
-          <Button variant="contained" color="secondary">
-            Invite
-          </Button>
-        </Link>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={openInviteLinkInWindow}
+        >
+          Invite
+        </Button>
       )}
     </Box>
   )
