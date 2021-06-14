@@ -57,7 +57,7 @@ function ServerDashboardPage() {
   }, [id, activeServerId])
 
   return (
-    <Layout sideBar>
+    <Layout sideBar={!loadingActiveServer}>
       <Container>
         {loadingActiveServer && (
           <Container>
