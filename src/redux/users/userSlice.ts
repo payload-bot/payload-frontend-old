@@ -25,12 +25,14 @@ export const userSlice = createSlice({
       state.loggedIn = false
       state.user = null
     },
+
+    logoutUser: state => {
+      state.loading = false
+      state.loggedIn = false
+      state.user = null
+    },
   },
 })
-
-export const logoutUser = () => async (dispatch: Dispatch) => {
-  dispatch(setUserFailure())
-}
 
 export const fetchUser = () => async (dispatch: Dispatch) => {
   try {
@@ -41,9 +43,6 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
   }
 }
 
-export const {
-  setUserSuccess,
-  setUserFailure,
-} = userSlice.actions
+export const { setUserSuccess, setUserFailure, logoutUser } = userSlice.actions
 
 export default userSlice.reducer
