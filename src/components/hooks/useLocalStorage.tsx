@@ -4,16 +4,15 @@ export default function useLocalStorage<T>(
   key: string,
   initialValue: T,
 ): [T, (value: T) => void] {
-
   const readValue = () => {
     if (typeof window === 'undefined') {
       return initialValue
     }
     try {
       const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
+      return item ? (item as any as T) : initialValue
     } catch (error) {
-      console.warn(`Error reading localStorage key “${key}”:`, error)
+      console.warn(`Error reading localStorage key "${key}":`, error)
       return initialValue
     }
   }
@@ -52,7 +51,7 @@ export default function useLocalStorage<T>(
       window.removeEventListener('storage', handleStorageChange)
       window.removeEventListener('local-storage', handleStorageChange)
     }
-	
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
