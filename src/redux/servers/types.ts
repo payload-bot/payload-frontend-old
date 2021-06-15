@@ -35,10 +35,13 @@ export interface ServerState {
 
   passedBetaCheck: boolean
 
-  activeServerId: string
-
   servers: Server[]
   activeServer: ActiveServer | null
+  activeServerId: string
+
+  loadedServerCache: {
+    [id: string]: ActiveServer
+  }
 
   // Loading Errors
   loadingActiveServerErrorMsg?: string

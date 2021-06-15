@@ -13,10 +13,11 @@ const initialState: ServerState = {
   loadingAllServers: true,
   passedBetaCheck: true,
 
-  activeServerId: null,
+  loadedServerCache: {},
 
   servers: null,
   activeServer: null,
+  activeServerId: null,
 }
 
 export const serverSlice = createSlice({
@@ -36,6 +37,11 @@ export const serverSlice = createSlice({
       }
     },
 
+    setActiveServerId: (state, { payload }: PayloadAction<string>) => {
+      state.activeServerId = payload
+      state.activeServer = state.loadedServerCache[payload]
+    },
+
     loadingActiveServer: state => {
       state.loadingActiveServer = true
     },
@@ -45,14 +51,15 @@ export const serverSlice = createSlice({
       { payload }: PayloadAction<ActiveServer>,
     ) => {
       state.activeServerId = payload.id
+      state.loadedServerCache[payload.id] = payload
       state.loadingActiveServer = false
       state.activeServer = payload
     },
 
     setActiveServerFailure: (state, { payload }: PayloadAction<string>) => {
-      state.activeServerId = null
       state.loadingActiveServer = false
       state.activeServer = null
+      state.activeServerId = null
       state.loadingActiveServerErrorMsg =
         payload ?? 'Could not get server details'
     },
@@ -102,6 +109,7 @@ export const updateServer =
 export const {
   setServersSuccess,
   setServersFailure,
+  setActiveServerId,
   loadingActiveServer,
   setActiveServerSuccess,
   setActiveServerFailure,

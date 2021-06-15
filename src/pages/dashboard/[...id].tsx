@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import withAuth from '../../components/withAuth'
 import Layout from '../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
-import React, { FormEvent, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchServer, updateServer } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
 import {
@@ -17,10 +17,12 @@ import {
   MenuItem,
   Select,
   Button,
+  Snackbar,
 } from '@material-ui/core'
 import ServerAvatar from '../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../redux/servers/types'
+import Alert from '../../components/Alert'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -33,18 +35,36 @@ function ServerDashboardPage() {
   const { id } = router.query
   const dispatch = useDispatch()
   const styles = useStyles()
-  const { control, reset, handleSubmit } = useForm()
-
-  const onSubmit = (data: Partial<ActiveServer>) =>
-    dispatch(updateServer(id as string, data))
-
   const {
     activeServer,
+    activeServerId,
     passedBetaCheck,
     loadingActiveServer,
-    activeServerId,
     loadingActiveServerErrorMsg,
+    loadedServerCache,
+    updateActiveServerErrorMsg,
   } = useAppSelector(state => state.servers)
+
+  const [serverUpdateSuccess, setUpdateServerSuccess] = useState(false)
+  const [serverUpdateFailure, setUpdateServerFailure] = useState(false)
+
+  const {
+    control,
+    formState: { errors },
+    watch,
+    handleSubmit,
+  } = useForm()
+
+  const watchPrefix = watch('prefix')
+
+  const onSubmit = (data: Partial<ActiveServer>) => {
+    dispatch(updateServer(id as string, data))
+    if (!updateActiveServerErrorMsg) {
+      setUpdateServerSuccess(true)
+    } else {
+      setUpdateServerFailure(true)
+    }
+  }
 
   useEffect(() => {
     if (loadingActiveServerErrorMsg) {
@@ -53,8 +73,10 @@ function ServerDashboardPage() {
   }, [loadingActiveServerErrorMsg])
 
   useEffect(() => {
-    dispatch(fetchServer(id as string))
-  }, [id, activeServerId])
+    if (!loadedServerCache[id as string]) {
+      dispatch(fetchServer(id as string))
+    }
+  }, [activeServerId])
 
   return (
     <Layout sideBar={!loadingActiveServer}>
@@ -124,9 +146,16 @@ function ServerDashboardPage() {
                     name="botName"
                     control={control}
                     defaultValue={activeServer.botName}
+                    rules={{
+                      minLength: 1,
+                      maxLength: 100,
+                      required: 'Invalid nickname',
+                    }}
                     render={({ field }) => (
                       <TextField
                         autoComplete="false"
+                        error={errors.botName ? true : false}
+                        helperText={errors.botName && errors.botName.message}
                         {...field}
                         style={{ margin: 8 }}
                       />
@@ -139,9 +168,22 @@ function ServerDashboardPage() {
                     name="prefix"
                     control={control}
                     defaultValue={activeServer.prefix}
+                    rules={{
+                      minLength: 1,
+                      maxLength: 75,
+                      required: 'You need a prefix!',
+                    }}
                     render={({ field }) => (
                       <TextField
                         autoComplete="false"
+                        error={errors.prefix ? true : false}
+                        helperText={
+                          !!watchPrefix && !errors.botName
+                            ? `Usage: ${watchPrefix}commands`
+                            : errors.prefix
+                            ? errors.prefix.message
+                            : ''
+                        }
                         {...field}
                         style={{ margin: 8 }}
                       />
@@ -175,6 +217,26 @@ function ServerDashboardPage() {
           </Container>
         )}
       </Container>
+
+      {/* Success snackbar */}
+      <Snackbar
+        open={serverUpdateSuccess}
+        autoHideDuration={5000}
+        onClose={() => setUpdateServerSuccess(prev => !prev)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="success">Successfully updated settings</Alert>
+      </Snackbar>
+
+      {/* Failure snackbar */}
+      <Snackbar
+        open={serverUpdateFailure}
+        autoHideDuration={5000}
+        onClose={() => setUpdateServerFailure(prev => !prev)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="error">Failed to update settings</Alert>
+      </Snackbar>
     </Layout>
   )
 }
