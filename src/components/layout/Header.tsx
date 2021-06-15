@@ -16,7 +16,7 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import { Divider } from '@material-ui/core'
 
 type HeaderProps = {
-  sideBar?: boolean
+  sideBarEnabled?: boolean
   handleMenuClick: () => void
 }
 
@@ -67,7 +67,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
+export default function Header({
+  sideBarEnabled,
+  handleMenuClick,
+}: HeaderProps) {
   const { user, loggedIn, logout } = useUser()
   const styles = useStyles()
 
@@ -139,9 +142,12 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
 
   return (
     <>
-      <AppBar position="fixed" className={sideBar ? styles.displaceAppbar : ''}>
+      <AppBar
+        position="fixed"
+        className={sideBarEnabled ? styles.displaceAppbar : ''}
+      >
         <Toolbar>
-          {sideBar && (
+          {sideBarEnabled && (
             <IconButton
               edge="start"
               className={styles.menuButton}
@@ -201,7 +207,7 @@ export default function Header({ sideBar, handleMenuClick }: HeaderProps) {
           </div>
         </Toolbar>
       </AppBar>
-      {!sideBar && <Toolbar />}
+      {!sideBarEnabled && <Toolbar />}
       {renderMobileMenu}
       {renderMenu}
     </>
