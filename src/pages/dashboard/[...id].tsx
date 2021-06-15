@@ -147,8 +147,8 @@ function ServerDashboardPage() {
                     control={control}
                     defaultValue={activeServer.botName}
                     rules={{
-                      min: 1,
-                      max: 100,
+                      minLength: 1,
+                      maxLength: 100,
                       required: 'Invalid nickname',
                     }}
                     render={({ field }) => (
