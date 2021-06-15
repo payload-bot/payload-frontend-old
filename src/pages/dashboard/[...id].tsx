@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import withAuth from '../../components/withAuth'
 import Layout from '../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
-import React, { FormEvent, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchServer, updateServer } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
 import {
@@ -17,10 +17,12 @@ import {
   MenuItem,
   Select,
   Button,
+  Snackbar,
 } from '@material-ui/core'
 import ServerAvatar from '../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../redux/servers/types'
+import Alert from '../../components/Alert'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -40,7 +42,11 @@ function ServerDashboardPage() {
     loadingActiveServer,
     loadingActiveServerErrorMsg,
     loadedServerCache,
+    updateActiveServerErrorMsg,
   } = useAppSelector(state => state.servers)
+
+  const [serverUpdateSuccess, setUpdateServerSuccess] = useState(false)
+  const [serverUpdateFailure, setUpdateServerFailure] = useState(false)
 
   const {
     control,
@@ -51,8 +57,14 @@ function ServerDashboardPage() {
 
   const watchPrefix = watch('prefix')
 
-  const onSubmit = (data: Partial<ActiveServer>) =>
+  const onSubmit = (data: Partial<ActiveServer>) => {
     dispatch(updateServer(id as string, data))
+    if (!updateActiveServerErrorMsg) {
+      setUpdateServerSuccess(true)
+    } else {
+      setUpdateServerFailure(true)
+    }
+  }
 
   useEffect(() => {
     if (loadingActiveServerErrorMsg) {
@@ -205,6 +217,26 @@ function ServerDashboardPage() {
           </Container>
         )}
       </Container>
+
+      {/* Success snackbar */}
+      <Snackbar
+        open={serverUpdateSuccess}
+        autoHideDuration={5000}
+        onClose={() => setUpdateServerSuccess(prev => !prev)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="success">Successfully updated settings</Alert>
+      </Snackbar>
+
+      {/* Failure snackbar */}
+      <Snackbar
+        open={serverUpdateFailure}
+        autoHideDuration={5000}
+        onClose={() => setUpdateServerFailure(prev => !prev)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="error">Failed to update settings</Alert>
+      </Snackbar>
     </Layout>
   )
 }
