@@ -13,15 +13,22 @@ interface Fun {
   payloadFeetPushed: number
 }
 
-interface Restriction {
-  commands: string[]
+export interface Restriction {
+  commands: Set<string>
   channelID: string
 }
 
 export interface ActiveServer {
   id: string
-  restrictions: Restriction[]
   fun: Fun
+  commands: {
+    restrictions: Restriction[]
+    commands: string[]
+    autoResponses: string[]
+  }
+  guild: {
+    channels: Array<{ id: string; name: string }>
+  }
   icon: string
   botName: string
   language: string
@@ -48,5 +55,4 @@ export interface ServerState {
 
   // Updating Errors
   updateActiveServerErrorMsg?: string
-
 }

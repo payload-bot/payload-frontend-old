@@ -28,14 +28,14 @@ export default function DashboardSidebar(props: ActiveServer) {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link href={`/dashboard/${props.id}/settings`}>
+        {/* <Link href={`/dashboard/${props.id}/settings`}>
           <ListItem button selected={router.pathname === '/dashboard/[id]/settings'}>
             <ListItemIcon>
               <BuildIcon />
             </ListItemIcon>
             <ListItemText primary="Configure" />
           </ListItem>
-        </Link>
+        </Link> */}
       </List>
     </>
   )
