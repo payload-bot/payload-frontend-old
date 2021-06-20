@@ -20,8 +20,9 @@ import SettingsIcon from '@material-ui/icons/Settings'
 
 type LayoutProps = {
   children?: ReactNode
+  sideBarContent?: ReactNode
   title?: string
-  sideBar?: boolean
+  sideBarEnabled?: boolean
 }
 
 const DRAWER_WIDTH = 240
@@ -58,7 +59,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Layout({
   children,
   title = 'Payload | The TF2 Discord Bot',
-  sideBar,
+  sideBarEnabled,
+  sideBarContent,
 }: LayoutProps) {
   const styles = useStyles()
   const theme = useTheme()
@@ -70,14 +72,7 @@ export default function Layout({
     <>
       <div className={styles.toolbar} />
       <Divider />
-      <List>
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText>Settings</ListItemText>
-        </ListItem>
-      </List>
+      {sideBarContent}
     </>
   )
 
@@ -114,15 +109,18 @@ export default function Layout({
   )
 
   return (
-    <div className={sideBar ? styles.root : ''}>
+    <div className={sideBarEnabled ? styles.root : ''}>
       <CssBaseline />
       <Head>
         <title>{title}</title>
       </Head>
-      <Header handleMenuClick={handleDrawerToggle} sideBar={sideBar} />
-      {sideBar && renderNav}
-      <div className={sideBar ? styles.content : ''}>
-        {sideBar && <Toolbar />}
+      <Header
+        handleMenuClick={handleDrawerToggle}
+        sideBarEnabled={sideBarEnabled}
+      />
+      {sideBarEnabled && renderNav}
+      <div className={sideBarEnabled ? styles.content : ''}>
+        {sideBarEnabled && <Toolbar />}
         <main className={styles.mainContent}>{children}</main>
         <Footer />
       </div>

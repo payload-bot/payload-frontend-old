@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
-import withAuth from '../../components/withAuth'
-import Layout from '../../components/layout/Layout'
+import withAuth from '../../../components/withAuth'
+import Layout from '../../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { fetchServer, updateServer } from '../../redux/servers/serverSlice'
-import { useAppSelector } from '../../redux/store'
+import { fetchServer, updateServer } from '../../../redux/servers/serverSlice'
+import { useAppSelector } from '../../../redux/store'
 import {
   CircularProgress,
   Container,
@@ -19,10 +19,11 @@ import {
   Button,
   Snackbar,
 } from '@material-ui/core'
-import ServerAvatar from '../../components/ServerAvatar'
+import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
-import { ActiveServer } from '../../redux/servers/types'
-import Alert from '../../components/Alert'
+import { ActiveServer } from '../../../redux/servers/types'
+import Alert from '../../../components/Alert'
+import DashboardSidebar from '../../../components/DashboardSidebar'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -79,7 +80,7 @@ function ServerDashboardPage() {
   }, [activeServerId])
 
   return (
-    <Layout sideBar={!loadingActiveServer}>
+    <Layout sideBarEnabled={!loadingActiveServer} sideBarContent={<DashboardSidebar {...activeServer} />}>
       <Container>
         {loadingActiveServer && (
           <Container>
@@ -205,9 +206,23 @@ function ServerDashboardPage() {
                       </Select>
                     )}
                   />
+                  <Typography variant="h5" style={{ margin: 8 }}>
+                    Snipe Permissions
+                  </Typography>
+                  <Controller
+                    name="enableSnipeForEveryone"
+                    control={control}
+                    defaultValue={activeServer.enableSnipeForEveryone}
+                    render={({ field }) => (
+                      <Select {...field} style={{ margin: 8 }}>
+                        <MenuItem value="true">Everyone</MenuItem>
+                        <MenuItem value="false">Admins</MenuItem>
+                      </Select>
+                    )}
+                  />
                   <br />
                   <Box mt={3}>
-                    <Button type="submit" color="primary">
+                    <Button type="submit" color="primary" variant="outlined">
                       Save
                     </Button>
                   </Box>
