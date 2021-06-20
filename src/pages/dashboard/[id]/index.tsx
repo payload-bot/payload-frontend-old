@@ -206,6 +206,20 @@ function ServerDashboardPage() {
                       </Select>
                     )}
                   />
+                  <Typography variant="h5" style={{ margin: 8 }}>
+                    Snipe Permissions
+                  </Typography>
+                  <Controller
+                    name="enableSnipeForEveryone"
+                    control={control}
+                    defaultValue={activeServer.enableSnipeForEveryone}
+                    render={({ field }) => (
+                      <Select {...field} style={{ margin: 8 }}>
+                        <MenuItem value="true">Everyone</MenuItem>
+                        <MenuItem value="false">Admins</MenuItem>
+                      </Select>
+                    )}
+                  />
                   <br />
                   <Box mt={3}>
                     <Button type="submit" color="primary" variant="outlined">

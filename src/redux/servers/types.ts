@@ -29,6 +29,7 @@ export interface ActiveServer {
   guild: {
     channels: Array<{ id: string; name: string }>
   }
+  enableSnipeForEveryone: boolean
   icon: string
   botName: string
   language: string
