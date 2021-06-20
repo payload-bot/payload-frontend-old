@@ -208,7 +208,7 @@ function ServerDashboardPage() {
                   />
                   <br />
                   <Box mt={3}>
-                    <Button type="submit" color="primary">
+                    <Button type="submit" color="primary" variant="outlined">
                       Save
                     </Button>
                   </Box>
