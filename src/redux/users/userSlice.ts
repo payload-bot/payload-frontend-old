@@ -14,9 +14,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUserSuccess: (state, { payload }: PayloadAction<User>) => {
-      state.isAdmin = false
       state.loading = false
       state.loggedIn = true
+      state.isAdmin = payload.isAdmin
       state.user = payload
     },
 
@@ -27,6 +27,7 @@ export const userSlice = createSlice({
     },
 
     logoutUser: state => {
+      state.isAdmin = false
       state.loading = false
       state.loggedIn = false
       state.user = null
