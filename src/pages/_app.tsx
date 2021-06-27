@@ -14,14 +14,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [refreshToken] = useLocalStorage('refresh_token', null)
 
   useEffect(() => {
-    if (!refreshToken) return
-    const decoded = jwt_decode(refreshToken) as { exp: number }
-    if (Date.now() >= decoded.exp * 1000) {
-      // the refresh token has expired
+    try {
+      if (!refreshToken) return;
+      const decoded = jwt_decode(refreshToken) as { exp: number }
+      if (Date.now() >= decoded.exp * 1000) {
+        // the refresh token has expired
+        window.localStorage.removeItem('refresh_token')
+        window.localStorage.removeItem('token')
+      }
+    } catch (err) {
+      // parsing failed, just remove tokens
       window.localStorage.removeItem('refresh_token')
       window.localStorage.removeItem('token')
     }
-  }, [refreshToken])
+  }, [])
 
   return (
     <Provider store={store}>

@@ -4,16 +4,14 @@ import useLocalStorage from '../../components/hooks/useLocalStorage'
 
 export default function success() {
   const router = useRouter()
-  const [_tokenStorage, setTokenStorage] = useLocalStorage('token', '')
-  const [_refreshTokenStorage, setRefreshTokenStorage] = useLocalStorage(
-    'refresh_token',
-    '',
-  )
+  const [_token, setToken] = useLocalStorage('token', '')
+  const [_refresh, setRefreshToken] = useLocalStorage('refresh_token', '')
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
-    setTokenStorage(urlParams.get('token'))
-    setRefreshTokenStorage(urlParams.get('refreshToken'))
+
+    setToken(urlParams.get('token'))
+    setRefreshToken(urlParams.get('refreshToken'))
 
     router.push('/dashboard')
   }, [])

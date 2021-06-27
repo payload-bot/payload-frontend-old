@@ -12,9 +12,9 @@ export default function failure() {
   }, [])
 
   return (
-    <Layout>
+    <Layout title={`Login Failed | ${errorMessage}`}>
       <Container>
-        <Box display="flex" alignItems="center" justifyContent="center">
+        <Box display="flex" justifyContent="center" alignItems="center" mb={10}>
           <Typography variant="h4">{errorMessage}</Typography>
           <Link href="/">
             <Button variant="outlined" color="primary">

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import Link from 'next/link'
 import {
   Box,
   Button,
@@ -12,7 +13,6 @@ import Server from '../../components/Server'
 import withAuth from '../../components/withAuth'
 import { fetchAllServers } from '../../redux/servers/serverSlice'
 import { useAppSelector } from '../../redux/store'
-import Link from 'next/link'
 
 function DashboardPage() {
   const dispatch = useDispatch()
