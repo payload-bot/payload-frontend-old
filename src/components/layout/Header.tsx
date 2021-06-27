@@ -71,7 +71,7 @@ export default function Header({
   sideBarEnabled,
   handleMenuClick,
 }: HeaderProps) {
-  const { user, loggedIn, logout } = useUser()
+  const { user, loggedIn, loading, logout } = useUser()
   const styles = useStyles()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -197,7 +197,8 @@ export default function Header({
           </div>
 
           <div>
-            {!loggedIn && (
+            {loading && 'Payload User'}
+            {!loggedIn && !loading && (
               <Link href="/login">
                 <Button variant="text" color="secondary">
                   Login
