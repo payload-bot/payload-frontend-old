@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import Particles from 'react-particles-js'
+import Particles from "react-tsparticles";
 import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
