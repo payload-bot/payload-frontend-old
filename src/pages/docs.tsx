@@ -34,6 +34,8 @@ export async function getStaticProps(ctx) {
   const res = await fetch(`https://api.payload.tf/api/internal/public/commands`)
   const commands = await res.json()
 
+  console.log(commands)
+
   return {
     props: {
       commands,
