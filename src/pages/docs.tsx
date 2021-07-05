@@ -12,7 +12,9 @@ function Docs({ commands }: DocsProps) {
   return (
     <Layout>
       <Container>
-        <Typography variant="h2"  style={{ marginTop: '12px' }}>Commands</Typography>
+        <Typography variant="h2" style={{ marginTop: '12px' }}>
+          Commands
+        </Typography>
         <div className="flex flex-container">
           {commands.commands.data.map(cmd => (
             <Command command={cmd} key={cmd.name} />
@@ -31,14 +33,20 @@ function Docs({ commands }: DocsProps) {
 }
 
 export async function getStaticProps(ctx) {
-  const res = await fetch(`https://api.payload.tf/api/internal/public/commands`)
-  const commands = await res.json()
-
-  console.log(commands)
+  let cmds
+  try {
+    const res = await fetch(
+      `https://api.payload.tf/api/internal/public/commands`,
+    )
+    const commands = await res.json()
+    cmds = commands
+  } catch (err) {
+    console.error(err)
+  }
 
   return {
     props: {
-      commands,
+      commands: cmds,
     },
   }
 }
