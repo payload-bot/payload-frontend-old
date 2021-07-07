@@ -45,7 +45,10 @@ export const userSlice = createSlice({
       state.loading = false
     },
 
-    setUserWebhookSuccess: (state, { payload }: PayloadAction<{ data: string }>) => {
+    setUserWebhookSuccess: (
+      state,
+      { payload }: PayloadAction<{ data: string }>,
+    ) => {
       state.user.webhook = payload.data
     },
 
@@ -54,11 +57,16 @@ export const userSlice = createSlice({
     },
 
     updateUserSuccess: (state, { payload }: PayloadAction<Partial<User>>) => {
+      state.updateUserErrorMsg = null
       state.user = { ...state.user, ...payload }
     },
 
     updateUserFailure: (state, { payload }: PayloadAction<string>) => {
       state.updateUserErrorMsg = payload
+    },
+
+    resetUpdateUserFailureMsg: state => {
+      state.updateUserErrorMsg = null
     },
   },
 })
@@ -74,6 +82,7 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
 
 export const updateUser =
   (data: Partial<User>) => async (dispatch: Dispatch) => {
+    dispatch(resetUpdateUserFailureMsg)
     try {
       await patchUser(data)
       dispatch(updateUserSuccess(data))
@@ -109,6 +118,7 @@ export const {
   updateUserSuccess,
   updateUserFailure,
   deleteUserWebhookSuccess,
+  resetUpdateUserFailureMsg,
 } = userSlice.actions
 
 export default userSlice.reducer

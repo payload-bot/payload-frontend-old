@@ -5,6 +5,8 @@ import {
   Button,
   CircularProgress,
   Container,
+  darken,
+  makeStyles,
   MenuItem,
   Select,
   Snackbar,
@@ -23,6 +25,7 @@ import {
 } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
 import { User } from '../redux/users/types'
+import { ErrorButton } from '../components/buttons'
 
 function SettingsPage() {
   const dispatch = useDispatch()
@@ -37,11 +40,7 @@ function SettingsPage() {
     if (loading) dispatch(fetchUser())
   }, [])
 
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const { control, handleSubmit } = useForm()
 
   const generateWebhook = () => {
     // Let's not try to make API call if we don't have to
@@ -87,11 +86,8 @@ function SettingsPage() {
           {!loading && (
             <>
               Your id: {user.id} <br />
-              Last update: {user.latestUpdateNotifcation} <br />
-              {/* Hardcoded IDs because this is an unstable beta feature currently. */}
-              {['176457969465163776', '102145432800497664'].includes(
-                user.id,
-              ) ? (
+              Last update notification: {user.latestUpdateNotifcation} <br />
+              {user.isBetaTester ? (
                 <>
                   Webhook:{' '}
                   {user.webhook ? (
@@ -104,14 +100,14 @@ function SettingsPage() {
                       >
                         Copy Webhook Token
                       </Button>
-                      <Button
+                      <ErrorButton
                         variant="contained"
                         color="secondary"
                         size="small"
                         onClick={deleteWebhook}
                       >
                         Delete Webhook
-                      </Button>
+                      </ErrorButton>
                     </Box>
                   ) : (
                     <Button
