@@ -37,11 +37,7 @@ function SettingsPage() {
     if (loading) dispatch(fetchUser())
   }, [])
 
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const { control, handleSubmit } = useForm()
 
   const generateWebhook = () => {
     // Let's not try to make API call if we don't have to
@@ -87,11 +83,8 @@ function SettingsPage() {
           {!loading && (
             <>
               Your id: {user.id} <br />
-              Last update: {user.latestUpdateNotifcation} <br />
-              {/* Hardcoded IDs because this is an unstable beta feature currently. */}
-              {['176457969465163776', '102145432800497664'].includes(
-                user.id,
-              ) ? (
+              Last update notification: {user.latestUpdateNotifcation} <br />
+              {user.isBetaTester ? (
                 <>
                   Webhook:{' '}
                   {user.webhook ? (

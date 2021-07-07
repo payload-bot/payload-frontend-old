@@ -1,6 +1,7 @@
 export interface User {
-  webhook: string | null;
   isAdmin: boolean
+  isBetaTester: boolean
+  webhook: string | null
   username: string
   name: string
   avatar: string | null
@@ -17,6 +18,6 @@ export interface UserState {
   loading: boolean
 
   updateUserErrorMsg: string
-  
+
   user: User | null
 }
