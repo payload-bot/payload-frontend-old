@@ -31,7 +31,7 @@ function Docs({ commands }: DocsProps) {
 }
 
 export async function getStaticProps(ctx) {
-  const res = await fetch(`https://api.payload.tf/api/internal/public/commands`)
+  const res = await fetch(`https://api.payload.tf/api/stats/commands`)
   const commands = await res.json()
 
   return {
