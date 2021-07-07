@@ -25,19 +25,9 @@ import {
 } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
 import { User } from '../redux/users/types'
-
-const useStyles = makeStyles(theme => ({
-  deleteButton: {
-    backgroundColor: theme.palette.error.dark,
-    '&:hover': {
-      transition: theme.transitions.duration.shorter,
-      backgroundColor: darken(theme.palette.error.dark, 0.5)
-    }
-  },
-}))
+import { ErrorButton } from '../components/buttons'
 
 function SettingsPage() {
-  const styles = useStyles()
   const dispatch = useDispatch()
   const { user, loading, updateUserErrorMsg } = useAppSelector(
     state => state.users,
@@ -110,15 +100,14 @@ function SettingsPage() {
                       >
                         Copy Webhook Token
                       </Button>
-                      <Button
+                      <ErrorButton
                         variant="contained"
                         color="secondary"
                         size="small"
-                        className={styles.deleteButton}
                         onClick={deleteWebhook}
                       >
                         Delete Webhook
-                      </Button>
+                      </ErrorButton>
                     </Box>
                   ) : (
                     <Button
