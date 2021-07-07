@@ -111,6 +111,16 @@ export default function Header({
       disableScrollLock={true}
     >
       <MenuItem onClick={handleMenuClose}>
+        <Link href="/">
+          <Typography className="link no-underline">Home</Typography>
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link href="/settings">
+          <Typography className="link no-underline">Settings</Typography>
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
         <Link href="/dashboard">
           <Typography className="link no-underline">Dashboard</Typography>
         </Link>
@@ -131,11 +141,26 @@ export default function Header({
       id={mobileMenuId}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
-      onClose={handleMenuClick}
+      onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <Avatar className={styles.avatarSmall} src={user.avatar} />
-        <p>{user.name}</p>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <Link href="/">
+          <Typography className="link no-underline">Home</Typography>
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <Link href="/settings">
+          <Typography className="link no-underline">Settings</Typography>
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <Link href="/dashboard">
+          <Typography className="link no-underline">Dashboard</Typography>
+        </Link>
+      </MenuItem>
+      <Divider />
+      <MenuItem onClick={logout} className={styles.logOut}>
+        Logout
       </MenuItem>
     </Menu>
   )

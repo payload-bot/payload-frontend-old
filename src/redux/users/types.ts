@@ -1,4 +1,5 @@
 export interface User {
+  webhook: string | null;
   isAdmin: boolean
   username: string
   name: string
@@ -7,7 +8,7 @@ export interface User {
   discriminator: string
   notificationsLevel: string
   latestUpdateNotifcation: string
-  steamID: boolean
+  steamId: boolean
 }
 
 export interface UserState {
@@ -15,5 +16,7 @@ export interface UserState {
   isAdmin: boolean
   loading: boolean
 
+  updateUserErrorMsg: string
+  
   user: User | null
 }
