@@ -54,9 +54,9 @@ function SettingsPage() {
     dispatch(deleteUserWebhook())
   }
 
-  const copyWebhookTokenToClipboard = async () =>{
-	  console.log(user.webhook)
-    await navigator.clipboard.writeText(user.webhook)}
+  const copyWebhookTokenToClipboard = async () => {
+    await navigator.clipboard.writeText(user.webhook)
+  }
 
   const onSubmit = (data: Partial<User>) => {
     dispatch(updateUser(data))
@@ -88,36 +88,43 @@ function SettingsPage() {
             <>
               Your id: {user.id} <br />
               Last update: {user.latestUpdateNotifcation} <br />
-              Webhook:{' '}
-              {user.webhook ? (
-                <Box display="flex" gridGap={10}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={copyWebhookTokenToClipboard}
-                  >
-                    Copy Webhook Token
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={deleteWebhook}
-                  >
-                    Delete Webhook
-                  </Button>
-                </Box>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={generateWebhook}
-                >
-                  Create Webhook
-                </Button>
-              )}{' '}
+              {/* Hardcoded IDs because this is an unstable beta feature currently. */}
+              {['176457969465163776', '102145432800497664'].includes(
+                user.id,
+              ) ? (
+                <>
+                  Webhook:{' '}
+                  {user.webhook ? (
+                    <Box display="flex" gridGap={10}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={copyWebhookTokenToClipboard}
+                      >
+                        Copy Webhook Token
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        onClick={deleteWebhook}
+                      >
+                        Delete Webhook
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={generateWebhook}
+                    >
+                      Create Webhook
+                    </Button>
+                  )}
+                </>
+              ) : null}
               <br />
               <br />
               <form onSubmit={handleSubmit(onSubmit)}>
