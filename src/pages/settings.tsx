@@ -54,7 +54,8 @@ function SettingsPage() {
   }
 
   const copyWebhookTokenToClipboard = async () => {
-    await navigator.clipboard.writeText(user.webhook)
+    if (!user.webhook) return
+    await navigator.clipboard.writeText(user.webhook?.value)
   }
 
   const onSubmit = (data: Partial<User>) => {
