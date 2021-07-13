@@ -127,8 +127,8 @@ export default function Header({
         </Link>
       </MenuItem>
       <Divider />
-      <MenuItem onClick={logout} className={styles.logOut}>
-        Logout
+      <MenuItem onClick={logout}>
+        <span className={styles.logOut}>Logout</span>
       </MenuItem>
     </Menu>
   )
@@ -226,7 +226,7 @@ export default function Header({
             {loading && 'Payload User'}
             {!loggedIn && !loading && (
               <Link href="/login">
-                <Button variant="text" color="secondary">
+                <Button variant="text" color="primary">
                   Login
                 </Button>
               </Link>
