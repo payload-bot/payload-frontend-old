@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
+  Avatar,
   Box,
   Button,
+  Card,
+  CardContent,
   CircularProgress,
   Container,
-  darken,
   MenuItem,
   Select,
   Snackbar,
+  Stack,
   TextField,
+  Tooltip,
   Typography,
 } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
@@ -63,107 +67,126 @@ function SettingsPage() {
   }
   return (
     <Layout>
+      <Stack
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        my={3}
+        mb={2}
+      >
+        <Avatar src={user.avatar} />
+        <Tooltip title={user.id}>
+          <Typography variant="h5" style={{ marginTop: 5 }}>
+            {user.name}
+          </Typography>
+        </Tooltip>
+      </Stack>
       <Container>
-        {loading && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            height="50vh"
-          >
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <CircularProgress size={50} />
-            </Box>
-            <Typography align="center" variant="h5">
-              <Box py={2}>Loading your profile...</Box>
-            </Typography>
-          </Box>
-        )}
+        <Card>
+          <CardContent>
+            {loading && (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                height="50vh"
+              >
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <CircularProgress size={50} />
+                </Box>
+                <Typography align="center" variant="h5">
+                  <Box py={2}>Loading your profile...</Box>
+                </Typography>
+              </Box>
+            )}
 
-        <Box mt={3}>
-          {!loading && (
-            <>
-              Your id: {user.id} <br />
-              Last update notification: {user.latestUpdateNotifcation} <br />
-              {user.isBetaTester && (
-                <>
-                  Webhook:{' '}
-                  {user.webhook ? (
-                    <Box display="flex" gap={2}>
+            {!loading && (
+              <>
+                <Stack mb={2} direction="column" alignItems="center">
+                  Last update: {user.latestUpdateNotifcation} &bull; Pushcart
+                  points: {user.pushcartPoints}
+                </Stack>
+                {user.isBetaTester && (
+                  <>
+                    <Typography variant="h5">Webhook: </Typography>
+                    {user.webhook ? (
+                      <Stack spacing={1} direction="row">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          onClick={copyWebhookTokenToClipboard}
+                        >
+                          Copy Webhook Token
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          size="small"
+                          onClick={deleteWebhook}
+                        >
+                          Delete Webhook
+                        </Button>
+                      </Stack>
+                    ) : (
                       <Button
                         variant="contained"
                         color="primary"
                         size="small"
-                        onClick={copyWebhookTokenToClipboard}
+                        onClick={generateWebhook}
                       >
-                        Copy Webhook Token
+                        Create Webhook
                       </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        size="small"
-                        onClick={deleteWebhook}
-                      >
-                        Delete Webhook
-                      </Button>
-                    </Box>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      onClick={generateWebhook}
-                    >
-                      Create Webhook
-                    </Button>
-                  )}
-                </>
-              )}
-              <br />
-              <br />
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant="h5" style={{ margin: 8 }}>
-                  Notifications level
-                </Typography>
-                <Controller
-                  name="notificationsLevel"
-                  control={control}
-                  defaultValue={user.notificationsLevel}
-                  render={({ field }) => (
-                    <Select {...field} style={{ margin: 8 }}>
-                      <MenuItem value={0}>None</MenuItem>
-                      <MenuItem value={1}>Major</MenuItem>
-                      <MenuItem value={2}>All</MenuItem>
-                    </Select>
-                  )}
-                />
-                <Typography variant="h5" style={{ margin: 8 }}>
-                  Steam ID
-                </Typography>
-                <Controller
-                  name="steamId"
-                  control={control}
-                  defaultValue={user.steamId}
-                  render={({ field }) => (
-                    <TextField
-                      autoComplete="false"
-                      helperText="Your SteamID64"
-                      {...field}
-                      style={{ margin: 8 }}
-                    />
-                  )}
-                />
+                    )}
+                  </>
+                )}
                 <br />
-                <Box mt={3}>
-                  <Button type="submit" color="primary" variant="outlined">
-                    Save
-                  </Button>
-                </Box>
-              </form>
-            </>
-          )}
-        </Box>
+                <br />
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Stack spacing={2} mb={3}>
+                    <>
+                      <Typography variant="h5">Notifications level</Typography>
+                      <Controller
+                        name="notificationsLevel"
+                        control={control}
+                        defaultValue={user.notificationsLevel}
+                        render={({ field }) => (
+                          <Select {...field}>
+                            <MenuItem value={0}>None</MenuItem>
+                            <MenuItem value={1}>Major</MenuItem>
+                            <MenuItem value={2}>All</MenuItem>
+                          </Select>
+                        )}
+                      />
+                    </>
+
+                    <>
+                      <Typography variant="h5">Steam ID</Typography>
+                      <Controller
+                        name="steamId"
+                        control={control}
+                        defaultValue={user.steamId}
+                        render={({ field }) => (
+                          <TextField
+                            autoComplete="false"
+                            helperText="Your SteamID64"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </>
+                  </Stack>
+                  <Box>
+                    <Button type="submit" color="primary" variant="outlined">
+                      Save
+                    </Button>
+                  </Box>
+                </form>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </Container>
 
       {/* Success snackbar */}
