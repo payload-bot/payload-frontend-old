@@ -26,6 +26,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Stack,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
@@ -56,8 +57,6 @@ function ServerDashboardPage() {
 
   const { user } = useAppSelector(state => state.users)
 
-  const [serverUpdateSuccess, setUpdateServerSuccess] = useState(false)
-  const [serverUpdateFailure, setUpdateServerFailure] = useState(false)
   const [openWebhookDialog, setOpenWebhookDialog] = useState(false)
   const [webhookChannel, setWebhookChannel] = useState('')
   const [creatingWebhook, setCreatingWebhook] = useState(false)
@@ -149,16 +148,10 @@ function ServerDashboardPage() {
 
         {!loadingActiveServer && passedBetaCheck && activeServer && (
           <Container>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              py={2}
-            >
+            <Stack alignItems="center" py={2}>
               <ServerAvatar icon={activeServer.icon} name={activeServer.name} />
               <Typography variant="h6">{activeServer.name}</Typography>
-            </Box>
+            </Stack>
             <Card className={styles.card}>
               <CardContent>
                 {user.isBetaTester && (
@@ -245,26 +238,6 @@ function ServerDashboardPage() {
           </LoadingButton>
         </DialogActions>
       </Dialog>
-
-      {/* Success snackbar */}
-      <Snackbar
-        open={serverUpdateSuccess}
-        autoHideDuration={5000}
-        onClose={() => setUpdateServerSuccess(prev => !prev)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert severity="success">Successfully updated settings</Alert>
-      </Snackbar>
-
-      {/* Failure snackbar */}
-      <Snackbar
-        open={serverUpdateFailure}
-        autoHideDuration={5000}
-        onClose={() => setUpdateServerFailure(prev => !prev)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert severity="error">Failed to update settings</Alert>
-      </Snackbar>
     </Layout>
   )
 }

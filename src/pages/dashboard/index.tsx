@@ -6,6 +6,7 @@ import {
   Button,
   CircularProgress,
   Container,
+  Stack,
   Typography,
 } from '@material-ui/core'
 import Layout from '../../components/layout/Layout'
@@ -28,45 +29,29 @@ function DashboardPage() {
     <Layout>
       <Container>
         {loadingAllServers && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            height="50vh"
-          >
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <CircularProgress size={50} />
-            </Box>
+          <Stack justifyContent="center" alignItems="center" height="35vh">
+            <CircularProgress size={50} />
             <Typography align="center" variant="h5">
-              <Box py={2}>Loading servers...</Box>
+              <Box py={2}>Loading servers</Box>
             </Typography>
-          </Box>
+          </Stack>
         )}
 
         {!loadingAllServers && !servers && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            height="50vh"
-          >
+          <Stack justifyContent="center" alignItems="center" height="50vh">
             <Typography align="center" variant="h5">
               <Box py={2}>
                 {passedBetaCheck
                   ? 'Uh oh! You have no servers to manage.'
                   : 'This feature is open to beta users only.'}
               </Box>
-              <Box>
-                <Link href="/">
-                  <Button variant="outlined" color="primary">
-                    Take me back
-                  </Button>
-                </Link>
-              </Box>
+              <Link href="/">
+                <Button variant="outlined" color="primary">
+                  Take me back
+                </Button>
+              </Link>
             </Typography>
-          </Box>
+          </Stack>
         )}
 
         {!loadingAllServers && servers && (
@@ -75,11 +60,11 @@ function DashboardPage() {
               <Typography align="center" variant="h4">
                 <Box py={5}>Choose a Server</Box>
               </Typography>
-              <Box display="flex" flexDirection="column" gap={2}>
+              <Stack gap={2}>
                 {servers.map(server => (
                   <Server key={server.id} server={server} />
                 ))}
-              </Box>
+              </Stack>
             </Box>
           </Container>
         )}

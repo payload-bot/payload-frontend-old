@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Avatar,
-  Box,
+  Alert,
   Button,
   Card,
   CardContent,
-  CircularProgress,
   Container,
   MenuItem,
   Select,
@@ -16,7 +15,6 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
 import Layout from '../components/layout/Layout'
 import withAuth from '../components/withAuth'
 import { useAppSelector } from '../redux/store'
@@ -67,13 +65,7 @@ function SettingsPage() {
   }
   return (
     <Layout>
-      <Stack
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        my={3}
-        mb={2}
-      >
+      <Stack spacing={2} alignItems="center" my={3} mb={2}>
         <Avatar src={user.avatar} />
         <Tooltip title={user.id}>
           <Typography variant="h5" style={{ marginTop: 5 }}>
@@ -84,107 +76,84 @@ function SettingsPage() {
       <Container>
         <Card>
           <CardContent>
-            {loading && (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                height="50vh"
-              >
-                <Box display="flex" justifyContent="center" alignItems="center">
-                  <CircularProgress size={50} />
-                </Box>
-                <Typography align="center" variant="h5">
-                  <Box py={2}>Loading your profile...</Box>
-                </Typography>
-              </Box>
-            )}
-
-            {!loading && (
+            <Stack mb={2} direction="column" alignItems="center">
+              Last update: {user.latestUpdateNotifcation} &bull; Pushcart
+              points: {user.pushcartPoints}
+            </Stack>
+            {user.isBetaTester && (
               <>
-                <Stack mb={2} direction="column" alignItems="center">
-                  Last update: {user.latestUpdateNotifcation} &bull; Pushcart
-                  points: {user.pushcartPoints}
-                </Stack>
-                {user.isBetaTester && (
-                  <>
-                    <Typography variant="h5">Webhook: </Typography>
-                    {user.webhook ? (
-                      <Stack spacing={1} direction="row">
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          onClick={copyWebhookTokenToClipboard}
-                        >
-                          Copy Webhook Token
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          size="small"
-                          onClick={deleteWebhook}
-                        >
-                          Delete Webhook
-                        </Button>
-                      </Stack>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={generateWebhook}
-                      >
-                        Create Webhook
-                      </Button>
-                    )}
-                  </>
-                )}
-                <br />
-                <br />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Stack spacing={2} mb={3}>
-                    <>
-                      <Typography variant="h5">Notifications level</Typography>
-                      <Controller
-                        name="notificationsLevel"
-                        control={control}
-                        defaultValue={user.notificationsLevel}
-                        render={({ field }) => (
-                          <Select {...field}>
-                            <MenuItem value={0}>None</MenuItem>
-                            <MenuItem value={1}>Major</MenuItem>
-                            <MenuItem value={2}>All</MenuItem>
-                          </Select>
-                        )}
-                      />
-                    </>
-
-                    <>
-                      <Typography variant="h5">Steam ID</Typography>
-                      <Controller
-                        name="steamId"
-                        control={control}
-                        defaultValue={user.steamId}
-                        render={({ field }) => (
-                          <TextField
-                            autoComplete="false"
-                            helperText="Your SteamID64"
-                            {...field}
-                          />
-                        )}
-                      />
-                    </>
-                  </Stack>
-                  <Box>
-                    <Button type="submit" color="primary" variant="outlined">
-                      Save
+                <Typography variant="h5">Webhook: </Typography>
+                {user.webhook ? (
+                  <Stack spacing={1} direction="row">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={copyWebhookTokenToClipboard}
+                    >
+                      Copy Webhook Token
                     </Button>
-                  </Box>
-                </form>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={deleteWebhook}
+                    >
+                      Delete Webhook
+                    </Button>
+                  </Stack>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={generateWebhook}
+                  >
+                    Create Webhook
+                  </Button>
+                )}
               </>
             )}
+            <br />
+            <br />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Stack spacing={2} mb={3}>
+                <>
+                  <Typography variant="h5">Notifications level</Typography>
+                  <Controller
+                    name="notificationsLevel"
+                    control={control}
+                    defaultValue={user.notificationsLevel}
+                    render={({ field }) => (
+                      <Select {...field}>
+                        <MenuItem value={0}>None</MenuItem>
+                        <MenuItem value={1}>Major</MenuItem>
+                        <MenuItem value={2}>All</MenuItem>
+                      </Select>
+                    )}
+                  />
+                </>
+
+                <>
+                  <Typography variant="h5">Steam ID</Typography>
+                  <Controller
+                    name="steamId"
+                    control={control}
+                    defaultValue={user.steamId}
+                    render={({ field }) => (
+                      <TextField
+                        autoComplete="false"
+                        helperText="Your SteamID64"
+                        {...field}
+                      />
+                    )}
+                  />
+                </>
+              </Stack>
+              <Button type="submit" color="primary" variant="outlined">
+                Save
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </Container>
