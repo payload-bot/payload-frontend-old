@@ -4,9 +4,9 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  makeStyles,
   Divider,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ActiveServer } from '../redux/servers/types'
@@ -16,7 +16,7 @@ import BuildIcon from '@material-ui/icons/Build'
 import HomeIcon from '@material-ui/icons/Home'
 import BackIcon from '@material-ui/icons/ArrowBack'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   sideList: {
     height: '100%',
   },

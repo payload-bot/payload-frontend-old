@@ -8,7 +8,6 @@ import { useAppSelector } from '../../../redux/store'
 import {
   CircularProgress,
   Container,
-  makeStyles,
   Typography,
   Box,
   Card,
@@ -19,13 +18,14 @@ import {
   Button,
   Snackbar,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../../redux/servers/types'
 import Alert from '../../../components/Alert'
 import DashboardSidebar from '../../../components/DashboardSidebar'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   card: {
     minWidth: '35%',
   },
@@ -80,7 +80,10 @@ function ServerDashboardPage() {
   }, [activeServerId])
 
   return (
-    <Layout sideBarEnabled={!loadingActiveServer} sideBarContent={<DashboardSidebar {...activeServer} />}>
+    <Layout
+      sideBarEnabled={!loadingActiveServer}
+      sideBarContent={<DashboardSidebar {...activeServer} />}
+    >
       <Container>
         {loadingActiveServer && (
           <Container>

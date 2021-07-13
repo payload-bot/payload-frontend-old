@@ -74,7 +74,7 @@ function DashboardPage() {
             <Typography align="center" variant="h4">
               <Box py={5}>Choose a Server</Box>
             </Typography>
-            <Box display="flex" flexDirection="column" gridGap={5}>
+            <Box display="flex" flexDirection="column" gap={5}>
               {servers.map(server => (
                 <Server key={server.id} server={server} />
               ))}

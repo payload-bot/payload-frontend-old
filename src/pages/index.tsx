@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Particles from "react-tsparticles";
-import { Box, Button, makeStyles, Typography } from '@material-ui/core'
+import { Box, Button, Theme, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles';
 import Layout from '../components/layout/Layout'
 import particleJson from '../particles.json'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   payloadName: {
     fontWeight: 'bold',
   },
@@ -92,7 +93,7 @@ function Index() {
 
         <Box
           display="flex"
-          gridGap={15}
+          gap={15}
           justifyContent="center"
           alignItems="center"
           py={5}
@@ -140,7 +141,7 @@ function Index() {
           </Typography>
           <Box
             display="flex"
-            gridGap={25}
+            gap={25}
             flexDirection="column"
             justifyContent="center"
             alignItems="center"

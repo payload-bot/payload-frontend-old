@@ -2,7 +2,6 @@ import React, { useState, MouseEvent } from 'react'
 import Link from 'next/link'
 import useUser from '../hooks/useUser'
 
-import { makeStyles, Theme } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -13,7 +12,9 @@ import Menu from '@material-ui/core/Menu'
 import Button from '@material-ui/core/Button'
 import MenuIcon from '@material-ui/icons/Menu'
 import MoreIcon from '@material-ui/icons/MoreVert'
-import { Divider } from '@material-ui/core'
+
+import { Divider, Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 type HeaderProps = {
   sideBarEnabled?: boolean

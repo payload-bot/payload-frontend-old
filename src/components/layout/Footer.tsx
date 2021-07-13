@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import { Container, makeStyles, Typography } from '@material-ui/core'
+import { Container, Theme, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   spacingTop: {
     paddingTop: theme.spacing(2),
   },

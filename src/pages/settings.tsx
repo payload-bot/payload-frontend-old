@@ -6,7 +6,6 @@ import {
   CircularProgress,
   Container,
   darken,
-  makeStyles,
   MenuItem,
   Select,
   Snackbar,
@@ -54,8 +53,8 @@ function SettingsPage() {
   }
 
   const copyWebhookTokenToClipboard = async () => {
-    if (!user.webhook) return
-    await navigator.clipboard.writeText(user.webhook?.value)
+    if (!user.webhook?.value) return
+    await navigator.clipboard.writeText(user.webhook.value)
   }
 
   const onSubmit = (data: Partial<User>) => {
@@ -88,11 +87,11 @@ function SettingsPage() {
             <>
               Your id: {user.id} <br />
               Last update notification: {user.latestUpdateNotifcation} <br />
-              {user.isBetaTester ? (
+              {user.isBetaTester && (
                 <>
                   Webhook:{' '}
                   {user.webhook ? (
-                    <Box display="flex" gridGap={10}>
+                    <Box display="flex" gap={10}>
                       <Button
                         variant="contained"
                         color="primary"
@@ -121,7 +120,7 @@ function SettingsPage() {
                     </Button>
                   )}
                 </>
-              ) : null}
+              )}
               <br />
               <br />
               <form onSubmit={handleSubmit(onSubmit)}>

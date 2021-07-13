@@ -1,3 +1,5 @@
+import { Webhook } from '../shared/interfaces'
+
 export interface Server {
   iconUrl: string
   isPayloadIn: boolean
@@ -29,6 +31,7 @@ export interface ActiveServer {
   guild: {
     channels: Array<{ id: string; name: string }>
   }
+  webhook: Webhook
   enableSnipeForEveryone: boolean
   icon: string
   botName: string

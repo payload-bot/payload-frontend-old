@@ -3,29 +3,39 @@ import withAuth from '../../../components/withAuth'
 import Layout from '../../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { fetchServer, updateServer } from '../../../redux/servers/serverSlice'
+import {
+  createServerWebhook,
+  deleteServerWebhook,
+  fetchServer,
+} from '../../../redux/servers/serverSlice'
 import { useAppSelector } from '../../../redux/store'
 import {
   CircularProgress,
   Container,
-  makeStyles,
   Typography,
   Box,
   Card,
   CardContent,
   TextField,
-  MenuItem,
-  Select,
   Button,
   Snackbar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
-import { ActiveServer } from '../../../redux/servers/types'
-import Alert from '../../../components/Alert'
 import DashboardSidebar from '../../../components/DashboardSidebar'
+import { ErrorButton } from '../../../components/buttons'
 
-const useStyles = makeStyles(theme => ({
+import { Autocomplete } from '@material-ui/lab'
+import LoadingButton from '@material-ui/lab/LoadingButton'
+import Alert from '../../../components/Alert'
+
+const useStyles = makeStyles(() => ({
   card: {
     minWidth: '35%',
   },
@@ -36,6 +46,7 @@ function ServerDashboardPage() {
   const { id } = router.query
   const dispatch = useDispatch()
   const styles = useStyles()
+
   const {
     activeServer,
     activeServerId,
@@ -43,29 +54,16 @@ function ServerDashboardPage() {
     loadingActiveServer,
     loadingActiveServerErrorMsg,
     loadedServerCache,
-    updateActiveServerErrorMsg,
   } = useAppSelector(state => state.servers)
+
+  const { user } = useAppSelector(state => state.users)
 
   const [serverUpdateSuccess, setUpdateServerSuccess] = useState(false)
   const [serverUpdateFailure, setUpdateServerFailure] = useState(false)
-
-  const {
-    control,
-    formState: { errors },
-    watch,
-    handleSubmit,
-  } = useForm()
-
-  const watchPrefix = watch('prefix')
-
-  const onSubmit = (data: Partial<ActiveServer>) => {
-    dispatch(updateServer(id as string, data))
-    if (!updateActiveServerErrorMsg) {
-      setUpdateServerSuccess(true)
-    } else {
-      setUpdateServerFailure(true)
-    }
-  }
+  const [openWebhookDialog, setOpenWebhookDialog] = useState(false)
+  const [webhookDialogError, setWebhookDialogError] = useState('')
+  const [webhookChannel, setWebhookChannel] = useState('')
+  const [creatingWebhook, setCreatingWebhook] = useState(false)
 
   useEffect(() => {
     if (loadingActiveServerErrorMsg) {
@@ -79,8 +77,33 @@ function ServerDashboardPage() {
     }
   }, [activeServerId])
 
+  const copyWebhookTokenToClipboard = async () => {
+    if (!activeServer.webhook?.value) return
+    await navigator.clipboard.writeText(activeServer.webhook.value)
+  }
+
+  const generateWebhook = () => {
+    // Let's not try to make API call if we don't have to
+    if (activeServer.webhook) return
+    setCreatingWebhook(true)
+    if (!!webhookChannel) {
+      setWebhookDialogError('You need to select a channel first')
+    }
+    dispatch(createServerWebhook(activeServer.id))
+    setWebhookDialogError('')
+    setCreatingWebhook(false)
+  }
+
+  const deleteWebhook = () => {
+    if (!activeServer.webhook) return
+    dispatch(deleteServerWebhook(activeServer.id))
+  }
+
   return (
-    <Layout sideBarEnabled={!loadingActiveServer} sideBarContent={<DashboardSidebar {...activeServer} />}>
+    <Layout
+      sideBarEnabled={!loadingActiveServer}
+      sideBarContent={<DashboardSidebar {...activeServer} />}
+    >
       <Container>
         {loadingActiveServer && (
           <Container>
@@ -139,99 +162,80 @@ function ServerDashboardPage() {
             </Box>
             <Card className={styles.card}>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Bot name
-                  </Typography>
-                  <Controller
-                    name="botName"
-                    control={control}
-                    defaultValue={activeServer.botName}
-                    rules={{
-                      minLength: 1,
-                      maxLength: 100,
-                      required: 'Invalid nickname',
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        error={errors.botName ? true : false}
-                        helperText={errors.botName && errors.botName.message}
-                        {...field}
-                        style={{ margin: 8 }}
-                      />
+                {user.isBetaTester && (
+                  <>
+                    Webhook:{' '}
+                    {activeServer.webhook ? (
+                      <Box display="flex" gap={10}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          onClick={copyWebhookTokenToClipboard}
+                        >
+                          Copy Webhook Token
+                        </Button>
+                        <ErrorButton
+                          variant="contained"
+                          color="secondary"
+                          size="small"
+                          onClick={deleteWebhook}
+                        >
+                          Delete Webhook
+                        </ErrorButton>
+                      </Box>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => setOpenWebhookDialog(true)}
+                      >
+                        Create Webhook
+                      </Button>
                     )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Prefix
-                  </Typography>
-                  <Controller
-                    name="prefix"
-                    control={control}
-                    defaultValue={activeServer.prefix}
-                    rules={{
-                      minLength: 1,
-                      maxLength: 75,
-                      required: 'You need a prefix!',
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        error={errors.prefix ? true : false}
-                        helperText={
-                          !!watchPrefix && !errors.botName
-                            ? `Usage: ${watchPrefix}commands`
-                            : errors.prefix
-                            ? errors.prefix.message
-                            : ''
-                        }
-                        {...field}
-                        style={{ margin: 8 }}
-                      />
-                    )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Language
-                  </Typography>
-                  <Controller
-                    name="language"
-                    control={control}
-                    defaultValue={activeServer.language}
-                    render={({ field }) => (
-                      <Select {...field} style={{ margin: 8 }}>
-                        <MenuItem value="en-US">English</MenuItem>
-                        <MenuItem value="es-ES">Spanish</MenuItem>
-                        <MenuItem value="fi-FI">Finnish</MenuItem>
-                        <MenuItem value="pl-PL">Polish</MenuItem>
-                      </Select>
-                    )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Snipe Permissions
-                  </Typography>
-                  <Controller
-                    name="enableSnipeForEveryone"
-                    control={control}
-                    defaultValue={activeServer.enableSnipeForEveryone}
-                    render={({ field }) => (
-                      <Select {...field} style={{ margin: 8 }}>
-                        <MenuItem value="true">Everyone</MenuItem>
-                        <MenuItem value="false">Admins</MenuItem>
-                      </Select>
-                    )}
-                  />
-                  <br />
-                  <Box mt={3}>
-                    <Button type="submit" color="primary" variant="outlined">
-                      Save
-                    </Button>
-                  </Box>
-                </form>
+                  </>
+                )}
+                Test!
               </CardContent>
             </Card>
           </Container>
         )}
       </Container>
+
+      <Dialog
+        open={openWebhookDialog}
+        onClose={() => setOpenWebhookDialog(p => !p)}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Create Webhook</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            We need a channel to send the previews to. Choose a channel here.
+          </DialogContentText>
+          {/* <Autocomplete
+            id="combo-box-demo"
+            options={activeServer?.guild?.channels}
+            getOptoionLabel={o => o.name}
+            renderInput={params => (
+              <TextField
+                {...params}
+                fullWidth
+                label="Channel"
+                variant="outlined"
+              />
+            )}
+          /> */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenWebhookDialog(p => !p)} color="primary">
+            Cancel
+          </Button>
+          <LoadingButton onClick={generateWebhook} color="primary" loading={creatingWebhook}>
+            Create
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
 
       {/* Success snackbar */}
       <Snackbar

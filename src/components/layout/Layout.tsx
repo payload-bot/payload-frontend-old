@@ -3,20 +3,15 @@ import {
   Divider,
   Drawer,
   Hidden,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
   Theme,
   Toolbar,
   useTheme,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import Head from 'next/head'
 import React, { ReactNode, useState } from 'react'
 import Footer from './Footer'
 import Header from './Header'
-import SettingsIcon from '@material-ui/icons/Settings'
 
 type LayoutProps = {
   children?: ReactNode

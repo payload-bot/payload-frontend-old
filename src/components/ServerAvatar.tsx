@@ -1,7 +1,8 @@
-import { Avatar, makeStyles } from '@material-ui/core'
+import { Avatar, Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import getServerAvatarNoSrc from '../lib/getAvatarWithNoSource'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   guildAvatar: {
     color: theme.palette.text.primary,
     backgroundColor: 'transparent',

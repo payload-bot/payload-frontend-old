@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Box, Button, makeStyles, Typography } from '@material-ui/core'
+import { Box, Button, Theme, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import { useDispatch } from 'react-redux'
 import { Server } from '../redux/servers/types'
 import ServerAvatar from '../components/ServerAvatar'
@@ -10,7 +11,7 @@ type ServerProps = {
   server: Server
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   container: {
     padding: theme.spacing(2),
     borderRadius: 5,
@@ -43,7 +44,7 @@ export default function ServerSelection({ server }: ServerProps) {
       alignItems="center"
       className={styles.container}
     >
-      <Box display="flex" alignItems="center" gridGap={5}>
+      <Box display="flex" alignItems="center" gap={5}>
         <ServerAvatar icon={server.iconUrl} name={server.name} />
 
         <Typography variant="body1">{server.name}</Typography>
