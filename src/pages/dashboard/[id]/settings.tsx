@@ -11,6 +11,7 @@ import {
 import { useAppSelector } from '../../../redux/store'
 import {
   Autocomplete,
+  Alert,
   Box,
   CircularProgress,
   Container,
@@ -31,7 +32,6 @@ import ServerAvatar from '../../../components/ServerAvatar'
 import DashboardSidebar from '../../../components/DashboardSidebar'
 
 import LoadingButton from '@material-ui/lab/LoadingButton'
-import Alert from '../../../components/Alert'
 
 const useStyles = makeStyles(() => ({
   card: {
