@@ -28,9 +28,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
-import { Controller, useForm } from 'react-hook-form'
 import DashboardSidebar from '../../../components/DashboardSidebar'
-import { ErrorButton } from '../../../components/buttons'
 
 import LoadingButton from '@material-ui/lab/LoadingButton'
 import Alert from '../../../components/Alert'
@@ -176,14 +174,14 @@ function ServerDashboardPage() {
                         >
                           Copy Webhook Token
                         </Button>
-                        <ErrorButton
+                        <Button
                           variant="contained"
-                          color="secondary"
+                          color="error"
                           size="small"
                           onClick={deleteWebhook}
                         >
                           Delete Webhook
-                        </ErrorButton>
+                        </Button>
                       </Box>
                     ) : (
                       <Button
