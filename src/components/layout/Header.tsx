@@ -12,8 +12,9 @@ import Menu from '@material-ui/core/Menu'
 import Button from '@material-ui/core/Button'
 import MenuIcon from '@material-ui/icons/Menu'
 import MoreIcon from '@material-ui/icons/MoreVert'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
-import { Divider, Theme } from '@material-ui/core'
+import { Divider, ListItemIcon, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 type HeaderProps = {
@@ -56,9 +57,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   avatarLarge: {
     width: theme.spacing(5),
     height: theme.spacing(5),
-  },
-  logOut: {
-    color: theme.palette.error.dark,
   },
   displaceAppbar: {
     [theme.breakpoints.up('sm')]: {
@@ -116,19 +114,22 @@ export default function Header({
           <Typography className="link no-underline">Home</Typography>
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link href="/settings">
           <Typography className="link no-underline">Settings</Typography>
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link href="/dashboard">
           <Typography className="link no-underline">Dashboard</Typography>
         </Link>
       </MenuItem>
       <Divider />
-      <MenuItem onClick={logout}>
-        <span className={styles.logOut}>Logout</span>
+      <MenuItem>
+        <ListItemIcon>
+          <ExitToAppIcon fontSize="small" />
+        </ListItemIcon>
+        <Typography color="red">Logout</Typography>
       </MenuItem>
     </Menu>
   )
@@ -160,8 +161,11 @@ export default function Header({
         </Link>
       </MenuItem>
       <Divider />
-      <MenuItem onClick={logout} className={styles.logOut}>
-        Logout
+      <MenuItem>
+        <ListItemIcon>
+          <ExitToAppIcon fontSize="small" />
+        </ListItemIcon>
+        <Typography color="red">Logout</Typography>
       </MenuItem>
     </Menu>
   )

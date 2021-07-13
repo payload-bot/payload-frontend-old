@@ -24,7 +24,6 @@ import {
 } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
 import { User } from '../redux/users/types'
-import { ErrorButton } from '../components/buttons'
 
 function SettingsPage() {
   const dispatch = useDispatch()
@@ -100,14 +99,14 @@ function SettingsPage() {
                       >
                         Copy Webhook Token
                       </Button>
-                      <ErrorButton
+                      <Button
                         variant="contained"
                         color="error"
                         size="small"
                         onClick={deleteWebhook}
                       >
                         Delete Webhook
-                      </ErrorButton>
+                      </Button>
                     </Box>
                   ) : (
                     <Button
