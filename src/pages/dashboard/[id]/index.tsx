@@ -17,12 +17,12 @@ import {
   Select,
   Button,
   Snackbar,
+  Alert,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../../redux/servers/types'
-import Alert from '../../../components/Alert'
 import DashboardSidebar from '../../../components/DashboardSidebar'
 
 const useStyles = makeStyles(() => ({
