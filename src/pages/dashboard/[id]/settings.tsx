@@ -213,10 +213,10 @@ function ServerDashboardPage() {
           <DialogContentText>
             We need a channel to send the previews to. Choose a channel here.
           </DialogContentText>
-          {/* <Autocomplete
+          <Autocomplete
             id="combo-box-demo"
             options={activeServer?.guild?.channels}
-            getOptoionLabel={o => o.name}
+            getOptionLabel={o => o.name}
             renderInput={params => (
               <TextField
                 {...params}
@@ -225,7 +225,7 @@ function ServerDashboardPage() {
                 variant="outlined"
               />
             )}
-          /> */}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenWebhookDialog(p => !p)} color="primary">

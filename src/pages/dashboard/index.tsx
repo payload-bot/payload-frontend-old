@@ -71,13 +71,15 @@ function DashboardPage() {
 
         {!loadingAllServers && servers && (
           <Container maxWidth="md">
-            <Typography align="center" variant="h4">
-              <Box py={5}>Choose a Server</Box>
-            </Typography>
-            <Box display="flex" flexDirection="column" gap={5}>
-              {servers.map(server => (
-                <Server key={server.id} server={server} />
-              ))}
+            <Box mb={7}>
+              <Typography align="center" variant="h4">
+                <Box py={5}>Choose a Server</Box>
+              </Typography>
+              <Box display="flex" flexDirection="column" gap={2}>
+                {servers.map(server => (
+                  <Server key={server.id} server={server} />
+                ))}
+              </Box>
             </Box>
           </Container>
         )}

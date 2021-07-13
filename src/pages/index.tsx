@@ -93,7 +93,7 @@ function Index() {
 
         <Box
           display="flex"
-          gap={15}
+          gap={5}
           justifyContent="center"
           alignItems="center"
           py={5}
@@ -141,12 +141,12 @@ function Index() {
           </Typography>
           <Box
             display="flex"
-            gap={25}
+            gap={5}
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
             className={styles.faqContainer}
-            mb={5}
+            mb={10}
           >
             <span>
               <Typography variant="h4" align="center" className={styles.faq}>

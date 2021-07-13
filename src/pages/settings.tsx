@@ -91,7 +91,7 @@ function SettingsPage() {
                 <>
                   Webhook:{' '}
                   {user.webhook ? (
-                    <Box display="flex" gap={10}>
+                    <Box display="flex" gap={2}>
                       <Button
                         variant="contained"
                         color="primary"
