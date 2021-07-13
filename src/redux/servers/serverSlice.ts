@@ -122,9 +122,9 @@ export const updateServer =
   }
 
 export const createServerWebhook =
-  (guildId: string) => async (dispatch: Dispatch) => {
+  (guildId: string, channelId: string) => async (dispatch: Dispatch) => {
     try {
-      const webhook = await generateServerWebhook(guildId)
+      const webhook = await generateServerWebhook(guildId, channelId)
       dispatch(setServerWebhookSuccess(webhook))
     } catch (err) {
       // I don't know what to do here yet.

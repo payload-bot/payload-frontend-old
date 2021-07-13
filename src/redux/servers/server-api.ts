@@ -21,9 +21,13 @@ export async function patchServer(
   return await axios.patch(`/api/guilds/${id}`, updatedData)
 }
 
-export async function generateServerWebhook(guildId: string) {
+export async function generateServerWebhook(
+  guildId: string,
+  channelId: string,
+) {
   const { data } = await axios.post<Webhook>(
     `/api/webhooks/v1/guilds/${guildId}/create`,
+    { channelId },
   )
 
   return data ?? null

@@ -10,10 +10,11 @@ import {
 } from '../../../redux/servers/serverSlice'
 import { useAppSelector } from '../../../redux/store'
 import {
+  Autocomplete,
+  Box,
   CircularProgress,
   Container,
   Typography,
-  Box,
   Card,
   CardContent,
   TextField,
@@ -31,7 +32,6 @@ import { Controller, useForm } from 'react-hook-form'
 import DashboardSidebar from '../../../components/DashboardSidebar'
 import { ErrorButton } from '../../../components/buttons'
 
-import { Autocomplete } from '@material-ui/lab'
 import LoadingButton from '@material-ui/lab/LoadingButton'
 import Alert from '../../../components/Alert'
 
@@ -61,9 +61,14 @@ function ServerDashboardPage() {
   const [serverUpdateSuccess, setUpdateServerSuccess] = useState(false)
   const [serverUpdateFailure, setUpdateServerFailure] = useState(false)
   const [openWebhookDialog, setOpenWebhookDialog] = useState(false)
-  const [webhookDialogError, setWebhookDialogError] = useState('')
   const [webhookChannel, setWebhookChannel] = useState('')
   const [creatingWebhook, setCreatingWebhook] = useState(false)
+
+  const onWebhookDialogClose = () => {
+    setWebhookChannel('')
+    setCreatingWebhook(false)
+    setOpenWebhookDialog(p => !p)
+  }
 
   useEffect(() => {
     if (loadingActiveServerErrorMsg) {
@@ -79,6 +84,7 @@ function ServerDashboardPage() {
 
   const copyWebhookTokenToClipboard = async () => {
     if (!activeServer.webhook?.value) return
+    console.log(activeServer.webhook.value)
     await navigator.clipboard.writeText(activeServer.webhook.value)
   }
 
@@ -86,12 +92,8 @@ function ServerDashboardPage() {
     // Let's not try to make API call if we don't have to
     if (activeServer.webhook) return
     setCreatingWebhook(true)
-    if (!!webhookChannel) {
-      setWebhookDialogError('You need to select a channel first')
-    }
-    dispatch(createServerWebhook(activeServer.id))
-    setWebhookDialogError('')
-    setCreatingWebhook(false)
+    dispatch(createServerWebhook(activeServer.id, webhookChannel))
+    onWebhookDialogClose()
   }
 
   const deleteWebhook = () => {
@@ -166,7 +168,7 @@ function ServerDashboardPage() {
                   <>
                     Webhook:{' '}
                     {activeServer.webhook ? (
-                      <Box display="flex" gap={10}>
+                      <Box display="flex" gap={2}>
                         <Button
                           variant="contained"
                           color="primary"
@@ -196,7 +198,6 @@ function ServerDashboardPage() {
                     )}
                   </>
                 )}
-                Test!
               </CardContent>
             </Card>
           </Container>
@@ -205,7 +206,7 @@ function ServerDashboardPage() {
 
       <Dialog
         open={openWebhookDialog}
-        onClose={() => setOpenWebhookDialog(p => !p)}
+        onClose={onWebhookDialogClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create Webhook</DialogTitle>
@@ -214,24 +215,35 @@ function ServerDashboardPage() {
             We need a channel to send the previews to. Choose a channel here.
           </DialogContentText>
           <Autocomplete
-            id="combo-box-demo"
-            options={activeServer?.guild?.channels}
+            style={{ paddingTop: 15 }}
+            id="webhook-server-autocomplete"
+            options={activeServer?.guild?.channels ?? []}
+            onChange={(_, newValue: { id: string; name: string }) => {
+              setWebhookChannel(newValue?.id ?? '')
+            }}
             getOptionLabel={o => o.name}
-            renderInput={params => (
-              <TextField
-                {...params}
-                fullWidth
-                label="Channel"
-                variant="outlined"
-              />
-            )}
+            renderInput={params => {
+              return (
+                <TextField
+                  fullWidth
+                  label="Channel"
+                  variant="outlined"
+                  {...params}
+                />
+              )
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenWebhookDialog(p => !p)} color="primary">
+          <Button onClick={onWebhookDialogClose} color="error">
             Cancel
           </Button>
-          <LoadingButton onClick={generateWebhook} color="primary" loading={creatingWebhook}>
+          <LoadingButton
+            onClick={generateWebhook}
+            color="primary"
+            loading={creatingWebhook}
+            disabled={!webhookChannel}
+          >
             Create
           </LoadingButton>
         </DialogActions>
