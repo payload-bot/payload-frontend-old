@@ -102,7 +102,7 @@ function SettingsPage() {
                       </Button>
                       <ErrorButton
                         variant="contained"
-                        color="secondary"
+                        color="error"
                         size="small"
                         onClick={deleteWebhook}
                       >

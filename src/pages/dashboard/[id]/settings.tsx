@@ -84,7 +84,6 @@ function ServerDashboardPage() {
 
   const copyWebhookTokenToClipboard = async () => {
     if (!activeServer.webhook?.value) return
-    console.log(activeServer.webhook.value)
     await navigator.clipboard.writeText(activeServer.webhook.value)
   }
 
