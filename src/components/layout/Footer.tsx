@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container, Theme, Typography } from '@material-ui/core'
+import { Box, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -16,7 +16,7 @@ export default function Footer() {
   const styles = useStyles()
 
   return (
-    <Container maxWidth="xl" className={styles.footer}>
+    <Box className={styles.footer}>
       <Typography
         variant="subtitle1"
         align="center"
@@ -47,6 +47,6 @@ export default function Footer() {
           />
         </a>
       </Typography>
-    </Container>
+    </Box>
   )
 }
