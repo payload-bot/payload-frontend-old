@@ -1,0 +1,26 @@
+[
+	{
+		"title": " How do I invite this bot to my discord?",
+		"description": "You may <a class=\"link\" href=\"/invite\" target=\"_blank\">invite the bot here</a>, and while logged into the browser, select a server and it will be all set up!"
+	},
+	{
+		"title": "Why is the bot not responding to any commands?",
+		"description": "Make sure you didn't accidently set a different prefix. Otherwise, our default prefix is \"pls \". When setting prefixes, make sure you include spaces in quotation marks."
+	},
+	{
+		"title": "How do auto commands work?",
+		"description": "As said in its name, they work- automatically! Post a link and Payload will magically run the command!"
+	},
+	{
+		"title": "Do you have an offical discord?",
+		"description": "Of course! Join us on <a class=\"link\" href=\"/discord\" target=\"_blank\">our discord</a>!"
+	},
+	{
+		"title": "Payload is offline! What do I do?",
+		"description": "Being offline could mean that work is being done on the server, the server died, or an update is being pushed. If it's not online within 10 minutes, contact us on Discord!"
+	},
+	{
+		"title": "How do I view all of Payloads' commands?",
+		"description": "You may <Link href=\"/docs\"><span class=\"link\">view all commands</span></Link> or use \"pls commands\" in any channel."
+	}
+]

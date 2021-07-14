@@ -1,29 +1,30 @@
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Particles from "react-tsparticles";
-import { Box, Button, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles';
+import Particles from 'react-tsparticles'
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Stack,
+  Theme,
+  Typography,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/layout/Layout'
+
 import particleJson from '../particles.json'
+import faqQuestions from '../faq.json'
+
+interface FAQQuestion {
+  title: string
+  description: string
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   payloadName: {
     fontWeight: 'bold',
-  },
-  faqContainer: {
-    '& > *': {
-      maxWidth: '65vw',
-    },
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: '85vw',
-    },
-  },
-  faq: {
-    marginBottom: theme.spacing(1),
-  },
-  break: {
-    height: 3,
-    backgroundColor: '#23272A',
   },
   button: {
     marginTop: theme.spacing(2),
@@ -87,17 +88,13 @@ function Index() {
           </div>
         </div>
 
-        <Typography variant="h3" align="center">
-          <Box py={2}>Supported Services</Box>
-        </Typography>
+        <Box py={2}>
+          <Typography variant="h3" align="center">
+            Supported Services
+          </Typography>
+        </Box>
 
-        <Box
-          display="flex"
-          gap={5}
-          justifyContent="center"
-          alignItems="center"
-          py={5}
-        >
+        <Stack gap={5} direction="row" justifyContent="center" py={5}>
           <a href="https://etf2l.org">
             <Image
               src="/img/etf2l.png"
@@ -130,94 +127,31 @@ function Index() {
               height={50}
             />
           </a>
+        </Stack>
+
+        <Divider variant="middle" />
+        <Box py={2}>
+          <Typography variant="h3" align="center">
+            FAQ
+          </Typography>
         </Box>
 
-        {/* FAQ */}
-        <div className={styles.break}></div>
-
-        <div>
-          <Typography variant="h3" align="center">
-            <Box py={2}>FAQ</Box>
-          </Typography>
-          <Box
-            display="flex"
-            gap={5}
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            className={styles.faqContainer}
-            mb={10}
-          >
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                How do I invite this bot to my discord?
-              </Typography>
-              <Typography variant="body1" align="center">
-                You may{' '}
-                <a className="link" href="/invite" target="_blank">
-                  invite the bot here
-                </a>
-                , and while logged into the browser, select a server and it will
-                be all set up!
-              </Typography>
-            </span>
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                Why is the bot not responding to any commands?
-              </Typography>
-              <Typography variant="body1" align="center">
-                Make sure you didn't accidently set a different prefix.
-                Otherwise, our default prefix is "pls ". When setting prefixes,
-                make sure you include spaces in quotation marks.
-              </Typography>
-            </span>
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                How do auto commands work?
-              </Typography>
-              <Typography variant="body1" align="center">
-                As said in its name, they work- automatically! Post a link and
-                Payload will magically run the command!
-              </Typography>
-            </span>
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                Do you have an offical discord?
-              </Typography>
-              <Typography variant="body1" align="center">
-                Of course! Join us at{' '}
-                <a className="link" href="/discord" target="_blank">
-                  our discord
-                </a>
-                !
-              </Typography>
-            </span>
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                Payload is offline! What do I do?
-              </Typography>
-              <Typography variant="body1" align="center">
-                That's not good! We strive to make sure it's on 100% of the
-                time. Being offline could mean that work is being done on the
-                server, the server died, or an update is being pushed. If it's
-                not online within ~10 minutes of being down, contact us on
-                discord!
-              </Typography>
-            </span>
-            <span>
-              <Typography variant="h4" align="center" className={styles.faq}>
-                How do I view all of Payloads' commands?
-              </Typography>
-              <Typography variant="body1" align="center">
-                You may{' '}
-                <Link href="/docs">
-                  <span className="link">view all commands</span>
-                </Link>{' '}
-                or use "pls commands" in any channel.
-              </Typography>
-            </span>
-          </Box>
-        </div>
+        <Stack gap={2} justifyContent="center" alignItems="center">
+          {faqQuestions.map((q: FAQQuestion) => (
+            <Container maxWidth="md">
+              <Stack justifyContent="center" alignItems="center" gap={0.5}>
+                <Typography textAlign="center" variant="h5">
+                  {q.title}
+                </Typography>
+                <Typography
+                  paragraph
+                  textAlign="center"
+                  dangerouslySetInnerHTML={{ __html: q.description }}
+                />
+              </Stack>
+            </Container>
+          ))}
+        </Stack>
       </div>
     </Layout>
   )
