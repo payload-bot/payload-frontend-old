@@ -1,4 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
+import { Webhook } from '../shared/interfaces'
 import { User, UserState } from './types'
 import {
   deleteWebhook,
@@ -45,11 +46,8 @@ export const userSlice = createSlice({
       state.loading = false
     },
 
-    setUserWebhookSuccess: (
-      state,
-      { payload }: PayloadAction<{ data: string }>,
-    ) => {
-      state.user.webhook = payload.data
+    setUserWebhookSuccess: (state, { payload }: PayloadAction<Webhook>) => {
+      state.user.webhook = payload
     },
 
     deleteUserWebhookSuccess: state => {

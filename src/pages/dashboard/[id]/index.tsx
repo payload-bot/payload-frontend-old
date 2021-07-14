@@ -6,26 +6,26 @@ import React, { useEffect, useState } from 'react'
 import { fetchServer, updateServer } from '../../../redux/servers/serverSlice'
 import { useAppSelector } from '../../../redux/store'
 import {
+  Alert,
+  Button,
   CircularProgress,
   Container,
-  makeStyles,
-  Typography,
-  Box,
   Card,
   CardContent,
-  TextField,
   MenuItem,
   Select,
-  Button,
   Snackbar,
+  Stack,
+  TextField,
+  Typography,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../../redux/servers/types'
-import Alert from '../../../components/Alert'
 import DashboardSidebar from '../../../components/DashboardSidebar'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   card: {
     minWidth: '35%',
   },
@@ -80,33 +80,25 @@ function ServerDashboardPage() {
   }, [activeServerId])
 
   return (
-    <Layout sideBarEnabled={!loadingActiveServer} sideBarContent={<DashboardSidebar {...activeServer} />}>
+    <Layout
+      sideBarEnabled={!loadingActiveServer}
+      sideBarContent={<DashboardSidebar {...activeServer} />}
+    >
       <Container>
         {loadingActiveServer && (
           <Container>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              height="35vh"
-            >
-              <CircularProgress size={40} />
+            <Stack alignItems="center" justifyContent="center" height="35vh">
+              <CircularProgress size={50} />
               <Typography variant="h5">Loading your dashboard</Typography>
-            </Box>
+            </Stack>
           </Container>
         )}
 
         {!loadingActiveServer && !passedBetaCheck && (
           <Container>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="35vh"
-            >
+            <Stack alignItems="center" justifyContent="center" height="35vh">
               <Typography>You are not a beta tester :(</Typography>
-            </Box>
+            </Stack>
           </Container>
         )}
 
@@ -114,29 +106,18 @@ function ServerDashboardPage() {
           passedBetaCheck &&
           loadingActiveServerErrorMsg && (
             <Container>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="35vh"
-              >
+              <Stack alignItems="center" justifyContent="center" height="35vh">
                 <Typography>{loadingActiveServerErrorMsg}</Typography>
-              </Box>
+              </Stack>
             </Container>
           )}
 
         {!loadingActiveServer && passedBetaCheck && activeServer && (
           <Container>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              py={2}
-            >
+            <Stack alignItems="center" py={2}>
               <ServerAvatar icon={activeServer.icon} name={activeServer.name} />
               <Typography variant="h6">{activeServer.name}</Typography>
-            </Box>
+            </Stack>
             <Card className={styles.card}>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -221,11 +202,9 @@ function ServerDashboardPage() {
                     )}
                   />
                   <br />
-                  <Box mt={3}>
-                    <Button type="submit" color="primary" variant="outlined">
-                      Save
-                    </Button>
-                  </Box>
+                  <Button type="submit" color="primary" variant="outlined">
+                    Save
+                  </Button>
                 </form>
               </CardContent>
             </Card>

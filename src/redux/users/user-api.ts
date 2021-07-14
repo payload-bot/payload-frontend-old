@@ -1,4 +1,5 @@
 import axios from '../axios'
+import { Webhook } from '../shared/interfaces'
 import { User } from './types'
 
 export async function getUserInfo() {
@@ -12,7 +13,7 @@ export async function patchUser(data: Partial<User>) {
 }
 
 export async function generateUserWebhook() {
-  const { data } = await axios.post<{ data: string }>('/api/webhooks/v1/users/create')
+  const { data } = await axios.post<Webhook>('/api/webhooks/v1/users/create')
 
   return data ?? null
 }

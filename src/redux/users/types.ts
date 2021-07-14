@@ -1,11 +1,14 @@
+import { Webhook } from '../shared/interfaces'
+
 export interface User {
   isAdmin: boolean
   isBetaTester: boolean
-  webhook: string | null
+  webhook: Webhook
   username: string
   name: string
   avatar: string | null
   id: string
+  pushcartPoints: number
   discriminator: string
   notificationsLevel: string
   latestUpdateNotifcation: string

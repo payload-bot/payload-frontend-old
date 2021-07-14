@@ -1,6 +1,13 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { ActiveServer, Server, ServerState } from './types'
-import { getAllServers, getServer, patchServer } from './server-api'
+import {
+  deleteServerWebhook as deleteGuildWebhook,
+  generateServerWebhook,
+  getAllServers,
+  getServer,
+  patchServer,
+} from './server-api'
+import { Webhook } from '../shared/interfaces'
 
 type ApiErrorData = {
   status: number
@@ -74,6 +81,14 @@ export const serverSlice = createSlice({
     updateActiveServerFailure: (state, { payload }: PayloadAction<string>) => {
       state.updateActiveServerErrorMsg = payload ?? 'Failed to update server.'
     },
+
+    setServerWebhookSuccess: (state, { payload }: PayloadAction<Webhook>) => {
+      state.activeServer.webhook = payload
+    },
+
+    deleteServerWebhookSuccess: state => {
+      state.activeServer.webhook = null
+    },
   },
 })
 
@@ -106,6 +121,26 @@ export const updateServer =
     }
   }
 
+export const createServerWebhook =
+  (guildId: string, channelId: string) => async (dispatch: Dispatch) => {
+    try {
+      const webhook = await generateServerWebhook(guildId, channelId)
+      dispatch(setServerWebhookSuccess(webhook))
+    } catch (err) {
+      // I don't know what to do here yet.
+    }
+  }
+
+export const deleteServerWebhook =
+  (guildId: string) => async (dispatch: Dispatch) => {
+    try {
+      await deleteGuildWebhook(guildId)
+      dispatch(deleteServerWebhookSuccess())
+    } catch (err) {
+      // I don't know what to do here yet.
+    }
+  }
+
 export const {
   setServersSuccess,
   setServersFailure,
@@ -115,6 +150,8 @@ export const {
   setActiveServerFailure,
   updateActiveServerSuccess,
   updateActiveServerFailure,
+  setServerWebhookSuccess,
+  deleteServerWebhookSuccess,
 } = serverSlice.actions
 
 export default serverSlice.reducer
