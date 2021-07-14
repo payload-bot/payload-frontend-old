@@ -1,5 +1,15 @@
 import Link from 'next/link'
-import { Box, Button, Theme, Typography } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  Hidden,
+  IconButton,
+  Stack,
+  Theme,
+  Typography,
+} from '@material-ui/core'
+import RightArrow from '@material-ui/icons/ChevronRight'
+
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch } from 'react-redux'
 import { Server } from '../redux/servers/types'
@@ -33,28 +43,47 @@ export default function ServerSelection({ server }: ServerProps) {
     }
   }
 
+  const dashboardButton = (
+    <>
+      <Hidden smDown implementation="css">
+        <Link href={`/dashboard/${server.id}`}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setActiveServer}
+          >
+            Go to Dashboard
+          </Button>
+        </Link>
+      </Hidden>
+      <Hidden smUp implementation="css">
+        <Link href={`/dashboard/${server.id}`}>
+          <IconButton onClick={() => setActiveServer}>
+            <RightArrow fontSize="large" />
+          </IconButton>
+        </Link>
+      </Hidden>
+    </>
+  )
+
   const openInviteLinkInWindow = () => {
     window.open('https://payload.tf/invite', '_blank', 'height=750,width=500')
   }
 
   return (
-    <Box
-      display="flex"
+    <Stack
       justifyContent="space-between"
       alignItems="center"
+      direction="row"
       className={styles.container}
     >
-      <Box display="flex" alignItems="center" gap={5}>
+      <Stack direction="row" alignItems="center" gap={2}>
         <ServerAvatar icon={server.iconUrl} name={server.name} />
 
         <Typography variant="body1">{server.name}</Typography>
-      </Box>
+      </Stack>
       {server.isPayloadIn ? (
-        <Link href={`/dashboard/${server.id}`}>
-          <Button variant="contained" color="primary" onClick={setActiveServer}>
-            Go to Dashboard
-          </Button>
-        </Link>
+        dashboardButton
       ) : (
         <Button
           variant="contained"
@@ -64,6 +93,6 @@ export default function ServerSelection({ server }: ServerProps) {
           Invite
         </Button>
       )}
-    </Box>
+    </Stack>
   )
 }
