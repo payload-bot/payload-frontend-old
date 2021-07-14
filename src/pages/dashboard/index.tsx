@@ -56,16 +56,14 @@ function DashboardPage() {
 
         {!loadingAllServers && servers && (
           <Container maxWidth="md">
-            <Box mb={7}>
-              <Typography align="center" variant="h4">
-                <Box py={5}>Choose a Server</Box>
-              </Typography>
-              <Stack gap={2}>
-                {servers.map(server => (
-                  <Server key={server.id} server={server} />
-                ))}
-              </Stack>
-            </Box>
+            <Typography align="center" variant="h4">
+              <Box py={3}>Choose a Server</Box>
+            </Typography>
+            <Stack gap={2}>
+              {servers.map(server => (
+                <Server key={server.id} server={server} />
+              ))}
+            </Stack>
           </Container>
         )}
       </Container>

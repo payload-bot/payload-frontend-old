@@ -15,7 +15,7 @@ export default function Footer() {
   const styles = useStyles()
 
   return (
-    <Box className={styles.footer}>
+    <Box className={styles.footer} mt={5}>
       <Paper>
         <Typography
           variant="subtitle1"
