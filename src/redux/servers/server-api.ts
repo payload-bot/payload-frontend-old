@@ -26,7 +26,7 @@ export async function generateServerWebhook(
   channelId: string,
 ) {
   const { data } = await axios.post<Webhook>(
-    `/api/webhooks/v1/guilds/${guildId}/create`,
+    `/api/webhooks/v1/guilds/${guildId}`,
     { channelId },
   )
 

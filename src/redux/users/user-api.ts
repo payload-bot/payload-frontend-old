@@ -13,7 +13,7 @@ export async function patchUser(data: Partial<User>) {
 }
 
 export async function generateUserWebhook() {
-  const { data } = await axios.post<Webhook>('/api/webhooks/v1/users/create')
+  const { data } = await axios.post<Webhook>('/api/webhooks/v1/users')
 
   return data ?? null
 }
