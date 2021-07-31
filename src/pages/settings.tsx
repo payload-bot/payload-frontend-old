@@ -26,6 +26,7 @@ import {
 } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
 import { User } from '../redux/users/types'
+import LoadingButton from '@material-ui/lab/LoadingButton'
 
 function SettingsPage() {
   const dispatch = useDispatch()
@@ -36,6 +37,8 @@ function SettingsPage() {
   const [userUpdateSuccess, setUserUpdateSuccess] = useState(false)
   const [userUpdateFailure, setUserUpdateFailure] = useState(false)
 
+  const [modifyingWebhook, setModifyingWebhook] = useState(false)
+
   useEffect(() => {
     if (loading) dispatch(fetchUser())
   }, [])
@@ -45,11 +48,13 @@ function SettingsPage() {
   const generateWebhook = () => {
     // Let's not try to make API call if we don't have to
     if (user.webhook) return
+    setModifyingWebhook(true)
     dispatch(createUserWebhook())
   }
 
   const deleteWebhook = () => {
     if (!user.webhook) return
+    setModifyingWebhook(true)
     dispatch(deleteUserWebhook())
   }
 
@@ -63,6 +68,12 @@ function SettingsPage() {
     if (updateUserErrorMsg) setUserUpdateFailure(true)
     else setUserUpdateSuccess(true)
   }
+
+  useEffect(() => {
+    if (!modifyingWebhook) return
+    setModifyingWebhook(false)
+  }, [user?.webhook?.value])
+
   return (
     <Layout>
       <Stack spacing={2} alignItems="center" my={3} mb={2}>
@@ -91,24 +102,26 @@ function SettingsPage() {
                 >
                   Copy Webhook Token
                 </Button>
-                <Button
+                <LoadingButton
+                  loading={modifyingWebhook}
                   variant="contained"
                   color="error"
                   size="small"
                   onClick={deleteWebhook}
                 >
                   Delete Webhook
-                </Button>
+                </LoadingButton>
               </Stack>
             ) : (
-              <Button
+              <LoadingButton
+                loading={modifyingWebhook}
                 variant="contained"
                 color="primary"
                 size="small"
                 onClick={generateWebhook}
               >
                 Create Webhook
-              </Button>
+              </LoadingButton>
             )}
             <br />
             <br />
