@@ -80,39 +80,35 @@ function SettingsPage() {
               Last update: {user.latestUpdateNotifcation} &bull; Pushcart
               points: {user.pushcartPoints}
             </Stack>
-            {user.isBetaTester && (
-              <>
-                <Typography variant="h5">Webhook: </Typography>
-                {user.webhook ? (
-                  <Stack spacing={1} direction="row">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      onClick={copyWebhookTokenToClipboard}
-                    >
-                      Copy Webhook Token
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      size="small"
-                      onClick={deleteWebhook}
-                    >
-                      Delete Webhook
-                    </Button>
-                  </Stack>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={generateWebhook}
-                  >
-                    Create Webhook
-                  </Button>
-                )}
-              </>
+            <Typography variant="h5">Webhook: </Typography>
+            {user.webhook ? (
+              <Stack spacing={1} direction="row">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={copyWebhookTokenToClipboard}
+                >
+                  Copy Webhook Token
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  size="small"
+                  onClick={deleteWebhook}
+                >
+                  Delete Webhook
+                </Button>
+              </Stack>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={generateWebhook}
+              >
+                Create Webhook
+              </Button>
             )}
             <br />
             <br />

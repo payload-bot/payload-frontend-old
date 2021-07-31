@@ -139,39 +139,35 @@ function ServerDashboardPage() {
             </Stack>
             <Card className={styles.card}>
               <CardContent>
-                {user.isBetaTester && (
-                  <>
-                    Webhook:{' '}
-                    {activeServer.webhook ? (
-                      <Box display="flex" gap={2}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          onClick={copyWebhookTokenToClipboard}
-                        >
-                          Copy Webhook Token
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          size="small"
-                          onClick={deleteWebhook}
-                        >
-                          Delete Webhook
-                        </Button>
-                      </Box>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={() => setOpenWebhookDialog(true)}
-                      >
-                        Create Webhook
-                      </Button>
-                    )}
-                  </>
+                Webhook:{' '}
+                {activeServer.webhook ? (
+                  <Box display="flex" gap={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={copyWebhookTokenToClipboard}
+                    >
+                      Copy Webhook Token
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={deleteWebhook}
+                    >
+                      Delete Webhook
+                    </Button>
+                  </Box>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => setOpenWebhookDialog(true)}
+                  >
+                    Create Webhook
+                  </Button>
                 )}
               </CardContent>
             </Card>
