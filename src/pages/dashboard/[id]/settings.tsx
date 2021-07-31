@@ -11,7 +11,6 @@ import {
 import { useAppSelector } from '../../../redux/store'
 import {
   Autocomplete,
-  Alert,
   Box,
   CircularProgress,
   Container,
@@ -49,13 +48,10 @@ function ServerDashboardPage() {
   const {
     activeServer,
     activeServerId,
-    passedBetaCheck,
     loadingActiveServer,
     loadingActiveServerErrorMsg,
     loadedServerCache,
   } = useAppSelector(state => state.servers)
-
-  const { user } = useAppSelector(state => state.users)
 
   const [openWebhookDialog, setOpenWebhookDialog] = useState(false)
   const [webhookChannel, setWebhookChannel] = useState('')
@@ -74,6 +70,11 @@ function ServerDashboardPage() {
   }, [loadingActiveServerErrorMsg])
 
   useEffect(() => {
+    if (!openWebhookDialog || !creatingWebhook) return
+    onWebhookDialogClose()
+  }, [activeServer?.webhook?.value])
+
+  useEffect(() => {
     if (!loadedServerCache[id as string]) {
       dispatch(fetchServer(id as string))
     }
@@ -84,12 +85,11 @@ function ServerDashboardPage() {
     await navigator.clipboard.writeText(activeServer.webhook.value)
   }
 
-  const generateWebhook = () => {
+  const generateWebhook = async () => {
     // Let's not try to make API call if we don't have to
     if (activeServer.webhook) return
     setCreatingWebhook(true)
     dispatch(createServerWebhook(activeServer.id, webhookChannel))
-    onWebhookDialogClose()
   }
 
   const deleteWebhook = () => {
@@ -118,7 +118,7 @@ function ServerDashboardPage() {
           </Container>
         )}
 
-        {!loadingActiveServer && !passedBetaCheck && (
+        {!loadingActiveServer && loadingActiveServerErrorMsg && (
           <Container>
             <Box
               display="flex"
@@ -126,27 +126,12 @@ function ServerDashboardPage() {
               alignItems="center"
               height="35vh"
             >
-              <Typography>You are not a beta tester :(</Typography>
+              <Typography>{loadingActiveServerErrorMsg}</Typography>
             </Box>
           </Container>
         )}
 
-        {!loadingActiveServer &&
-          passedBetaCheck &&
-          loadingActiveServerErrorMsg && (
-            <Container>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="35vh"
-              >
-                <Typography>{loadingActiveServerErrorMsg}</Typography>
-              </Box>
-            </Container>
-          )}
-
-        {!loadingActiveServer && passedBetaCheck && activeServer && (
+        {!loadingActiveServer && activeServer && (
           <Container>
             <Stack alignItems="center" py={2}>
               <ServerAvatar icon={activeServer.icon} name={activeServer.name} />
@@ -154,39 +139,35 @@ function ServerDashboardPage() {
             </Stack>
             <Card className={styles.card}>
               <CardContent>
-                {user.isBetaTester && (
-                  <>
-                    Webhook:{' '}
-                    {activeServer.webhook ? (
-                      <Box display="flex" gap={2}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          onClick={copyWebhookTokenToClipboard}
-                        >
-                          Copy Webhook Token
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          size="small"
-                          onClick={deleteWebhook}
-                        >
-                          Delete Webhook
-                        </Button>
-                      </Box>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={() => setOpenWebhookDialog(true)}
-                      >
-                        Create Webhook
-                      </Button>
-                    )}
-                  </>
+                Webhook:{' '}
+                {activeServer.webhook ? (
+                  <Box display="flex" gap={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={copyWebhookTokenToClipboard}
+                    >
+                      Copy Webhook Token
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={deleteWebhook}
+                    >
+                      Delete Webhook
+                    </Button>
+                  </Box>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => setOpenWebhookDialog(true)}
+                  >
+                    Create Webhook
+                  </Button>
                 )}
               </CardContent>
             </Card>

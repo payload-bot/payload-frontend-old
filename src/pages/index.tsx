@@ -94,7 +94,13 @@ function Index() {
           </Typography>
         </Box>
 
-        <Stack gap={5} direction="row" justifyContent="center" py={5}>
+        <Stack
+          gap={5}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          py={5}
+        >
           <a href="https://etf2l.org">
             <Image
               src="/img/etf2l.png"
@@ -138,7 +144,7 @@ function Index() {
 
         <Stack gap={2} justifyContent="center" alignItems="center">
           {faqQuestions.map((q: FAQQuestion) => (
-            <Container maxWidth="md">
+            <Container maxWidth="md" key={q.title}>
               <Stack justifyContent="center" alignItems="center" gap={0.5}>
                 <Typography textAlign="center" variant="h5">
                   {q.title}
