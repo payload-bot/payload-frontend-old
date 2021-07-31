@@ -138,7 +138,7 @@ function Index() {
 
         <Stack gap={2} justifyContent="center" alignItems="center">
           {faqQuestions.map((q: FAQQuestion) => (
-            <Container maxWidth="md">
+            <Container maxWidth="md" key={q.title}>
               <Stack justifyContent="center" alignItems="center" gap={0.5}>
                 <Typography textAlign="center" variant="h5">
                   {q.title}
