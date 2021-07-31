@@ -94,7 +94,13 @@ function Index() {
           </Typography>
         </Box>
 
-        <Stack gap={5} direction="row" justifyContent="center" py={5}>
+        <Stack
+          gap={5}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          py={5}
+        >
           <a href="https://etf2l.org">
             <Image
               src="/img/etf2l.png"
