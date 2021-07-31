@@ -17,9 +17,7 @@ import { useAppSelector } from '../../redux/store'
 
 function DashboardPage() {
   const dispatch = useDispatch()
-  const { servers, loadingAllServers, passedBetaCheck } = useAppSelector(
-    state => state.servers,
-  )
+  const { servers, loadingAllServers } = useAppSelector(state => state.servers)
 
   useEffect(() => {
     if (loadingAllServers) dispatch(fetchAllServers())
@@ -41,9 +39,8 @@ function DashboardPage() {
           <Stack justifyContent="center" alignItems="center" height="50vh">
             <Typography align="center" variant="h5">
               <Box py={2}>
-                {passedBetaCheck
-                  ? 'Uh oh! You have no servers to manage.'
-                  : 'This feature is open to beta users only.'}
+                Uh oh! You have no servers to manage. You should add Payload to
+                a server!
               </Box>
               <Link href="/">
                 <Button variant="outlined" color="primary">
