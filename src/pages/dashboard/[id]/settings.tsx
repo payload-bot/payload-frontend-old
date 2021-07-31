@@ -11,7 +11,6 @@ import {
 import { useAppSelector } from '../../../redux/store'
 import {
   Autocomplete,
-  Alert,
   Box,
   CircularProgress,
   Container,
@@ -49,13 +48,10 @@ function ServerDashboardPage() {
   const {
     activeServer,
     activeServerId,
-    passedBetaCheck,
     loadingActiveServer,
     loadingActiveServerErrorMsg,
     loadedServerCache,
   } = useAppSelector(state => state.servers)
-
-  const { user } = useAppSelector(state => state.users)
 
   const [openWebhookDialog, setOpenWebhookDialog] = useState(false)
   const [webhookChannel, setWebhookChannel] = useState('')
@@ -74,6 +70,11 @@ function ServerDashboardPage() {
   }, [loadingActiveServerErrorMsg])
 
   useEffect(() => {
+    if (!openWebhookDialog || !creatingWebhook) return
+    onWebhookDialogClose()
+  }, [activeServer?.webhook?.value])
+
+  useEffect(() => {
     if (!loadedServerCache[id as string]) {
       dispatch(fetchServer(id as string))
     }
@@ -84,12 +85,11 @@ function ServerDashboardPage() {
     await navigator.clipboard.writeText(activeServer.webhook.value)
   }
 
-  const generateWebhook = () => {
+  const generateWebhook = async () => {
     // Let's not try to make API call if we don't have to
     if (activeServer.webhook) return
     setCreatingWebhook(true)
     dispatch(createServerWebhook(activeServer.id, webhookChannel))
-    onWebhookDialogClose()
   }
 
   const deleteWebhook = () => {
