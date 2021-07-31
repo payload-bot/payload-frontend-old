@@ -118,7 +118,7 @@ function ServerDashboardPage() {
           </Container>
         )}
 
-        {!loadingActiveServer && !passedBetaCheck && (
+        {!loadingActiveServer && loadingActiveServerErrorMsg && (
           <Container>
             <Box
               display="flex"
@@ -126,27 +126,12 @@ function ServerDashboardPage() {
               alignItems="center"
               height="35vh"
             >
-              <Typography>You are not a beta tester :(</Typography>
+              <Typography>{loadingActiveServerErrorMsg}</Typography>
             </Box>
           </Container>
         )}
 
-        {!loadingActiveServer &&
-          passedBetaCheck &&
-          loadingActiveServerErrorMsg && (
-            <Container>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="35vh"
-              >
-                <Typography>{loadingActiveServerErrorMsg}</Typography>
-              </Box>
-            </Container>
-          )}
-
-        {!loadingActiveServer && passedBetaCheck && activeServer && (
+        {!loadingActiveServer && activeServer && (
           <Container>
             <Stack alignItems="center" py={2}>
               <ServerAvatar icon={activeServer.icon} name={activeServer.name} />

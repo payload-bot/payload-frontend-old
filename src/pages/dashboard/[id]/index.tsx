@@ -94,25 +94,15 @@ function ServerDashboardPage() {
           </Container>
         )}
 
-        {!loadingActiveServer && !passedBetaCheck && (
+        {!loadingActiveServer && loadingActiveServerErrorMsg && (
           <Container>
             <Stack alignItems="center" justifyContent="center" height="35vh">
-              <Typography>You are not a beta tester :(</Typography>
+              <Typography>{loadingActiveServerErrorMsg}</Typography>
             </Stack>
           </Container>
         )}
 
-        {!loadingActiveServer &&
-          passedBetaCheck &&
-          loadingActiveServerErrorMsg && (
-            <Container>
-              <Stack alignItems="center" justifyContent="center" height="35vh">
-                <Typography>{loadingActiveServerErrorMsg}</Typography>
-              </Stack>
-            </Container>
-          )}
-
-        {!loadingActiveServer && passedBetaCheck && activeServer && (
+        {!loadingActiveServer && activeServer && (
           <Container>
             <Stack alignItems="center" py={2}>
               <ServerAvatar icon={activeServer.icon} name={activeServer.name} />
