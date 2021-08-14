@@ -172,8 +172,9 @@ function ServerDashboardPage() {
                       <Select {...field} style={{ margin: 8 }}>
                         <MenuItem value="en-US">English</MenuItem>
                         <MenuItem value="es-ES">Spanish</MenuItem>
-                        <MenuItem value="fi-FI">Finnish</MenuItem>
                         <MenuItem value="pl-PL">Polish</MenuItem>
+                        <MenuItem value="de-DE">German</MenuItem>
+                        <MenuItem value="fi-FI">Finnish</MenuItem>
                       </Select>
                     )}
                   />
