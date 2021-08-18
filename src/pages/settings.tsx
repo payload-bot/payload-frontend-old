@@ -147,7 +147,7 @@ function SettingsPage() {
                       <Select
                         {...field}
                         label="Notifications Level"
-                        id="notifications-select-label"
+                        labelId="notifications-select-label"
                       >
                         <MenuItem value={0}>None</MenuItem>
                         <MenuItem value={1}>Major</MenuItem>

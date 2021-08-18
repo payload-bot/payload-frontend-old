@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: DRAWER_WIDTH,
       flexShrink: 0,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -72,8 +72,8 @@ export default function Layout({
   )
 
   const renderNav = (
-    <nav className={styles.drawer} aria-label="mailbox folders">
-      <Hidden smUp implementation="css">
+    <nav className={styles.drawer} aria-label="sidebar navbar">
+      <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
           anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -89,7 +89,7 @@ export default function Layout({
           {drawer}
         </Drawer>
       </Hidden>
-      <Hidden smDown implementation="css">
+      <Hidden mdDown implementation="css">
         <Drawer
           classes={{
             paper: styles.drawerPaper,
