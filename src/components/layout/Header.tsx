@@ -129,7 +129,9 @@ export default function Header({
         <ListItemIcon>
           <ExitToAppIcon fontSize="small" />
         </ListItemIcon>
-        <Typography color="red">Logout</Typography>
+        <Typography color="red" onClick={logout}>
+          Logout
+        </Typography>
       </MenuItem>
     </Menu>
   )
@@ -165,7 +167,9 @@ export default function Header({
         <ListItemIcon>
           <ExitToAppIcon fontSize="small" />
         </ListItemIcon>
-        <Typography color="red">Logout</Typography>
+        <Typography color="red" onClick={logout}>
+          Logout
+        </Typography>
       </MenuItem>
     </Menu>
   )
