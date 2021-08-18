@@ -6,7 +6,7 @@ export default function SEO() {
       <meta name="title" content="Payload" />
       <meta name="theme-color" content="#0074D9" />
       <meta name="robots" content="index, follow" />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
       <meta name="revisit-after" content="5 days" />
       <meta name="author" content="24" />
