@@ -14,6 +14,10 @@ import {
   TextField,
   Tooltip,
   Typography,
+  InputLabel,
+  FormControl,
+  useMediaQuery,
+  Theme,
 } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import withAuth from '../components/withAuth'
@@ -30,6 +34,9 @@ import LoadingButton from '@material-ui/lab/LoadingButton'
 
 function SettingsPage() {
   const dispatch = useDispatch()
+  const isMobileDevice = useMediaQuery<Theme>(theme =>
+    theme.breakpoints.up('sm'),
+  )
   const { user, loading, updateUserErrorMsg } = useAppSelector(
     state => state.users,
   )
@@ -91,9 +98,8 @@ function SettingsPage() {
               Last update: {user.latestUpdateNotifcation} &bull; Pushcart
               points: {user.pushcartPoints}
             </Stack>
-            <Typography variant="h5">Webhook: </Typography>
             {user.webhook ? (
-              <Stack spacing={1} direction="row">
+              <Stack spacing={1} mb={3} direction="row">
                 <Button
                   variant="contained"
                   color="primary"
@@ -123,41 +129,48 @@ function SettingsPage() {
                 Create Webhook
               </LoadingButton>
             )}
-            <br />
-            <br />
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={2} mb={3}>
-                <>
-                  <Typography variant="h5">Notifications level</Typography>
+              <Stack
+                my={3}
+                spacing={2}
+                direction={isMobileDevice ? 'row' : 'column'}
+              >
+                <FormControl sx={{ minWidth: 175 }}>
+                  <InputLabel id="notifications-select-label">
+                    Notifications Level
+                  </InputLabel>
                   <Controller
                     name="notificationsLevel"
                     control={control}
                     defaultValue={user.notificationsLevel}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        {...field}
+                        label="Notifications Level"
+                        id="notifications-select-label"
+                      >
                         <MenuItem value={0}>None</MenuItem>
                         <MenuItem value={1}>Major</MenuItem>
                         <MenuItem value={2}>All</MenuItem>
                       </Select>
                     )}
                   />
-                </>
+                </FormControl>
 
-                <>
-                  <Typography variant="h5">Steam ID</Typography>
-                  <Controller
-                    name="steamId"
-                    control={control}
-                    defaultValue={user.steamId}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        helperText="Your SteamID64"
-                        {...field}
-                      />
-                    )}
-                  />
-                </>
+                <Controller
+                  name="steamId"
+                  control={control}
+                  defaultValue={user.steamId}
+                  render={({ field }) => (
+                    <TextField
+                      fullWidth
+                      label="Steam ID"
+                      autoComplete="false"
+                      helperText="Your Steam ID, any format"
+                      {...field}
+                    />
+                  )}
+                />
               </Stack>
               <Button type="submit" color="primary" variant="outlined">
                 Save
