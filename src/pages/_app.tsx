@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import jwt_decode from 'jwt-decode'
 import store from '../redux/store'
 import theme from '../lib/makeTheme'
-import SEO from "../components/layout/Seo";
+import SEO from "../components/layout/SEO";
 import useLocalStorage from '../components/hooks/useLocalStorage'
 
 import '../styles/globals.css'
