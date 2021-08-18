@@ -240,9 +240,16 @@ function ServerDashboardPage() {
         open={serverUpdateSuccess}
         autoHideDuration={5000}
         onClose={() => setUpdateServerSuccess(prev => !prev)}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success">Successfully updated settings</Alert>
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setUpdateServerSuccess(prev => !prev)}
+        >
+          Successfully updated settings
+        </Alert>
       </Snackbar>
 
       {/* Failure snackbar */}
@@ -250,9 +257,16 @@ function ServerDashboardPage() {
         open={serverUpdateFailure}
         autoHideDuration={5000}
         onClose={() => setUpdateServerFailure(prev => !prev)}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="error">Failed to update settings</Alert>
+        <Alert
+          severity="error"
+          variant="filled"
+          onClose={() => setUpdateServerSuccess(prev => !prev)}
+        >
+          Failed to update settings
+        </Alert>
       </Snackbar>
     </Layout>
   )
