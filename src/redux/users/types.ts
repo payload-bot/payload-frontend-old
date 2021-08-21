@@ -12,7 +12,7 @@ export interface User {
   discriminator: string
   notificationsLevel: string
   latestUpdateNotifcation: string
-  steamId: boolean
+  steamId: string
 }
 
 export interface UserState {

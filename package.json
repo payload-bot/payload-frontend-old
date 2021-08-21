@@ -15,6 +15,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "5.0.0-alpha.43",
     "@material-ui/styles": "5.0.0-beta.4",
+    "@node-steam/id": "^1.2.0",
     "@reduxjs/toolkit": "^1.6.1",
     "axios": "^0.21.1",
     "axios-auth-refresh": "^3.1.0",
@@ -23,6 +24,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.12.2",
+    "react-query": "^3.21.0",
     "react-redux": "^7.2.4",
     "react-tsparticles": "^1.33.3"
   },

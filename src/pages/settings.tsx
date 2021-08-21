@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { ID as SteamID } from '@node-steam/id'
 import {
   Avatar,
   Alert,
@@ -50,7 +51,23 @@ function SettingsPage() {
     if (loading) dispatch(fetchUser())
   }, [])
 
-  const { control, handleSubmit } = useForm()
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm()
+
+  const steamIdWatcher = watch('steamId', user.steamId)
+
+  const steamId64Transformed = useMemo(() => {
+    if (steamIdWatcher == '0') return null
+    try {
+      return new SteamID(steamIdWatcher).getSteamID64()
+    } catch {
+      return null
+    }
+  }, [steamIdWatcher])
 
   const generateWebhook = () => {
     // Let's not try to make API call if we don't have to
@@ -71,6 +88,8 @@ function SettingsPage() {
   }
 
   const onSubmit = (data: Partial<User>) => {
+    // Hack to transform any steamid to correct format
+    data.steamId = steamIdWatcher === '' ? '' : steamId64Transformed
     dispatch(updateUser(data))
     if (updateUserErrorMsg) setUserUpdateFailure(true)
     else setUserUpdateSuccess(true)
@@ -80,6 +99,21 @@ function SettingsPage() {
     if (!modifyingWebhook) return
     setModifyingWebhook(false)
   }, [user?.webhook?.value])
+
+  const steamIdHelperText = () => {
+    if (errors.steamId) {
+      // If I have a message, use it, default otherwise
+      return !!errors.steamId.message
+        ? errors.steamId.message
+        : "That doesn't appear to be a valid SteamID."
+    }
+
+    if (steamIdWatcher !== '' && !!steamId64Transformed) {
+      return `SteamID64: ${steamId64Transformed}`
+    }
+
+    return 'Your Steam ID, any format'
+  }
 
   return (
     <Layout>
@@ -161,12 +195,22 @@ function SettingsPage() {
                   name="steamId"
                   control={control}
                   defaultValue={user.steamId}
+                  rules={{
+                    validate: value => {
+                      try {
+                        return !!new SteamID(value).getSteamID64()
+                      } catch (err) {
+                        return false
+                      }
+                    },
+                  }}
                   render={({ field }) => (
                     <TextField
                       fullWidth
                       label="Steam ID"
                       autoComplete="false"
-                      helperText="Your Steam ID, any format"
+                      error={errors.steamId ? true : false}
+                      helperText={steamIdHelperText()}
                       {...field}
                     />
                   )}
@@ -184,20 +228,26 @@ function SettingsPage() {
       <Snackbar
         open={userUpdateSuccess}
         autoHideDuration={5000}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         onClose={() => setUserUpdateSuccess(prev => !prev)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success">Successfully updated settings</Alert>
+        <Alert severity="success" variant="filled">
+          Successfully updated settings
+        </Alert>
       </Snackbar>
 
       {/* Failure snackbar */}
       <Snackbar
         open={userUpdateFailure}
         autoHideDuration={5000}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         onClose={() => setUserUpdateFailure(prev => !prev)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="error">Failed to update settings</Alert>
+        <Alert severity="error" variant="filled">
+          Failed to update settings
+        </Alert>
       </Snackbar>
     </Layout>
   )
