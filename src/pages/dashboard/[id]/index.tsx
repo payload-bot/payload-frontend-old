@@ -18,12 +18,17 @@ import {
   Stack,
   TextField,
   Typography,
+  Theme,
+  FormControl,
+  InputLabel,
+  Grid,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ServerAvatar from '../../../components/ServerAvatar'
 import { Controller, useForm } from 'react-hook-form'
 import { ActiveServer } from '../../../redux/servers/types'
 import DashboardSidebar from '../../../components/DashboardSidebar'
+import { useMediaQuery } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -36,10 +41,13 @@ function ServerDashboardPage() {
   const { id } = router.query
   const dispatch = useDispatch()
   const styles = useStyles()
+  const isMobileDevice = useMediaQuery<Theme>(theme =>
+    theme.breakpoints.up('md'),
+  )
+
   const {
     activeServer,
     activeServerId,
-    passedBetaCheck,
     loadingActiveServer,
     loadingActiveServerErrorMsg,
     loadedServerCache,
@@ -56,7 +64,7 @@ function ServerDashboardPage() {
     handleSubmit,
   } = useForm()
 
-  const watchPrefix = watch('prefix')
+  const watchPrefix = watch('prefix', activeServer?.prefix)
 
   const onSubmit = (data: Partial<ActiveServer>) => {
     dispatch(updateServer(id as string, data))
@@ -111,88 +119,112 @@ function ServerDashboardPage() {
             <Card className={styles.card}>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Bot name
-                  </Typography>
-                  <Controller
-                    name="botName"
-                    control={control}
-                    defaultValue={activeServer.botName}
-                    rules={{
-                      minLength: 1,
-                      maxLength: 100,
-                      required: 'Invalid nickname',
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        error={errors.botName ? true : false}
-                        helperText={errors.botName && errors.botName.message}
-                        {...field}
-                        style={{ margin: 8 }}
+                  <Grid
+                    container
+                    mt={1}
+                    mb={3}
+                    spacing={3}
+                    direction={isMobileDevice ? 'row' : 'column'}
+                  >
+                    <Grid item xs={8}>
+                      <Controller
+                        name="botName"
+                        control={control}
+                        defaultValue={activeServer.botName}
+                        rules={{
+                          minLength: 1,
+                          maxLength: 100,
+                          required: 'Invalid nickname',
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            fullWidth
+                            label="Bot Name"
+                            autoComplete="false"
+                            error={errors.botName ? true : false}
+                            helperText={
+                              errors.botName && errors.botName.message
+                            }
+                            {...field}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Prefix
-                  </Typography>
-                  <Controller
-                    name="prefix"
-                    control={control}
-                    defaultValue={activeServer.prefix}
-                    rules={{
-                      minLength: 1,
-                      maxLength: 75,
-                      required: 'You need a prefix!',
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        error={errors.prefix ? true : false}
-                        helperText={
-                          !!watchPrefix && !errors.botName
-                            ? `Usage: ${watchPrefix}commands`
-                            : errors.prefix
-                            ? errors.prefix.message
-                            : ''
-                        }
-                        {...field}
-                        style={{ margin: 8 }}
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Controller
+                        name="prefix"
+                        control={control}
+                        defaultValue={activeServer.prefix}
+                        rules={{
+                          minLength: 1,
+                          maxLength: 75,
+                          required: 'You need a prefix!',
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            label="Prefix"
+                            autoComplete="false"
+                            error={errors.prefix ? true : false}
+                            helperText={
+                              !errors.botName
+                                ? `Usage: ${watchPrefix ?? activeServer.prefix}commands`
+                                : errors.prefix
+                                ? errors.prefix.message
+                                : ''
+                            }
+                            {...field}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Language
-                  </Typography>
-                  <Controller
-                    name="language"
-                    control={control}
-                    defaultValue={activeServer.language}
-                    render={({ field }) => (
-                      <Select {...field} style={{ margin: 8 }}>
-                        <MenuItem value="en-US">English</MenuItem>
-                        <MenuItem value="es-ES">Spanish</MenuItem>
-                        <MenuItem value="pl-PL">Polish</MenuItem>
-                        <MenuItem value="de-DE">German</MenuItem>
-                        <MenuItem value="fi-FI">Finnish</MenuItem>
-                      </Select>
-                    )}
-                  />
-                  <Typography variant="h5" style={{ margin: 8 }}>
-                    Snipe Permissions
-                  </Typography>
-                  <Controller
-                    name="enableSnipeForEveryone"
-                    control={control}
-                    defaultValue={activeServer.enableSnipeForEveryone}
-                    render={({ field }) => (
-                      <Select {...field} style={{ margin: 8 }}>
-                        <MenuItem value="true">Everyone</MenuItem>
-                        <MenuItem value="false">Admins</MenuItem>
-                      </Select>
-                    )}
-                  />
-                  <br />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <FormControl fullWidth>
+                        <InputLabel id="language-select-label">
+                          Language
+                        </InputLabel>
+                        <Controller
+                          name="language"
+                          control={control}
+                          defaultValue={activeServer.language}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              labelId="language-select-label"
+                              label="Language"
+                            >
+                              <MenuItem value="en-US">English</MenuItem>
+                              <MenuItem value="es-ES">Spanish</MenuItem>
+                              <MenuItem value="pl-PL">Polish</MenuItem>
+                              <MenuItem value="de-DE">German</MenuItem>
+                              <MenuItem value="fi-FI">Finnish</MenuItem>
+                            </Select>
+                          )}
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <FormControl fullWidth>
+                        <InputLabel id="snipeenable-select-label">
+                          Snipe Permissions
+                        </InputLabel>
+                        <Controller
+                          name="enableSnipeForEveryone"
+                          control={control}
+                          defaultValue={activeServer.enableSnipeForEveryone}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              labelId="snipeenable-select-label"
+                              label="Snipe Permissions"
+                            >
+                              <MenuItem value="true">Everyone</MenuItem>
+                              <MenuItem value="false">Admins</MenuItem>
+                            </Select>
+                          )}
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
                   <Button type="submit" color="primary" variant="outlined">
                     Save
                   </Button>
@@ -208,9 +240,16 @@ function ServerDashboardPage() {
         open={serverUpdateSuccess}
         autoHideDuration={5000}
         onClose={() => setUpdateServerSuccess(prev => !prev)}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success">Successfully updated settings</Alert>
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setUpdateServerSuccess(prev => !prev)}
+        >
+          Successfully updated settings
+        </Alert>
       </Snackbar>
 
       {/* Failure snackbar */}
@@ -218,9 +257,16 @@ function ServerDashboardPage() {
         open={serverUpdateFailure}
         autoHideDuration={5000}
         onClose={() => setUpdateServerFailure(prev => !prev)}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="error">Failed to update settings</Alert>
+        <Alert
+          severity="error"
+          variant="filled"
+          onClose={() => setUpdateServerSuccess(prev => !prev)}
+        >
+          Failed to update settings
+        </Alert>
       </Snackbar>
     </Layout>
   )

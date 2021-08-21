@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { ID as SteamID } from '@node-steam/id'
 import {
   Avatar,
   Alert,
@@ -14,6 +15,10 @@ import {
   TextField,
   Tooltip,
   Typography,
+  InputLabel,
+  FormControl,
+  useMediaQuery,
+  Theme,
 } from '@material-ui/core'
 import Layout from '../components/layout/Layout'
 import withAuth from '../components/withAuth'
@@ -30,6 +35,9 @@ import LoadingButton from '@material-ui/lab/LoadingButton'
 
 function SettingsPage() {
   const dispatch = useDispatch()
+  const isMobileDevice = useMediaQuery<Theme>(theme =>
+    theme.breakpoints.up('sm'),
+  )
   const { user, loading, updateUserErrorMsg } = useAppSelector(
     state => state.users,
   )
@@ -43,7 +51,23 @@ function SettingsPage() {
     if (loading) dispatch(fetchUser())
   }, [])
 
-  const { control, handleSubmit } = useForm()
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm()
+
+  const steamIdWatcher = watch('steamId', user.steamId)
+
+  const steamId64Transformed = useMemo(() => {
+    if (steamIdWatcher == '0') return null
+    try {
+      return new SteamID(steamIdWatcher).getSteamID64()
+    } catch {
+      return null
+    }
+  }, [steamIdWatcher])
 
   const generateWebhook = () => {
     // Let's not try to make API call if we don't have to
@@ -64,6 +88,8 @@ function SettingsPage() {
   }
 
   const onSubmit = (data: Partial<User>) => {
+    // Hack to transform any steamid to correct format
+    data.steamId = steamIdWatcher === '' ? '' : steamId64Transformed
     dispatch(updateUser(data))
     if (updateUserErrorMsg) setUserUpdateFailure(true)
     else setUserUpdateSuccess(true)
@@ -73,6 +99,21 @@ function SettingsPage() {
     if (!modifyingWebhook) return
     setModifyingWebhook(false)
   }, [user?.webhook?.value])
+
+  const steamIdHelperText = () => {
+    if (errors.steamId) {
+      // If I have a message, use it, default otherwise
+      return !!errors.steamId.message
+        ? errors.steamId.message
+        : "That doesn't appear to be a valid SteamID."
+    }
+
+    if (steamIdWatcher !== '' && !!steamId64Transformed) {
+      return `SteamID64: ${steamId64Transformed}`
+    }
+
+    return 'Your Steam ID, any format'
+  }
 
   return (
     <Layout>
@@ -91,9 +132,8 @@ function SettingsPage() {
               Last update: {user.latestUpdateNotifcation} &bull; Pushcart
               points: {user.pushcartPoints}
             </Stack>
-            <Typography variant="h5">Webhook: </Typography>
             {user.webhook ? (
-              <Stack spacing={1} direction="row">
+              <Stack spacing={1} mb={3} direction="row">
                 <Button
                   variant="contained"
                   color="primary"
@@ -123,41 +163,58 @@ function SettingsPage() {
                 Create Webhook
               </LoadingButton>
             )}
-            <br />
-            <br />
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={2} mb={3}>
-                <>
-                  <Typography variant="h5">Notifications level</Typography>
+              <Stack
+                my={3}
+                spacing={2}
+                direction={isMobileDevice ? 'row' : 'column'}
+              >
+                <FormControl sx={{ minWidth: 175 }}>
+                  <InputLabel id="notifications-select-label">
+                    Notifications Level
+                  </InputLabel>
                   <Controller
                     name="notificationsLevel"
                     control={control}
                     defaultValue={user.notificationsLevel}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        {...field}
+                        label="Notifications Level"
+                        labelId="notifications-select-label"
+                      >
                         <MenuItem value={0}>None</MenuItem>
                         <MenuItem value={1}>Major</MenuItem>
                         <MenuItem value={2}>All</MenuItem>
                       </Select>
                     )}
                   />
-                </>
+                </FormControl>
 
-                <>
-                  <Typography variant="h5">Steam ID</Typography>
-                  <Controller
-                    name="steamId"
-                    control={control}
-                    defaultValue={user.steamId}
-                    render={({ field }) => (
-                      <TextField
-                        autoComplete="false"
-                        helperText="Your SteamID64"
-                        {...field}
-                      />
-                    )}
-                  />
-                </>
+                <Controller
+                  name="steamId"
+                  control={control}
+                  defaultValue={user.steamId}
+                  rules={{
+                    validate: value => {
+                      try {
+                        return !!new SteamID(value).getSteamID64()
+                      } catch (err) {
+                        return false
+                      }
+                    },
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      fullWidth
+                      label="Steam ID"
+                      autoComplete="false"
+                      error={errors.steamId ? true : false}
+                      helperText={steamIdHelperText()}
+                      {...field}
+                    />
+                  )}
+                />
               </Stack>
               <Button type="submit" color="primary" variant="outlined">
                 Save
@@ -171,20 +228,26 @@ function SettingsPage() {
       <Snackbar
         open={userUpdateSuccess}
         autoHideDuration={5000}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         onClose={() => setUserUpdateSuccess(prev => !prev)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success">Successfully updated settings</Alert>
+        <Alert severity="success" variant="filled">
+          Successfully updated settings
+        </Alert>
       </Snackbar>
 
       {/* Failure snackbar */}
       <Snackbar
         open={userUpdateFailure}
         autoHideDuration={5000}
+        ClickAwayListenerProps={{ onClickAway: () => {} }}
         onClose={() => setUserUpdateFailure(prev => !prev)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="error">Failed to update settings</Alert>
+        <Alert severity="error" variant="filled">
+          Failed to update settings
+        </Alert>
       </Snackbar>
     </Layout>
   )
