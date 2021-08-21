@@ -108,7 +108,7 @@ function SettingsPage() {
         : "That doesn't appear to be a valid SteamID."
     }
 
-    if (steamIdWatcher !== '' && !!steamId64Transformed) {
+    if (![null, ''].includes(steamIdWatcher) && !!steamId64Transformed) {
       return `SteamID64: ${steamId64Transformed}`
     }
 
