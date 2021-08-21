@@ -64,7 +64,7 @@ function ServerDashboardPage() {
     handleSubmit,
   } = useForm()
 
-  const watchPrefix = watch('prefix')
+  const watchPrefix = watch('prefix', activeServer?.prefix)
 
   const onSubmit = (data: Partial<ActiveServer>) => {
     dispatch(updateServer(id as string, data))
@@ -166,8 +166,8 @@ function ServerDashboardPage() {
                             autoComplete="false"
                             error={errors.prefix ? true : false}
                             helperText={
-                              !!watchPrefix && !errors.botName
-                                ? `Usage: ${watchPrefix}commands`
+                              !errors.botName
+                                ? `Usage: ${watchPrefix ?? activeServer.prefix}commands`
                                 : errors.prefix
                                 ? errors.prefix.message
                                 : ''
