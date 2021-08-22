@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ID as SteamID } from '@node-steam/id'
 import {
@@ -23,15 +23,10 @@ import {
 import Layout from '../components/layout/Layout'
 import withAuth from '../components/withAuth'
 import { useAppSelector } from '../redux/store'
-import {
-  createUserWebhook,
-  deleteUserWebhook,
-  fetchUser,
-  updateUser,
-} from '../redux/users/userSlice'
+import { fetchUser, updateUser } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
 import { User } from '../redux/users/types'
-import LoadingButton from '@material-ui/lab/LoadingButton'
+import UserApiSettings from '../components/settings/UserApiSettings'
 
 function SettingsPage() {
   const dispatch = useDispatch()
@@ -44,8 +39,6 @@ function SettingsPage() {
 
   const [userUpdateSuccess, setUserUpdateSuccess] = useState(false)
   const [userUpdateFailure, setUserUpdateFailure] = useState(false)
-
-  const [modifyingWebhook, setModifyingWebhook] = useState(false)
 
   useEffect(() => {
     if (loading) dispatch(fetchUser())
@@ -69,24 +62,6 @@ function SettingsPage() {
     }
   }, [steamIdWatcher])
 
-  const generateWebhook = () => {
-    // Let's not try to make API call if we don't have to
-    if (user.webhook) return
-    setModifyingWebhook(true)
-    dispatch(createUserWebhook())
-  }
-
-  const deleteWebhook = () => {
-    if (!user.webhook) return
-    setModifyingWebhook(true)
-    dispatch(deleteUserWebhook())
-  }
-
-  const copyWebhookTokenToClipboard = async () => {
-    if (!user.webhook?.value) return
-    await navigator.clipboard.writeText(user.webhook.value)
-  }
-
   const onSubmit = (data: Partial<User>) => {
     // Hack to transform any steamid to correct format
     data.steamId = steamIdWatcher === '' ? '' : steamId64Transformed
@@ -94,11 +69,6 @@ function SettingsPage() {
     if (updateUserErrorMsg) setUserUpdateFailure(true)
     else setUserUpdateSuccess(true)
   }
-
-  useEffect(() => {
-    if (!modifyingWebhook) return
-    setModifyingWebhook(false)
-  }, [user?.webhook?.value])
 
   const steamIdHelperText = () => {
     if (errors.steamId) {
@@ -126,102 +96,76 @@ function SettingsPage() {
         </Tooltip>
       </Stack>
       <Container>
-        <Card>
-          <CardContent>
-            <Stack mb={2} direction="column" alignItems="center">
-              Last update: {user.latestUpdateNotifcation} &bull; Pushcart
-              points: {user.pushcartPoints}
-            </Stack>
-            {user.webhook ? (
-              <Stack spacing={1} mb={3} direction="row">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={copyWebhookTokenToClipboard}
-                >
-                  Copy Webhook Token
-                </Button>
-                <LoadingButton
-                  loading={modifyingWebhook}
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  onClick={deleteWebhook}
-                >
-                  Delete Webhook
-                </LoadingButton>
+        <Stack spacing={4}>
+          <Card>
+            <CardContent>
+              <Stack mb={2} direction="column" alignItems="center">
+                Last update: {user.latestUpdateNotifcation} &bull; Pushcart
+                points: {user.pushcartPoints}
               </Stack>
-            ) : (
-              <LoadingButton
-                loading={modifyingWebhook}
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={generateWebhook}
-              >
-                Create Webhook
-              </LoadingButton>
-            )}
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack
-                my={3}
-                spacing={2}
-                direction={isMobileDevice ? 'row' : 'column'}
-              >
-                <FormControl sx={{ minWidth: 175 }}>
-                  <InputLabel id="notifications-select-label">
-                    Notifications Level
-                  </InputLabel>
+
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack
+                  my={3}
+                  spacing={2}
+                  direction={isMobileDevice ? 'row' : 'column'}
+                >
+                  <FormControl sx={{ minWidth: 175 }}>
+                    <InputLabel id="notifications-select-label">
+                      Notifications Level
+                    </InputLabel>
+                    <Controller
+                      name="notificationsLevel"
+                      control={control}
+                      defaultValue={user.notificationsLevel}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          label="Notifications Level"
+                          labelId="notifications-select-label"
+                        >
+                          <MenuItem value={0}>None</MenuItem>
+                          <MenuItem value={1}>Major</MenuItem>
+                          <MenuItem value={2}>All</MenuItem>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+
                   <Controller
-                    name="notificationsLevel"
+                    name="steamId"
                     control={control}
-                    defaultValue={user.notificationsLevel}
+                    defaultValue={user.steamId}
+                    rules={{
+                      validate: value => {
+                        try {
+                          return !!new SteamID(value).getSteamID64()
+                        } catch (err) {
+                          return false
+                        }
+                      },
+                    }}
                     render={({ field }) => (
-                      <Select
+                      <TextField
+                        fullWidth
+                        label="Steam ID"
+                        autoComplete="false"
+                        error={errors.steamId ? true : false}
+                        helperText={steamIdHelperText()}
                         {...field}
-                        label="Notifications Level"
-                        labelId="notifications-select-label"
-                      >
-                        <MenuItem value={0}>None</MenuItem>
-                        <MenuItem value={1}>Major</MenuItem>
-                        <MenuItem value={2}>All</MenuItem>
-                      </Select>
+                      />
                     )}
                   />
-                </FormControl>
+                </Stack>
+                <Button type="submit" color="primary" variant="outlined">
+                  Save
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
 
-                <Controller
-                  name="steamId"
-                  control={control}
-                  defaultValue={user.steamId}
-                  rules={{
-                    validate: value => {
-                      try {
-                        return !!new SteamID(value).getSteamID64()
-                      } catch (err) {
-                        return false
-                      }
-                    },
-                  }}
-                  render={({ field }) => (
-                    <TextField
-                      fullWidth
-                      label="Steam ID"
-                      autoComplete="false"
-                      error={errors.steamId ? true : false}
-                      helperText={steamIdHelperText()}
-                      {...field}
-                    />
-                  )}
-                />
-              </Stack>
-              <Button type="submit" color="primary" variant="outlined">
-                Save
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+          <UserApiSettings />
+        </Stack>
       </Container>
 
       {/* Success snackbar */}
