@@ -42,15 +42,15 @@ export default function DashboardSidebar(props: ActiveServer) {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link href={`/dashboard/${props.id}/settings`}>
+        <Link href={`/dashboard/${props.id}/api`}>
           <ListItem
             button
-            selected={router.pathname === '/dashboard/[id]/settings'}
+            selected={router.pathname === '/dashboard/[id]/api'}
           >
             <ListItemIcon>
               <BuildIcon />
             </ListItemIcon>
-            <ListItemText primary="Configure" />
+            <ListItemText primary="API Settings" />
           </ListItem>
         </Link>
       </List>
