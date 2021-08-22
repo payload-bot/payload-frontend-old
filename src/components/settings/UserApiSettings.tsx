@@ -24,6 +24,23 @@ import {
 import useUser from '../hooks/useUser'
 import ContentCopyIcon from '@material-ui/icons/ContentCopy'
 import { green } from '@material-ui/core/colors'
+import axios from 'axios'
+
+async function testUserWebhook(token: string) {
+  try {
+    await axios.post(
+      '/api/webhooks/v1/internal/test',
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+    )
+  } catch (err) {
+    // ignore
+  }
+}
 
 const SuccessTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
   <Tooltip arrow {...props} classes={{ popper: className }} />
@@ -59,16 +76,19 @@ export default function UserApiSettings() {
   }, [user?.webhook?.value])
 
   const generateWebhook = () => {
-    // Let's not try to make API call if we don't have to
-    if (user.webhook) return
     setModifyingWebhook(true)
     dispatch(createUserWebhook())
   }
 
   const deleteWebhook = () => {
-    if (!user.webhook) return
     setModifyingWebhook(true)
     dispatch(deleteUserWebhook())
+  }
+
+  const testWebhook = async () => {
+    setModifyingWebhook(true)
+    await testUserWebhook(user.webhook.value)
+    setModifyingWebhook(false)
   }
 
   const copyWebhookTokenToClipboard = async () => {
@@ -115,7 +135,7 @@ export default function UserApiSettings() {
                 endAdornment={
                   <InputAdornment position="end">
                     <CopyTooltip
-                      success={copiedWebhookToken}
+                      didCopy={copiedWebhookToken}
                       arrow
                       placement="top"
                       title={
@@ -136,15 +156,38 @@ export default function UserApiSettings() {
                 label="API Token"
               />
             </FormControl>
-            {/* <LoadingButton
-              loading={modifyingWebhook}
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={deleteWebhook}
-            >
-              Delete Webhook
-            </LoadingButton> */}
+            <Stack direction="row" spacing={2} justifyContent="start" pt={1}>
+              <LoadingButton
+                loading={modifyingWebhook}
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={testWebhook}
+              >
+                Test API key
+              </LoadingButton>
+
+              {/* @TODO: Probably using react query with this + some state */}
+              {/* <LoadingButton
+                loading={modifyingWebhook}
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={regenerateWebhook}
+              >
+                Regenerate API key
+              </LoadingButton> */}
+
+              <LoadingButton
+                loading={modifyingWebhook}
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={deleteWebhook}
+              >
+                Delete API key
+              </LoadingButton>
+            </Stack>
           </Stack>
         )}
       </CardContent>
@@ -152,8 +195,11 @@ export default function UserApiSettings() {
   )
 }
 
-function CopyTooltip(props: TooltipProps & { success: boolean }) {
-  return props.success ? (
+function CopyTooltip({
+  didCopy,
+  ...props
+}: TooltipProps & { didCopy: boolean }) {
+  return didCopy ? (
     <SuccessTooltip {...props}>{props.children}</SuccessTooltip>
   ) : (
     <Tooltip {...props}>{props.children}</Tooltip>
