@@ -23,17 +23,17 @@ import {
 } from '../../redux/users/userSlice'
 import useUser from '../hooks/useUser'
 import ContentCopyIcon from '@material-ui/icons/ContentCopy'
-import { lightGreen } from '@material-ui/core/colors'
+import { green } from '@material-ui/core/colors'
 
 const SuccessTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
   <Tooltip arrow {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: lightGreen[800],
+    backgroundColor: green[500],
     boxShadow: theme.shadows[1],
   },
-  [`& .${tooltipClasses.tooltipArrow}`]: {
-    backgroundColor: lightGreen[800],
+  [`& .${tooltipClasses.arrow}`]: {
+    color: green[500],
   },
 }))
 
