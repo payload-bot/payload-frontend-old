@@ -166,7 +166,7 @@ function ServerDashboardPage() {
                             autoComplete="false"
                             error={errors.prefix ? true : false}
                             helperText={
-                              !errors.botName
+                              !errors.prefix
                                 ? `Usage: ${watchPrefix ?? activeServer.prefix}commands`
                                 : errors.prefix
                                 ? errors.prefix.message
