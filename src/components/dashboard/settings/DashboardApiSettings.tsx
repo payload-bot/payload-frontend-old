@@ -24,11 +24,9 @@ import {
 import { tooltipClasses } from '@material-ui/core/Tooltip'
 import { LoadingButton } from '@material-ui/lab'
 import { useDispatch } from 'react-redux'
-import useUser from '../../hooks/useUser'
 import ContentCopyIcon from '@material-ui/icons/ContentCopy'
 import { green } from '@material-ui/core/colors'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import {
   createServerWebhook,
   deleteServerWebhook,
@@ -64,8 +62,6 @@ const SuccessTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
 }))
 
 export default function DashboardApiSettings() {
-  const { user } = useUser()
-  const router = useRouter()
   const dispatch = useDispatch()
 
   const [modifyingWebhook, setModifyingWebhook] = useState(false)
@@ -110,6 +106,7 @@ export default function DashboardApiSettings() {
   const copyWebhookTokenToClipboard = async () => {
     if (!activeServer.webhook?.value) return
     await navigator.clipboard.writeText(activeServer.webhook.value)
+    setCopiedWebhookToken(true)
   }
 
   const generateWebhook = async () => {
