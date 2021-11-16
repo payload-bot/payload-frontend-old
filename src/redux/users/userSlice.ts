@@ -1,6 +1,6 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { Webhook } from '../shared/interfaces'
-import { User, UserState } from './types'
+import { Profile, UserState } from './types'
 import {
   deleteWebhook,
   generateUserWebhook,
@@ -22,10 +22,10 @@ export const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUserSuccess: (state, { payload }: PayloadAction<User>) => {
+    setUserSuccess: (state, { payload }: PayloadAction<Profile>) => {
       state.loading = false
       state.loggedIn = true
-      state.isAdmin = payload.isAdmin
+      state.isAdmin = payload.roles.includes('admin')
       state.user = payload
     },
 
@@ -47,14 +47,15 @@ export const userSlice = createSlice({
     },
 
     setUserWebhookSuccess: (state, { payload }: PayloadAction<Webhook>) => {
-      state.user.webhook = payload
     },
 
     deleteUserWebhookSuccess: state => {
-      state.user.webhook = null
     },
 
-    updateUserSuccess: (state, { payload }: PayloadAction<Partial<User>>) => {
+    updateUserSuccess: (
+      state,
+      { payload }: PayloadAction<Partial<Profile>>,
+    ) => {
       state.updateUserErrorMsg = null
       state.user = { ...state.user, ...payload }
     },
@@ -79,7 +80,7 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
 }
 
 export const updateUser =
-  (data: Partial<User>) => async (dispatch: Dispatch) => {
+  (data: Partial<Profile>) => async (dispatch: Dispatch) => {
     dispatch(resetUpdateUserFailureMsg)
     try {
       await patchUser(data)

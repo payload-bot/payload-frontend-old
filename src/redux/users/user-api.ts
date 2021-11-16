@@ -1,23 +1,23 @@
 import axios from '../axios'
 import { Webhook } from '../shared/interfaces'
-import { User } from './types'
+import { Profile } from './types'
 
 export async function getUserInfo() {
-  const { data } = await axios.get<User>('/api/users')
+  const { data } = await axios.get<Profile>('/api/v1/users')
 
   return data ?? null
 }
 
-export async function patchUser(data: Partial<User>) {
-  return await axios.patch('/api/users', data)
+export async function patchUser(data: Partial<Profile>) {
+  return await axios.patch('/api/v1/users', data)
 }
 
 export async function generateUserWebhook() {
-  const { data } = await axios.post<Webhook>('/api/webhooks/v1/users')
+  const { data } = await axios.post<Webhook>('/api/v1/webhooks/users')
 
   return data ?? null
 }
 
 export async function deleteWebhook() {
-  return await axios.delete('/api/webhooks/v1/users')
+  return await axios.delete('/api/v1/webhooks/users')
 }

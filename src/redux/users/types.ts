@@ -1,18 +1,12 @@
-import { Webhook } from '../shared/interfaces'
-
-export interface User {
-  isAdmin: boolean
-  isBetaTester: boolean
-  webhook: Webhook
-  username: string
-  name: string
-  avatar: string | null
+export interface Profile {
   id: string
+  username: string
+  avatar: string
   pushcartPoints: number
-  discriminator: string
-  notificationsLevel: string
-  latestUpdateNotifcation: string
-  steamId: string
+  notificationsLevel: number
+  lastUpdate: string
+  steamId?: string
+  roles: string[]
 }
 
 export interface UserState {
@@ -22,5 +16,5 @@ export interface UserState {
 
   updateUserErrorMsg: string
 
-  user: User | null
+  user: Profile | null
 }
