@@ -21,7 +21,7 @@ module.exports = {
     return [
       {
         source: '/login',
-        destination: `${host}/api/auth/discord`,
+        destination: `${host}/api/auth`,
         permanent: true,
       },
       {

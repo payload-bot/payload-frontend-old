@@ -1,14 +1,13 @@
 import { Webhook } from '../shared/interfaces'
 
 export interface Server {
-  iconUrl: string
   isPayloadIn: boolean
-  id: string
   name: string
-  icon: string
+  id: string
+  icon: string | null
+  features: string[]
   owner: boolean
-  permissions: number
-  permissions_new: number
+  permissions: string
 }
 
 interface Fun {
