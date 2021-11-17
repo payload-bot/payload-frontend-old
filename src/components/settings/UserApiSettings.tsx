@@ -19,16 +19,18 @@ import { useDispatch } from 'react-redux'
 import {
   createUserWebhook,
   deleteUserWebhook,
+  fetchUserWebhook,
 } from '../../redux/users/userSlice'
 import useUser from '../hooks/useUser'
 import ContentCopyIcon from '@material-ui/icons/ContentCopy'
 import { green } from '@material-ui/core/colors'
 import axios from 'axios'
+import { useAppSelector } from '../../redux/store'
 
 async function testUserWebhook(token: string) {
   try {
     await axios.post(
-      '/api/webhooks/v1/internal/test',
+      '/api/v1/webhooks/test',
       {},
       {
         headers: {
@@ -55,7 +57,7 @@ const SuccessTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
 
 export default function UserApiSettings() {
   const dispatch = useDispatch()
-  const { user } = useUser()
+  const { webhook } = useAppSelector(state => state.users)
 
   const [modifyingWebhook, setModifyingWebhook] = useState(false)
   const [copiedWebhookToken, setCopiedWebhookToken] = useState(false)
@@ -72,7 +74,13 @@ export default function UserApiSettings() {
   useEffect(() => {
     if (!modifyingWebhook) return
     setModifyingWebhook(false)
-  }, [user?.webhook?.value])
+  }, [webhook])
+
+  useEffect(() => {
+    if (!webhook) {
+      dispatch(fetchUserWebhook())
+    }
+  }, [])
 
   const generateWebhook = () => {
     setModifyingWebhook(true)
@@ -86,13 +94,13 @@ export default function UserApiSettings() {
 
   const testWebhook = async () => {
     setModifyingWebhook(true)
-    await testUserWebhook(user.webhook.value)
+    await testUserWebhook(webhook.value)
     setModifyingWebhook(false)
   }
 
   const copyWebhookTokenToClipboard = async () => {
-    if (!user.webhook?.value) return
-    await navigator.clipboard.writeText(user.webhook.value)
+    if (!webhook) return
+    await navigator.clipboard.writeText(webhook.value)
     setCopiedWebhookToken(true)
   }
 
@@ -105,7 +113,7 @@ export default function UserApiSettings() {
           </Typography>
         </Stack>
 
-        {!user.webhook && (
+        {!webhook && (
           <Stack alignItems="center" justifyContent="center" spacing={1}>
             <Typography>
               Looks like you don't have an API key set up. Set one up using the
@@ -123,14 +131,14 @@ export default function UserApiSettings() {
           </Stack>
         )}
 
-        {user.webhook && (
+        {webhook && (
           <Stack spacing={1} mb={3}>
             <FormControl sx={{ maxWidth: '50ch' }} variant="outlined">
               <InputLabel htmlFor="webhook-value-textfield">API Key</InputLabel>
               <OutlinedInput
                 readOnly
                 id="webhook-value-textfield"
-                value={user.webhook.value}
+                value={webhook.value}
                 endAdornment={
                   <InputAdornment position="end">
                     <CopyTooltip

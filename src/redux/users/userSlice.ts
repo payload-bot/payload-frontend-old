@@ -3,6 +3,7 @@ import { Webhook } from '../shared/interfaces'
 import { Profile, UserState } from './types'
 import {
   deleteWebhook,
+  fetchWebhookForUser,
   generateUserWebhook,
   getUserInfo,
   patchUser,
@@ -14,6 +15,8 @@ const initialState: UserState = {
 
   user: null,
   loading: true,
+
+  webhook: null,
 
   updateUserErrorMsg: null,
 }
@@ -47,9 +50,11 @@ export const userSlice = createSlice({
     },
 
     setUserWebhookSuccess: (state, { payload }: PayloadAction<Webhook>) => {
+      state.webhook = payload
     },
 
     deleteUserWebhookSuccess: state => {
+      state.webhook = null
     },
 
     updateUserSuccess: (
@@ -89,6 +94,15 @@ export const updateUser =
       dispatch(updateUserFailure(err.response.data?.message))
     }
   }
+
+export const fetchUserWebhook = () => async (dispatch: Dispatch) => {
+  try {
+    const webhook = await fetchWebhookForUser()
+    dispatch(setUserWebhookSuccess(webhook))
+  } catch (err) {
+    // I don't know what to do here yet.
+  }
+}
 
 export const createUserWebhook = () => async (dispatch: Dispatch) => {
   try {

@@ -12,6 +12,12 @@ export async function patchUser(data: Partial<Profile>) {
   return await axios.patch('/api/v1/users', data)
 }
 
+export async function fetchWebhookForUser() {
+  const { data } = await axios.get<Webhook>('/api/v1/webhooks/users')
+
+  return data ?? null
+}
+
 export async function generateUserWebhook() {
   const { data } = await axios.post<Webhook>('/api/v1/webhooks/users')
 

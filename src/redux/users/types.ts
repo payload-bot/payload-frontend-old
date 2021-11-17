@@ -1,3 +1,5 @@
+import { Webhook } from '../shared/interfaces'
+
 export interface Profile {
   id: string
   username: string
@@ -15,6 +17,8 @@ export interface UserState {
   loading: boolean
 
   updateUserErrorMsg: string
+
+  webhook: Webhook
 
   user: Profile | null
 }
