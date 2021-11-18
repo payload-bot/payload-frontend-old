@@ -27,9 +27,7 @@ export interface ActiveServer {
     commands: string[]
     autoResponses: string[]
   }
-  guild: {
-    channels: Array<{ id: string; name: string }>
-  }
+  channels: Array<{ id: string; name: string }>
   webhook: Webhook
   enableSnipeForEveryone: boolean
   icon: string

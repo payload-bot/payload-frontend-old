@@ -36,7 +36,7 @@ import { useAppSelector } from '../../../redux/store'
 async function testUserWebhook(token: string) {
   try {
     await axios.post(
-      '/api/webhooks/v1/internal/test',
+      '/api/v1/webhooks/test',
       {},
       {
         headers: {
@@ -234,7 +234,7 @@ export default function DashboardApiSettings() {
           <Autocomplete
             style={{ paddingTop: 15 }}
             id="webhook-server-autocomplete"
-            options={activeServer?.guild?.channels ?? []}
+            options={activeServer?.channels ?? []}
             onChange={(_, newValue: { id: string; name: string }) => {
               setWebhookChannel(newValue?.id ?? '')
             }}
