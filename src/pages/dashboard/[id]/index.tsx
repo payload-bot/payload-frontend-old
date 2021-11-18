@@ -67,6 +67,11 @@ function ServerDashboardPage() {
   const watchPrefix = watch('prefix', activeServer?.prefix)
 
   const onSubmit = (data: Partial<ActiveServer>) => {
+    // MUI doesn't like boolean data, API only accepts boolean
+    data.enableSnipeForEveryone =
+      // @ts-ignore Ignore this until I can make a better form
+      data.enableSnipeForEveryone === 'true' ? true : false
+
     dispatch(updateServer(id as string, data))
     if (!updateActiveServerErrorMsg) {
       setUpdateServerSuccess(true)
@@ -167,7 +172,9 @@ function ServerDashboardPage() {
                             error={errors.prefix ? true : false}
                             helperText={
                               !errors.prefix
-                                ? `Usage: ${watchPrefix ?? activeServer.prefix}commands`
+                                ? `Usage: ${
+                                    watchPrefix ?? activeServer.prefix
+                                  }commands`
                                 : errors.prefix
                                 ? errors.prefix.message
                                 : ''
