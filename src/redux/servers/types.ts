@@ -1,14 +1,13 @@
 import { Webhook } from '../shared/interfaces'
 
 export interface Server {
-  iconUrl: string
   isPayloadIn: boolean
-  id: string
   name: string
-  icon: string
+  id: string
+  icon: string | null
+  features: string[]
   owner: boolean
-  permissions: number
-  permissions_new: number
+  permissions: string
 }
 
 interface Fun {
@@ -28,9 +27,7 @@ export interface ActiveServer {
     commands: string[]
     autoResponses: string[]
   }
-  guild: {
-    channels: Array<{ id: string; name: string }>
-  }
+  channels: Array<{ id: string; name: string }>
   webhook: Webhook
   enableSnipeForEveryone: boolean
   icon: string

@@ -78,7 +78,7 @@ export default function ServerSelection({ server }: ServerProps) {
       className={styles.container}
     >
       <Stack direction="row" alignItems="center" gap={2}>
-        <ServerAvatar icon={server.iconUrl} name={server.name} />
+        <ServerAvatar icon={server.icon} name={server.name} />
 
         <Typography variant="body1">{server.name}</Typography>
       </Stack>

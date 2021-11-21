@@ -18,11 +18,9 @@ client.interceptors.request.use((req: AxiosRequestConfig) => {
 
 const refreshAuthLogic = async failedRequest => {
   return axios
-    .post<{ authToken: string; refreshToken: string }>(
-      '/api/auth/refresh',
-      {},
-      { params: { refresh_token: getRefreshToken().replace(/"/g, '') } },
-    )
+    .post<{ authToken: string; refreshToken: string }>('/api/auth/refresh', {
+      refreshToken: getRefreshToken().replace(/"/g, ''),
+    })
     .then(({ data }) => {
       localStorage.setItem('token', data.authToken)
       localStorage.setItem('refresh_token', data.refreshToken)

@@ -25,7 +25,7 @@ import withAuth from '../components/withAuth'
 import { useAppSelector } from '../redux/store'
 import { fetchUser, updateUser } from '../redux/users/userSlice'
 import { Controller, useForm } from 'react-hook-form'
-import { User } from '../redux/users/types'
+import { Profile } from '../redux/users/types'
 import UserApiSettings from '../components/settings/UserApiSettings'
 
 function SettingsPage() {
@@ -62,7 +62,7 @@ function SettingsPage() {
     }
   }, [steamIdWatcher])
 
-  const onSubmit = (data: Partial<User>) => {
+  const onSubmit = (data: Partial<Profile>) => {
     // Hack to transform any steamid to correct format
     data.steamId = steamIdWatcher === '' ? '' : steamId64Transformed
     dispatch(updateUser(data))
@@ -91,7 +91,7 @@ function SettingsPage() {
         <Avatar src={user.avatar} />
         <Tooltip title={user.id}>
           <Typography variant="h5" style={{ marginTop: 5 }}>
-            {user.name}
+            {user.username}
           </Typography>
         </Tooltip>
       </Stack>
@@ -100,8 +100,7 @@ function SettingsPage() {
           <Card>
             <CardContent>
               <Stack mb={2} direction="column" alignItems="center">
-                Last update: {user.latestUpdateNotifcation} &bull; Pushcart
-                points: {user.pushcartPoints}
+                Pushcart points: {user.pushcartPoints}
               </Stack>
 
               <form onSubmit={handleSubmit(onSubmit)}>
