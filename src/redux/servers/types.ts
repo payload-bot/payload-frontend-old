@@ -32,6 +32,14 @@ export interface ActiveServer {
   prefix: string
 }
 
+export interface UpdateServerDto {
+  botName: string
+  prefix: string
+  enableSnipeForEveryone: boolean
+  language: string
+  commandRestrictions: string[]
+}
+
 export interface ServerState {
   loadingAllServers: boolean
   loadingActiveServer: boolean

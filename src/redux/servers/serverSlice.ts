@@ -1,5 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { ActiveServer, Server, ServerState } from './types'
+import { ActiveServer, Server, ServerState, UpdateServerDto } from './types'
 import {
   deleteServerWebhook as deleteGuildWebhook,
   generateServerWebhook,
@@ -116,7 +116,7 @@ export const fetchServer = (id: string) => async (dispatch: Dispatch) => {
 }
 
 export const updateServer =
-  (id: string, data: Partial<ActiveServer>) => async (dispatch: Dispatch) => {
+  (id: string, data: Partial<UpdateServerDto>) => async (dispatch: Dispatch) => {
     try {
       await patchServer(id, data)
       dispatch(updateActiveServerSuccess(data))

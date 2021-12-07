@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 type CommandToggleProps = {
   name: string
   checked: boolean
-  notifyFunction: Function
+  notifyFunction: (cmdName: string, checked: boolean) => any
 }
 
 export default function CommandToggle({
@@ -16,7 +16,7 @@ export default function CommandToggle({
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setIsChecked(e.target.checked)
-    notifyFunction()
+    notifyFunction(name, isChecked)
   }
 
   return (
