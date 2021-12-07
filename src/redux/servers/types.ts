@@ -14,16 +14,11 @@ interface Fun {
   payloadFeetPushed: number
 }
 
-export interface Restriction {
-  commands: Set<string>
-  channelID: string
-}
-
 export interface ActiveServer {
   id: string
   fun: Fun
   commands: {
-    restrictions: Restriction[]
+    restrictions: string[]
     commands: string[]
     autoResponses: string[]
   }

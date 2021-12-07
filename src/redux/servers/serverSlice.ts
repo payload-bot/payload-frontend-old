@@ -71,6 +71,10 @@ export const serverSlice = createSlice({
         payload ?? 'Could not get server details'
     },
 
+    updateServerRestrictions: (state, { payload }: PayloadAction<string[]>) => {
+      state.activeServer.commands.restrictions = payload
+    },
+
     updateActiveServerSuccess: (
       state,
       { payload }: PayloadAction<Partial<ActiveServer>>,
