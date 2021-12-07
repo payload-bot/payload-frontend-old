@@ -64,20 +64,10 @@ function Index() {
                   Invite to Discord
                 </Button>
               </a>
-              <Link href="/docs">
-                <Button
-                  size="large"
-                  variant="outlined"
-                  color="primary"
-                  className={styles.button}
-                >
-                  Bot Documentation
-                </Button>
-              </Link>
               <a className="link no-underline" href="/discord" target="_blank">
                 <Button
                   size="large"
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   className={styles.button}
                 >
