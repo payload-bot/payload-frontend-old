@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
 } from '@material-ui/core'
-import { LoadingButton } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateServer } from '../../../redux/servers/serverSlice'
@@ -28,7 +27,7 @@ export default function ConfigureCommands() {
   }
 
   useEffect(() => {
-    console.log(commandsToRestrict)
+    // Do something
   }, [commandsToRestrict])
 
   useEffect(() => {

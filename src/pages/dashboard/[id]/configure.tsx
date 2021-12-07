@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import withAuth from '../../../components/withAuth'
 import Layout from '../../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchServer } from '../../../redux/servers/serverSlice'
 import { useAppSelector } from '../../../redux/store'
 import {
@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core'
 import ServerAvatar from '../../../components/ServerAvatar'
 import DashboardSidebar from '../../../components/DashboardSidebar'
-import DashboardApiSettings from '../../../components/dashboard/settings/DashboardApiSettings'
 import ConfigureCommands from '../../../components/dashboard/configure/ConfigureCommands'
 
 function DashboardConfigureCommands() {
