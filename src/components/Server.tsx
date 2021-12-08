@@ -50,7 +50,7 @@ export default function ServerSelection({ server }: ServerProps) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setActiveServer}
+            onClick={() => setActiveServer()}
           >
             Go to Dashboard
           </Button>
@@ -58,7 +58,7 @@ export default function ServerSelection({ server }: ServerProps) {
       </Hidden>
       <Hidden smUp implementation="css">
         <Link href={`/dashboard/${server.id}`}>
-          <IconButton onClick={() => setActiveServer}>
+          <IconButton onClick={() => setActiveServer()}>
             <RightArrow fontSize="large" />
           </IconButton>
         </Link>
