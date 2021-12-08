@@ -14,16 +14,11 @@ interface Fun {
   payloadFeetPushed: number
 }
 
-export interface Restriction {
-  commands: Set<string>
-  channelID: string
-}
-
 export interface ActiveServer {
   id: string
   fun: Fun
   commands: {
-    restrictions: Restriction[]
+    restrictions: string[]
     commands: string[]
     autoResponses: string[]
   }
@@ -35,6 +30,14 @@ export interface ActiveServer {
   language: string
   name: string
   prefix: string
+}
+
+export interface UpdateServerDto {
+  botName: string
+  prefix: string
+  enableSnipeForEveryone: boolean
+  language: string
+  commandRestrictions: string[]
 }
 
 export interface ServerState {
