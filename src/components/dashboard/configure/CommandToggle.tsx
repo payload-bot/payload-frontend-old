@@ -20,11 +20,9 @@ export default function CommandToggle({
   }
 
   return (
-    <>
-      <Stack direction="row" alignItems="center" alignContent="center">
-        <Box flexGrow={1}>{name}</Box>
-        <Switch checked={isChecked} onChange={changeHandler} />
-      </Stack>
-    </>
+    <Stack direction="row" alignItems="center" alignContent="center">
+      <Box flexGrow={1}>{name}</Box>
+      <Switch checked={isChecked} onChange={changeHandler} />
+    </Stack>
   )
 }
