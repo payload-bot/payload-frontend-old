@@ -18,7 +18,7 @@ export async function patchServer(
   id: string,
   updatedData: Partial<UpdateServerDto>,
 ) {
-  return await axios.patch(`/api/v1/guilds/${id}`, updatedData)
+  return await axios.patch<UpdateServerDto>(`/api/v1/guilds/${id}`, updatedData)
 }
 
 export async function generateServerWebhook(

@@ -3,7 +3,10 @@ import withAuth from '../../../components/withAuth'
 import Layout from '../../../components/layout/Layout'
 import { useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { fetchServer, updateServer } from '../../../redux/servers/serverSlice'
+import {
+  fetchServer,
+  updateServerRestrictions,
+} from '../../../redux/servers/serverSlice'
 import { useAppSelector } from '../../../redux/store'
 import {
   Box,
@@ -50,11 +53,7 @@ function DashboardConfigureCommands() {
     if (loadingActiveServer) return
 
     const timer = setTimeout(() => {
-      dispatch(
-        updateServer(activeServer?.id, {
-          commandRestrictions: commandsToRestrict,
-        }),
-      )
+      dispatch(updateServerRestrictions(activeServer.id, commandsToRestrict))
 
       setSaving(false)
     }, 1500)

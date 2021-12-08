@@ -71,8 +71,14 @@ export const serverSlice = createSlice({
         payload ?? 'Could not get server details'
     },
 
-    updateServerRestrictions: (state, { payload }: PayloadAction<string[]>) => {
+    updateActiveServerRestrictions: (
+      state,
+      { payload }: PayloadAction<string[]>,
+    ) => {
+      // Update both the active server AND the cache since caches are stupid
       state.activeServer.commands.restrictions = payload
+      state.loadedServerCache[state.activeServerId].commands.restrictions =
+        payload
     },
 
     updateActiveServerSuccess: (
@@ -116,10 +122,24 @@ export const fetchServer = (id: string) => async (dispatch: Dispatch) => {
 }
 
 export const updateServer =
-  (id: string, data: Partial<UpdateServerDto>) => async (dispatch: Dispatch) => {
+  (id: string, data: Partial<UpdateServerDto>) =>
+  async (dispatch: Dispatch) => {
     try {
       await patchServer(id, data)
       dispatch(updateActiveServerSuccess(data))
+    } catch (err) {
+      dispatch(updateActiveServerFailure(err.response.data?.message))
+    }
+  }
+
+export const updateServerRestrictions =
+  (id: string, data: string[]) => async (dispatch: Dispatch) => {
+    try {
+      const { data: response } = await patchServer(id, {
+        commandRestrictions: data,
+      })
+
+      dispatch(updateActiveServerRestrictions(response.commandRestrictions))
     } catch (err) {
       dispatch(updateActiveServerFailure(err.response.data?.message))
     }
@@ -150,7 +170,7 @@ export const {
   setServersFailure,
   setActiveServerId,
   loadingActiveServer,
-  updateServerRestrictions,
+  updateActiveServerRestrictions,
   setActiveServerSuccess,
   setActiveServerFailure,
   updateActiveServerSuccess,
