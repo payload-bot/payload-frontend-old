@@ -150,6 +150,7 @@ export const {
   setServersFailure,
   setActiveServerId,
   loadingActiveServer,
+  updateServerRestrictions,
   setActiveServerSuccess,
   setActiveServerFailure,
   updateActiveServerSuccess,

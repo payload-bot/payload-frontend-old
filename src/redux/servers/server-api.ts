@@ -1,6 +1,6 @@
 import axios from '../axios'
 import { Webhook } from '../shared/interfaces'
-import { ActiveServer, Server } from './types'
+import { ActiveServer, Server, UpdateServerDto } from './types'
 
 export async function getAllServers() {
   const { data } = await axios.get<Server[]>('/api/v1/guilds')
@@ -16,7 +16,7 @@ export async function getServer(id: string) {
 
 export async function patchServer(
   id: string,
-  updatedData: Partial<ActiveServer>,
+  updatedData: Partial<UpdateServerDto>,
 ) {
   return await axios.patch(`/api/v1/guilds/${id}`, updatedData)
 }

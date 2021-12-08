@@ -5,37 +5,22 @@ import {
   Stack,
   Typography,
 } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { updateServer } from '../../../redux/servers/serverSlice'
-import { useAppSelector } from '../../../redux/store'
+import React from 'react'
 import CommandToggle from './CommandToggle'
 
-export default function ConfigureCommands() {
-  const [commandsToRestrict, setCommandsToRestrict] = useState<string[]>([])
+type ConfigureCommandProps = {
+  commands: string[]
+  autoResponses: string[]
+  restrictions: string[]
+  notifyFunction: (cmdName: string, checked: boolean) => any
+}
 
-  const dispatch = useDispatch()
-  const { activeServer } = useAppSelector(state => state.servers)
-
-  function notifyFunction(cmdName: string, checked: boolean) {
-    if (checked) {
-      setCommandsToRestrict([...commandsToRestrict, cmdName])
-    } else {
-      const elementsChecked = commandsToRestrict.filter(cmd => cmd !== cmdName)
-      setCommandsToRestrict(elementsChecked)
-    }
-  }
-
-  useEffect(() => {
-    // Do something
-  }, [commandsToRestrict])
-
-  useEffect(() => {
-    if (activeServer?.commands) {
-      setCommandsToRestrict(activeServer?.commands.restrictions)
-    }
-  }, [activeServer])
-
+export default function ConfigureCommands({
+  commands,
+  autoResponses,
+  restrictions,
+  notifyFunction,
+}: ConfigureCommandProps) {
   return (
     <Stack gap={2}>
       <section>
@@ -45,13 +30,13 @@ export default function ConfigureCommands() {
         <Card>
           <CardContent>
             <Stack gap={2} divider={<Divider variant="fullWidth" />}>
-              {activeServer?.commands.commands
+              {commands
                 .filter(cmd => !['restrict', 'unrestrict'].includes(cmd))
                 .sort()
                 .map(cmd => (
                   <CommandToggle
                     key={cmd}
-                    checked={activeServer?.commands.restrictions.includes(cmd)}
+                    checked={restrictions.includes(cmd)}
                     name={cmd}
                     notifyFunction={notifyFunction}
                   />
@@ -67,10 +52,10 @@ export default function ConfigureCommands() {
         <Card>
           <CardContent>
             <Stack gap={2} divider={<Divider variant="fullWidth" />}>
-              {activeServer?.commands.autoResponses.map(cmd => (
+              {autoResponses.map(cmd => (
                 <CommandToggle
                   key={cmd}
-                  checked={activeServer?.commands.restrictions.includes(cmd)}
+                  checked={restrictions.includes(cmd)}
                   name={cmd}
                   notifyFunction={notifyFunction}
                 />
