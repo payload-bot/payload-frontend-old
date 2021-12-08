@@ -11,6 +11,8 @@ import {
   Container,
   Typography,
   Stack,
+  Snackbar,
+  Paper,
 } from '@material-ui/core'
 import ServerAvatar from '../../../components/ServerAvatar'
 import DashboardSidebar from '../../../components/DashboardSidebar'
@@ -23,6 +25,7 @@ function DashboardConfigureCommands() {
   const dispatch = useDispatch()
 
   const [commandsToRestrict, setCommandsToRestrict] = useState<string[]>([])
+  const [saving, setSaving] = useState(false)
 
   const {
     activeServer,
@@ -33,6 +36,7 @@ function DashboardConfigureCommands() {
   } = useAppSelector(state => state.servers)
 
   function notifyFunction(cmdName: string, checked: boolean) {
+    setSaving(true)
     if (checked) {
       setCommandsToRestrict([...commandsToRestrict, cmdName])
     } else {
@@ -51,6 +55,8 @@ function DashboardConfigureCommands() {
           commandRestrictions: commandsToRestrict,
         }),
       )
+
+      setSaving(false)
     }, 1500)
 
     return () => {
@@ -125,6 +131,15 @@ function DashboardConfigureCommands() {
             />
           </Container>
         )}
+
+        <Snackbar
+          open={saving}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          <Paper>
+            <Box p={1}>{saving ? 'Saving...' : 'Saved!'}</Box>
+          </Paper>
+        </Snackbar>
       </Container>
     </Layout>
   )
