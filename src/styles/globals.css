@@ -41,11 +41,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -1;
 }
 
 .night .main-panel {
-  background-color: var(--nightblack);
   height: 100vh;
   display: flex;
   flex-direction: column-reverse;
