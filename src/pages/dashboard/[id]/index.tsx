@@ -202,6 +202,7 @@ function ServerDashboardPage() {
                               <MenuItem value="en-US">English</MenuItem>
                               <MenuItem value="es-ES">Spanish</MenuItem>
                               <MenuItem value="pl-PL">Polish</MenuItem>
+                              <MenuItem value="ru-RU">Russian</MenuItem>
                               <MenuItem value="de-DE">German</MenuItem>
                               <MenuItem value="fi-FI">Finnish</MenuItem>
                             </Select>
